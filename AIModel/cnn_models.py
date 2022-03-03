@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.keras import Model, regularizers
 from tensorflow.keras.layers import Conv2D, MaxPool2D, Dropout, Flatten, \
     Dense, BatchNormalization, Activation
+import efficientnet.tfkeras as efn
 
 
 class MyModel(Model):
@@ -263,6 +264,66 @@ class MobileNetV2(Model):
             pooling="avg"
         )
         self.net.trainable = False
+        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+
+    def call(self, x):
+        x = self.net(x)
+        y = self.f1(x)
+        return y
+
+
+class EfficientNetB0(Model):
+    def __init__(self):
+        super(EfficientNetB0, self).__init__()
+        self.net = efn.EfficientNetB0(
+            input_shape=(224, 224, 3),
+            weights="./checkpoint/efficientnet-b0_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5",
+            include_top=False,
+            pooling="avg"
+        )
+        self.net.trainable = True
+        for layers in self.net.layers[:-10]:
+            layers.trainable = False
+        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+
+    def call(self, x):
+        x = self.net(x)
+        y = self.f1(x)
+        return y
+
+
+class EfficientNetB4(Model):
+    def __init__(self):
+        super(EfficientNetB4, self).__init__()
+        self.net = efn.EfficientNetB4(
+            input_shape=(224, 224, 3),
+            weights="./checkpoint/efficientnet-b4_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5",
+            include_top=False,
+            pooling="avg"
+        )
+        self.net.trainable = True
+        for layers in self.net.layers[:-10]:
+            layers.trainable = False
+        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+
+    def call(self, x):
+        x = self.net(x)
+        y = self.f1(x)
+        return y
+
+
+class EfficientNetB7(Model):
+    def __init__(self):
+        super(EfficientNetB7, self).__init__()
+        self.net = efn.EfficientNetB7(
+            input_shape=(224, 224, 3),
+            weights="./checkpoint/efficientnet-b7_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5",
+            include_top=False,
+            pooling="avg"
+        )
+        self.net.trainable = True
+        for layers in self.net.layers[:-10]:
+            layers.trainable = False
         self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
 
     def call(self, x):

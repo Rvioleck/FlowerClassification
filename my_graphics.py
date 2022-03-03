@@ -111,15 +111,18 @@ class GraphicsPixmapItem(QGraphicsPixmapItem):
 
     def paint(self, painter, QStyleOptionGraphicsItem, QWidget):
         super(GraphicsPixmapItem, self).paint(painter, QStyleOptionGraphicsItem, QWidget)
-        if self.is_start_cut and not self.is_midbutton:
-            # print(self.start_point, self.current_point)
-            pen = QPen(Qt.DashLine)
-            pen.setColor(QColor(0, 150, 0, 70))
-            pen.setWidth(3)
-            painter.setPen(pen)
-            painter.setBrush(QColor(0, 0, 255, 70))
-            if not self.current_point:
-                return
-            painter.drawRect(QRectF(self.start_point, self.current_point))
-            self.end_point = self.current_point
-            self.is_finish_cut = True
+        try:
+            if self.is_start_cut and not self.is_midbutton:
+                # print(self.start_point, self.current_point)
+                pen = QPen(Qt.DashLine)
+                pen.setColor(QColor(0, 150, 0, 70))
+                pen.setWidth(3)
+                painter.setPen(pen)
+                painter.setBrush(QColor(0, 0, 255, 70))
+                if not self.current_point:
+                    return
+                painter.drawRect(QRectF(self.start_point, self.current_point))
+                self.end_point = self.current_point
+                self.is_finish_cut = True
+        except AttributeError as e:
+            print(e)

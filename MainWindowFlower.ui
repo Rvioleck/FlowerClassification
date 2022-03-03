@@ -2,9 +2,6 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -33,13 +30,10 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>:/pic/images/python.jpg</normaloff>:/pic/images/python.jpg</iconset>
-  </property>
-  <property name="autoFillBackground">
-   <bool>false</bool>
+    <normaloff>images/AI识别.png</normaloff>images/AI识别.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">#MainWindow{background-color: rgb(229, 236, 255)}</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -63,11 +57,18 @@
       <height>531</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(244, 248, 255);
+</string>
+    </property>
     <property name="tabShape">
-     <enum>QTabWidget::Triangular</enum>
+     <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
      <number>0</number>
+    </property>
+    <property name="movable">
+     <bool>true</bool>
     </property>
     <widget class="QWidget" name="tab1">
      <attribute name="title">
@@ -79,7 +80,7 @@
         <x>20</x>
         <y>13</y>
         <width>331</width>
-           <height>331</height>
+        <height>331</height>
        </rect>
       </property>
       <property name="title">
@@ -89,7 +90,7 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-            <y>97</y>
+         <y>97</y>
          <width>224</width>
          <height>224</height>
         </rect>
@@ -108,29 +109,29 @@
        </property>
        <property name="maximumSize">
         <size>
-            <width>224</width>
-            <height>224</height>
+         <width>224</width>
+         <height>224</height>
         </size>
        </property>
-          <property name="font">
-              <font>
-                  <family>微软雅黑</family>
-                  <pointsize>16</pointsize>
-                  <bold>true</bold>
-              </font>
-          </property>
-          <property name="toolTip">
-              <string>双击选择文件</string>
-          </property>
-          <property name="autoFillBackground">
-              <bool>false</bool>
-          </property>
-          <property name="text">
-              <string/>
-          </property>
-          <property name="pixmap">
-              <pixmap>images/图片添加.png</pixmap>
-          </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>16</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>双击选择文件</string>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>images/图片添加.png</pixmap>
+       </property>
        <property name="scaledContents">
         <bool>true</bool>
        </property>
@@ -143,12 +144,12 @@
       </widget>
       <widget class="QPushButton" name="chooseButton">
        <property name="geometry">
-           <rect>
-               <x>10</x>
-               <y>60</y>
-               <width>32</width>
-               <height>32</height>
-           </rect>
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>32</width>
+         <height>32</height>
+        </rect>
        </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -196,12 +197,12 @@
       </widget>
       <widget class="QLineEdit" name="nameEdit">
        <property name="geometry">
-           <rect>
-               <x>50</x>
-               <y>64</y>
-               <width>261</width>
-               <height>21</height>
-           </rect>
+        <rect>
+         <x>50</x>
+         <y>64</y>
+         <width>261</width>
+         <height>21</height>
+        </rect>
        </property>
        <property name="cursor">
         <cursorShape>IBeamCursor</cursorShape>
@@ -216,9 +217,9 @@
       <widget class="QLabel" name="pathLabel">
        <property name="geometry">
         <rect>
-            <x>50</x>
+         <x>50</x>
          <y>20</y>
-            <width>261</width>
+         <width>261</width>
          <height>41</height>
         </rect>
        </property>
@@ -243,59 +244,59 @@
        <property name="font">
         <font>
          <family>微软雅黑</family>
-            <pointsize>10</pointsize>
+         <pointsize>10</pointsize>
         </font>
        </property>
        <property name="text">
         <string/>
        </property>
-          <property name="textFormat">
-              <enum>Qt::RichText</enum>
-          </property>
-          <property name="alignment">
-              <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-              <bool>true</bool>
-          </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
-         <widget class="QLabel" name="label_2">
-             <property name="geometry">
-                 <rect>
-                     <x>10</x>
-                     <y>30</y>
-                     <width>31</width>
-                     <height>16</height>
-                 </rect>
-             </property>
-             <property name="text">
-                 <string>路径：</string>
-             </property>
-         </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>31</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>路径：</string>
+       </property>
+      </widget>
      </widget>
-        <widget class="QGroupBox" name="groupBox_4">
-            <property name="geometry">
-                <rect>
-                    <x>20</x>
-                    <y>355</y>
-                    <width>331</width>
-                    <height>141</height>
-                </rect>
-            </property>
-            <property name="title">
-                <string>图片预处理</string>
-            </property>
-            <widget class="QPushButton" name="cutButton">
-                <property name="geometry">
-                    <rect>
-                        <x>230</x>
-                        <y>20</y>
-                        <width>91</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="styleSheet">
-                    <string notr="true">QPushButton
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>355</y>
+        <width>331</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>图片预处理</string>
+      </property>
+      <widget class="QPushButton" name="cutButton">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>20</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
                         {
                         background-color:transparent;
                         border:2px solid #0782f5;
@@ -318,46 +319,45 @@
                         padding-top:3px;
                         }
                     </string>
-                </property>
-                <property name="text">
-                    <string>图片裁剪</string>
-                </property>
-                <property name="icon">
-                    <iconset>
-                        <normaloff>images/截取.png</normaloff>images/截取.png
-                    </iconset>
-                </property>
-                <property name="iconSize">
-                    <size>
-                        <width>24</width>
-                        <height>24</height>
-                    </size>
-                </property>
-            </widget>
-            <widget class="QTextEdit" name="imageTextEdit">
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>20</y>
-                        <width>211</width>
-                        <height>111</height>
-                    </rect>
-                </property>
-                <property name="readOnly">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton" name="resetButton">
-                <property name="geometry">
-                    <rect>
-                        <x>230</x>
-                        <y>60</y>
-                        <width>91</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="styleSheet">
-                    <string notr="true">QPushButton
+       </property>
+       <property name="text">
+        <string>图片裁剪</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/截取.png</normaloff>images/截取.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="imageTextEdit">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>211</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="resetButton">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>60</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
                         {
                         background-color:transparent;
                         border:2px solid #0782f5;
@@ -380,33 +380,32 @@
                         padding-top:3px;
                         }
                     </string>
-                </property>
-                <property name="text">
-                    <string>复位原图</string>
-                </property>
-                <property name="icon">
-                    <iconset>
-                        <normaloff>images/复位.png</normaloff>images/复位.png
-                    </iconset>
-                </property>
-                <property name="iconSize">
-                    <size>
-                        <width>21</width>
-                        <height>21</height>
-                    </size>
-                </property>
-            </widget>
-            <widget class="QPushButton" name="saveButton">
-                <property name="geometry">
-                    <rect>
-                        <x>230</x>
-                        <y>100</y>
-                        <width>91</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="styleSheet">
-                    <string notr="true">QPushButton
+       </property>
+       <property name="text">
+        <string>复位原图</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/复位.png</normaloff>images/复位.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>21</width>
+         <height>21</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="saveButton">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>100</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
                         {
                         background-color:transparent;
                         border:2px solid #0782f5;
@@ -429,73 +428,100 @@
                         padding-top:3px;
                         }
                     </string>
-                </property>
-                <property name="text">
-                    <string>保存图片</string>
-                </property>
-                <property name="icon">
-                    <iconset>
-                        <normaloff>images/保存.png</normaloff>images/保存.png
-                    </iconset>
-                </property>
-                <property name="iconSize">
-                    <size>
-                        <width>20</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </widget>
+       </property>
+       <property name="text">
+        <string>保存图片</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/保存.png</normaloff>images/保存.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
      </widget>
-        <widget class="QGroupBox" name="groupBox_5">
-            <property name="geometry">
-                <rect>
-                    <x>380</x>
-                    <y>10</y>
-                    <width>491</width>
-                    <height>481</height>
-                </rect>
-            </property>
-            <property name="title">
-                <string>花朵图像识别</string>
-            </property>
-            <property name="alignment">
-                <set>Qt::AlignCenter</set>
-            </property>
-            <widget class="QPushButton" name="predictButton">
-                <property name="geometry">
-                    <rect>
-                        <x>30</x>
-                        <y>30</y>
-                        <width>60</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-                <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                    </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                    <size>
-                        <width>60</width>
-                        <height>0</height>
-                    </size>
-                </property>
-                <property name="maximumSize">
-                    <size>
-                        <width>60</width>
-                        <height>25</height>
-                    </size>
-                </property>
-                <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                </property>
-                <property name="autoFillBackground">
-                    <bool>false</bool>
-                </property>
-                <property name="styleSheet">
-                    <string notr="true">QPushButton
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>10</y>
+        <width>491</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.908, fx:0.5, fy:0.5, stop:0 rgb(228, 235, 255), stop:1 rgba(244, 248, 255, 255));
+</string>
+      </property>
+      <property name="title">
+       <string>花朵图像识别</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>451</width>
+         <height>401</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>26</y>
+         <width>421</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="predictButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
                         {
                         background-color:transparent;
                         border:2px solid #0782f5;
@@ -517,220 +543,285 @@
                         padding-top:3px;
                         }
                     </string>
-                </property>
-                <property name="text">
-                    <string>识别</string>
-                </property>
-                <property name="icon">
-                    <iconset>
-                        <normaloff>images/AI识别.png</normaloff>images/AI识别.png
-                    </iconset>
-                </property>
-                <property name="iconSize">
-                    <size>
-                        <width>24</width>
-                        <height>24</height>
-                    </size>
-                </property>
-                <property name="flat">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QLabel" name="resultLabel">
-                <property name="geometry">
-                    <rect>
-                        <x>100</x>
-                        <y>30</y>
-                        <width>371</width>
-                        <height>25</height>
-                    </rect>
-                </property>
-                <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                    </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                    <size>
-                        <width>0</width>
-                        <height>25</height>
-                    </size>
-                </property>
-                <property name="maximumSize">
-                    <size>
-                        <width>16777215</width>
-                        <height>25</height>
-                    </size>
-                </property>
-                <property name="text">
-                    <string/>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                </property>
-            </widget>
-            <widget class="QWidget" name="verticalLayoutWidget">
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>60</y>
-                        <width>451</width>
-                        <height>401</height>
-                    </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_2"/>
-            </widget>
-        </widget>
+          </property>
+          <property name="text">
+           <string>识别</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>images/AI识别.png</normaloff>images/AI识别.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="resultLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>3</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>3</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="resultLabel_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>445</x>
+         <y>31</y>
+         <width>21</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3"/>
+      </widget>
+     </widget>
     </widget>
-       <widget class="QWidget" name="tab2">
-           <attribute name="title">
-               <string>批量预测</string>
-           </attribute>
-           <widget class="QTableWidget" name="tableWidget">
-               <property name="geometry">
-                   <rect>
-                       <x>0</x>
-                       <y>0</y>
-                       <width>431</width>
-                       <height>471</height>
-                   </rect>
-               </property>
-               <property name="contextMenuPolicy">
-                   <enum>Qt::CustomContextMenu</enum>
-               </property>
-               <property name="whatsThis">
-                   <string/>
-               </property>
-               <property name="editTriggers">
-                   <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <property name="selectionBehavior">
-                   <enum>QAbstractItemView::SelectRows</enum>
-               </property>
-               <property name="iconSize">
-                   <size>
-                       <width>24</width>
-                       <height>24</height>
-                   </size>
-               </property>
-               <property name="showGrid">
-                   <bool>true</bool>
-               </property>
-               <property name="gridStyle">
-                   <enum>Qt::SolidLine</enum>
-               </property>
-               <property name="sortingEnabled">
-                   <bool>true</bool>
-               </property>
-               <property name="columnCount">
-                   <number>3</number>
-               </property>
-               <attribute name="horizontalHeaderMinimumSectionSize">
-                   <number>30</number>
-               </attribute>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>140</number>
-               </attribute>
-               <attribute name="verticalHeaderVisible">
-                   <bool>true</bool>
-               </attribute>
-               <attribute name="verticalHeaderCascadingSectionResizes">
-                   <bool>false</bool>
-               </attribute>
-               <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-                   <bool>true</bool>
-               </attribute>
-               <column>
-                   <property name="text">
-                       <string>图片路径</string>
-                   </property>
-                   <property name="font">
-                       <font>
-                           <family>华文细黑</family>
-                           <pointsize>11</pointsize>
-                           <bold>true</bold>
-                       </font>
-                   </property>
-                   <property name="icon">
-                       <iconset>
-                           <normaloff>images/文件夹 (2).png</normaloff>images/文件夹 (2).png
-                       </iconset>
-                   </property>
-               </column>
-               <column>
-                   <property name="text">
-                       <string>图片名称</string>
-                   </property>
-                   <property name="font">
-                       <font>
-                           <family>华文细黑</family>
-                           <pointsize>11</pointsize>
-                           <bold>true</bold>
-                       </font>
-                   </property>
-                   <property name="icon">
-                       <iconset>
-                           <normaloff>images/图片(1).png</normaloff>images/图片(1).png
-                       </iconset>
-                   </property>
-               </column>
-               <column>
-                   <property name="text">
-                       <string>花朵预测结果</string>
-                   </property>
-                   <property name="font">
-                       <font>
-                           <family>华文细黑</family>
-                           <pointsize>11</pointsize>
-                           <bold>true</bold>
-                       </font>
-                   </property>
-                   <property name="icon">
-                       <iconset>
-                           <normaloff>images/花朵.png</normaloff>images/花朵.png
-                       </iconset>
-                   </property>
-               </column>
-           </widget>
+    <widget class="QWidget" name="tab2">
+     <attribute name="title">
+      <string>批量预测</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>431</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string/>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="showGrid">
+       <bool>true</bool>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="columnCount">
+       <number>3</number>
+      </property>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>30</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>140</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+       <bool>true</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>图片路径</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>华文细黑</family>
+         <pointsize>11</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/文件夹 (2).png</normaloff>images/文件夹 (2).png</iconset>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>图片名称</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>华文细黑</family>
+         <pointsize>11</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/图片(1).png</normaloff>images/图片(1).png</iconset>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>花朵预测结果</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>华文细黑</family>
+         <pointsize>11</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/花朵.png</normaloff>images/花朵.png</iconset>
+       </property>
+      </column>
+     </widget>
      <widget class="QPushButton" name="clearTableButton">
       <property name="geometry">
-          <rect>
-              <x>400</x>
-              <y>470</y>
-              <width>35</width>
-              <height>35</height>
-          </rect>
+       <rect>
+        <x>400</x>
+        <y>470</y>
+        <width>35</width>
+        <height>35</height>
+       </rect>
       </property>
       <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-          </sizepolicy>
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="minimumSize">
-          <size>
-              <width>35</width>
-              <height>35</height>
-          </size>
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
       </property>
-         <property name="maximumSize">
-             <size>
-                 <width>35</width>
-                 <height>35</height>
-             </size>
-         </property>
-         <property name="toolTip">
-             <string>一键清空</string>
-         </property>
-         <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="autoFillBackground">
-             <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-             <string notr="true">QPushButton:hover
+      <property name="maximumSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>一键清空</string>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton:hover
                  {
                  background-color: rgb(224, 255, 254);
                  border:2px solid #5F92B2;
@@ -738,32 +829,31 @@
                  color:white;
                  }
              </string>
-         </property>
-         <property name="text">
-             <string/>
-         </property>
-         <property name="icon">
-             <iconset>
-                 <normaloff>images/删除.png</normaloff>images/删除.png
-             </iconset>
-         </property>
-         <property name="iconSize">
-             <size>
-                 <width>24</width>
-                 <height>24</height>
-             </size>
-         </property>
-         <property name="flat">
-             <bool>true</bool>
-         </property>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>images/删除.png</normaloff>images/删除.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
         <x>450</x>
-        <y>130</y>
+        <y>10</y>
         <width>421</width>
-        <height>111</height>
+        <height>131</height>
        </rect>
       </property>
       <property name="title">
@@ -772,10 +862,10 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>11</x>
-         <y>33</y>
+         <x>10</x>
+         <y>50</y>
          <width>401</width>
-         <height>67</height>
+         <height>70</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -901,7 +991,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>120</width>
-                 <height>20</height>
+              <height>20</height>
              </size>
             </property>
            </spacer>
@@ -910,105 +1000,41 @@
         </item>
        </layout>
       </widget>
-     </widget>
-           <widget class="QGroupBox" name="groupBox_3">
-               <property name="geometry">
-                   <rect>
-                       <x>450</x>
-                       <y>10</y>
-                       <width>171</width>
-                       <height>111</height>
-                   </rect>
-               </property>
-               <property name="title">
-                   <string>图片导入</string>
-               </property>
-               <widget class="QPushButton" name="batchChooseButton">
-                   <property name="geometry">
-                       <rect>
-                           <x>10</x>
-                           <y>20</y>
-                           <width>40</width>
-                           <height>40</height>
-                       </rect>
-                   </property>
-                   <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                       </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                       <size>
-                           <width>40</width>
-                           <height>40</height>
-                       </size>
-                   </property>
-                   <property name="maximumSize">
-                       <size>
-                           <width>40</width>
-                           <height>40</height>
-                       </size>
-                   </property>
-                   <property name="toolTip">
-                       <string>批量导入图片</string>
-                   </property>
-                   <property name="layoutDirection">
-                       <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="text">
-                       <string/>
-                   </property>
-                   <property name="icon">
-                       <iconset>
-                           <normaloff>images/导入.png</normaloff>images/导入.png
-                       </iconset>
-                   </property>
-                   <property name="iconSize">
-                       <size>
-                           <width>24</width>
-                           <height>24</height>
-                       </size>
-                   </property>
-                   <property name="flat">
-                       <bool>true</bool>
-                   </property>
-               </widget>
-               <widget class="QPushButton" name="batchPredictButton">
-                   <property name="geometry">
-                       <rect>
-                           <x>20</x>
-                           <y>70</y>
-                           <width>80</width>
-                           <height>25</height>
-                       </rect>
-                   </property>
-                   <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                       </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                       <size>
-                           <width>80</width>
-                           <height>25</height>
-                       </size>
-                   </property>
-                   <property name="maximumSize">
-                       <size>
-                           <width>80</width>
-                           <height>25</height>
-                       </size>
-                   </property>
-                   <property name="layoutDirection">
-                       <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="autoFillBackground">
-                       <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                       <string notr="true">/*按钮普通态*/
+      <widget class="QPushButton" name="batchPredictButton">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">/*按钮普通态*/
                            QPushButton
                            {
                            /*字体为微软雅黑*/
@@ -1044,40 +1070,90 @@
                            padding-top:3px;
                            }
                        </string>
-                   </property>
-                   <property name="text">
-                       <string>花朵批量预测</string>
-                   </property>
-                   <property name="flat">
-                       <bool>false</bool>
-                   </property>
-               </widget>
-           </widget>
-           <widget class="QLabel" name="batchImportLabel">
-               <property name="geometry">
-                   <rect>
-                       <x>9</x>
-                       <y>477</y>
-                       <width>391</width>
-                       <height>21</height>
-                   </rect>
-               </property>
-               <property name="font">
-                   <font>
-                       <family>华文细黑</family>
-                       <pointsize>11</pointsize>
-                   </font>
-               </property>
-               <property name="text">
-                   <string/>
-               </property>
-           </widget>
-           <zorder>groupBox_3</zorder>
-           <zorder>groupBox_2</zorder>
-           <zorder>tableWidget</zorder>
-           <zorder>clearTableButton</zorder>
-           <zorder>batchImportLabel</zorder>
-       </widget>
+       </property>
+       <property name="text">
+        <string>花朵批量预测</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="batchImportLabel">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>477</y>
+        <width>351</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>华文细黑</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="batchChooseButton">
+      <property name="geometry">
+       <rect>
+        <x>361</x>
+        <y>470</y>
+        <width>35</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>35</width>
+        <height>355</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>批量导入图片</string>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>images/导入.png</normaloff>images/导入.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>groupBox_2</zorder>
+     <zorder>tableWidget</zorder>
+     <zorder>clearTableButton</zorder>
+     <zorder>batchImportLabel</zorder>
+     <zorder>batchChooseButton</zorder>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -1119,11 +1195,13 @@
    </attribute>
    <addaction name="myModelAction"/>
    <addaction name="separator"/>
+   <addaction name="efficientNetB7Action"/>
+   <addaction name="efficientNetB4Action"/>
+   <addaction name="efficientNetB0Action"/>
+   <addaction name="separator"/>
+   <addaction name="mobileNetAction"/>
    <addaction name="denseNet121Action"/>
-      <addaction name="mobileNetAction"/>
    <addaction name="inceptionAction"/>
-   <addaction name="alexNetAction"/>
-   <addaction name="resNetAction"/>
    <addaction name="vggAction"/>
    <addaction name="separator"/>
    <addaction name="actionCNN"/>
@@ -1147,12 +1225,15 @@
     <string>Ctrl+D</string>
    </property>
   </action>
-  <action name="alexNetAction">
+  <action name="efficientNetB0Action">
    <property name="text">
-    <string>AlexNet8</string>
+    <string>EfficientNetB0</string>
+   </property>
+   <property name="toolTip">
+    <string>EfficientNetB0</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+A</string>
+    <string>Ctrl+0</string>
    </property>
   </action>
   <action name="vggAction">
@@ -1166,26 +1247,15 @@
     <string>Ctrl+G</string>
    </property>
   </action>
-     <action name="inceptionAction">
-         <property name="text">
-             <string>InceptionV3</string>
-         </property>
-         <property name="toolTip">
-             <string>InceptionV3</string>
-         </property>
-         <property name="shortcut">
-             <string>Ctrl+I</string>
-         </property>
-     </action>
-  <action name="resNetAction">
+  <action name="inceptionAction">
    <property name="text">
-    <string>ResNet50</string>
+    <string>InceptionV3</string>
    </property>
    <property name="toolTip">
-    <string>ResNet50</string>
+    <string>InceptionV3</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string>Ctrl+I</string>
    </property>
   </action>
   <action name="actionNew">
@@ -1198,7 +1268,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="shortcut">
@@ -1242,27 +1312,48 @@
     </font>
    </property>
   </action>
-     <action name="actionCNN">
-         <property name="icon">
-             <iconset theme="统计">
-                 <normaloff>images/折线图分布.png</normaloff>images/折线图分布.png
-             </iconset>
-         </property>
-         <property name="text">
-             <string>CNN模型统计</string>
-         </property>
-     </action>
-     <action name="mobileNetAction">
-         <property name="text">
-             <string>MobileNetV2</string>
-         </property>
-         <property name="toolTip">
-             <string>MobileNetV2</string>
-         </property>
-         <property name="shortcut">
-             <string>Ctrl+M</string>
-         </property>
-     </action>
+  <action name="actionCNN">
+   <property name="icon">
+    <iconset theme="统计">
+     <normaloff>images/折线图分布.png</normaloff>images/折线图分布.png</iconset>
+   </property>
+   <property name="text">
+    <string>CNN模型统计</string>
+   </property>
+  </action>
+  <action name="mobileNetAction">
+   <property name="text">
+    <string>MobileNetV2</string>
+   </property>
+   <property name="toolTip">
+    <string>MobileNetV2</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="efficientNetB4Action">
+   <property name="text">
+    <string>EfficientNetB4</string>
+   </property>
+   <property name="toolTip">
+    <string>EfficientNetB4</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="efficientNetB7Action">
+   <property name="text">
+    <string>EfficientNetB7</string>
+   </property>
+   <property name="toolTip">
+    <string>EfficientNetB7</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+7</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="apprcc.qrc"/>

@@ -38,7 +38,7 @@ class Form(QDialog):
         self.cutPushButton.setGeometry(QRect(740, 710, 91, 31))
 
         self.savePushButton = QPushButton('确定', self)
-        self.savePushButton.setEnabled(False)
+        # self.savePushButton.setEnabled(False)
         self.savePushButton.setGeometry(QRect(880, 710, 91, 31))
 
         self.graphicsView = GraphicsView(self.image, self)
@@ -154,17 +154,21 @@ class Form(QDialog):
             self.graphicsView.image_item.setCursor(Qt.CrossCursor)  # 十字光标
 
     def pushButton_save_clicked(self):
-        start_point = QPointF(
-            min(self.graphicsView.image_item.start_point.x(), self.graphicsView.image_item.end_point.x()),
-            min(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y())
-        )
-        end_point = QPointF(
-            max(self.graphicsView.image_item.start_point.x(), self.graphicsView.image_item.end_point.x()),
-            max(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y()))
-        rect = QRect(start_point.toPoint(), end_point.toPoint())
-        cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
-        self.save_signal.emit(cropped_pixmap)
-        QMessageBox.information(self, "完成", "裁剪完成！", QMessageBox.Ok)
+        try:
+            start_point = QPointF(
+                min(self.graphicsView.image_item.start_point.x(), self.graphicsView.image_item.end_point.x()),
+                min(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y())
+            )
+            end_point = QPointF(
+                max(self.graphicsView.image_item.start_point.x(), self.graphicsView.image_item.end_point.x()),
+                max(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y()))
+            rect = QRect(start_point.toPoint(), end_point.toPoint())
+            cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
+            self.save_signal.emit(cropped_pixmap)
+            QMessageBox.information(self, "完成", "裁剪完成！", QMessageBox.Ok)
+        except AttributeError as e:
+            print(e)
+            print("进行裁剪操作未裁剪")
         self.close()
 
     def rightRotateToolButton_clicked(self):
