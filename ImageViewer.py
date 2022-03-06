@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-"""
-Created on 2020/11/12
-@author: Irony
-@site: https://pyqt.site , https://github.com/PyQt5
-@email: 892768447@qq.com
-@file: ImageView
-@description: 图片查看控件，支持移动、放大、缩小
-"""
-
 import os
 
 from PySide6.QtCore import QPointF, Qt, QRectF, QSizeF

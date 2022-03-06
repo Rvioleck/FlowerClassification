@@ -135,9 +135,9 @@ def load_model(model):
 
 
 def model_predict(model, pixmap: QPixmap):
-    flowers = ["bougainvillea", "daisy", "dandelion", "gardenia", "hibiscus", "hydrangea",
-               "iris", "lily", "lotus", "morningglory", "peachflower", "peony", "phalaenopsis",
-               "rose", "sunflower", "tulip"]
+    flowers = ["azalea", "bougainvillea", "carnation", "daisy", "dandelion", "gardenia", "hibiscus",
+               "hydrangea", "iris", "lilac", "lily", "lotus", "morningglory", "narcissus",
+               "peachflower", "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
     img = ImageQt.fromqpixmap(pixmap)  # QPixmap -> Image
     # img = Image.open(image_path)
     img = img.convert("RGB")

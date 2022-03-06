@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>600</height>
+    <height>610</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>900</width>
-    <height>600</height>
+    <height>610</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
@@ -33,7 +33,10 @@
     <normaloff>images/AI识别.png</normaloff>images/AI识别.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">#MainWindow{background-color: rgb(229, 236, 255)}</string>
+   <string notr="true">#MainWindow{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(82, 169, 220, 204), stop:1 rgba(217, 239, 231, 255));
+border-radius:5px;
+}</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -57,12 +60,20 @@
       <height>531</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>11</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(244, 248, 255);
-</string>
+     <string notr="true">#tabWidget{
+background-color:rgb(202,229,230)
+}</string>
     </property>
     <property name="tabShape">
-     <enum>QTabWidget::Rounded</enum>
+     <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -71,6 +82,14 @@
      <bool>true</bool>
     </property>
     <widget class="QWidget" name="tab1">
+     <property name="styleSheet">
+      <string notr="true">#tab1{
+border-radius: 8px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.0511364 rgba(86, 140, 209, 97), stop:1 rgba(228, 237, 209, 175));
+border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 169, 220, 168), stop:1 rgba(194, 239, 224, 199))
+/*rgb(244, 248, 255)*/
+}</string>
+     </property>
      <attribute name="title">
       <string>图片操作</string>
      </attribute>
@@ -83,8 +102,20 @@
         <height>331</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="title">
        <string>图片导入</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
       <widget class="QLabel" name="imageLabel">
        <property name="geometry">
@@ -121,7 +152,7 @@
         </font>
        </property>
        <property name="toolTip">
-        <string>双击选择文件</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;双击选择文件&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Ctrl-V &lt;/span&gt;粘贴剪切板图片&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="autoFillBackground">
         <bool>false</bool>
@@ -130,7 +161,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>images/图片添加.png</pixmap>
+        <pixmap>images/图像识别.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -207,6 +238,12 @@
        <property name="cursor">
         <cursorShape>IBeamCursor</cursorShape>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(234,250,255);
+border-radius: 5px;
+border: 1px outset rgb(199, 216, 255);
+padding: 3px</string>
+       </property>
        <property name="text">
         <string>图片名称</string>
        </property>
@@ -254,7 +291,7 @@
         <enum>Qt::RichText</enum>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -283,8 +320,20 @@
         <height>141</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="title">
        <string>图片预处理</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
       <widget class="QPushButton" name="cutButton">
        <property name="geometry">
@@ -342,6 +391,12 @@
          <width>211</width>
          <height>111</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(234,250,255);
+border-radius: 5px;
+border: 1px outset rgb(199, 216, 255);
+padding: 3px</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -453,16 +508,18 @@
         <height>481</height>
        </rect>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <family>微软雅黑</family>
         <pointsize>12</pointsize>
         <bold>true</bold>
        </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.908, fx:0.5, fy:0.5, stop:0 rgb(228, 235, 255), stop:1 rgba(244, 248, 255, 255));
-</string>
       </property>
       <property name="title">
        <string>花朵图像识别</string>
@@ -473,23 +530,12 @@
       <property name="flat">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="verticalLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>60</y>
-         <width>451</width>
-         <height>401</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
-      </widget>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>20</x>
          <y>26</y>
-         <width>421</width>
+         <width>451</width>
          <height>32</height>
         </rect>
        </property>
@@ -578,7 +624,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>500</width>
+            <width>600</width>
             <height>25</height>
            </size>
           </property>
@@ -656,7 +702,7 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
+            <width>0</width>
             <height>20</height>
            </size>
           </property>
@@ -664,20 +710,17 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="verticalLayoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>445</x>
-         <y>31</y>
-         <width>21</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3"/>
-      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tab2">
+     <property name="styleSheet">
+      <string notr="true">#tab2{
+border-radius: 8px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.0511364 rgba(86, 140, 209, 97), stop:1 rgba(228, 237, 209, 175));
+border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 169, 220, 168), stop:1 rgba(194, 239, 224, 199))
+/*rgb(244, 248, 255)*/
+}</string>
+     </property>
      <attribute name="title">
       <string>批量预测</string>
      </attribute>
@@ -695,6 +738,17 @@
       </property>
       <property name="whatsThis">
        <string/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(234,250,255);
+gridline-color: rgb(85, 85, 0);
+alternate-background-color:rgb(170, 0, 0);
+selection-color:red;
+selection-background-color: rgb(191,211,238);
+border:1px solid rgb(0, 85, 0);
+
+
+</string>
       </property>
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
@@ -724,7 +778,7 @@
        <number>30</number>
       </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>140</number>
+       <number>130</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>true</bool>
@@ -732,9 +786,22 @@
       <attribute name="verticalHeaderCascadingSectionResizes">
        <bool>false</bool>
       </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>30</number>
+      </attribute>
       <attribute name="verticalHeaderShowSortIndicator" stdset="0">
        <bool>true</bool>
       </attribute>
+      <row>
+       <property name="text">
+        <string>新建行</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>test2</string>
+       </property>
+      </row>
       <column>
        <property name="text">
         <string>图片路径</string>
@@ -787,10 +854,10 @@
      <widget class="QPushButton" name="clearTableButton">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>470</y>
-        <width>35</width>
-        <height>35</height>
+        <x>404</x>
+        <y>472</y>
+        <width>30</width>
+        <height>30</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -801,14 +868,14 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>35</width>
-        <height>35</height>
+        <width>30</width>
+        <height>30</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>35</width>
-        <height>35</height>
+        <width>30</width>
+        <height>30</height>
        </size>
       </property>
       <property name="toolTip">
@@ -857,7 +924,7 @@
        </rect>
       </property>
       <property name="title">
-       <string>结果导出</string>
+       <string>批量预测</string>
       </property>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
@@ -865,7 +932,7 @@
          <x>10</x>
          <y>50</y>
          <width>401</width>
-         <height>70</height>
+         <height>72</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -879,7 +946,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="savePathLineEdit"/>
+           <widget class="QLineEdit" name="savePathLineEdit">
+            <property name="styleSheet">
+             <string notr="true">background-color:rgb(234,250,255);
+border-radius: 5px;
+border: 1px inset rgb(199, 216, 255);
+padding: 3px</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QToolButton" name="getDirectoryButton">
@@ -952,89 +1026,7 @@
              <bool>false</bool>
             </property>
             <property name="styleSheet">
-             <string notr="true">QPushButton
-                  {
-                    background-color:rgb(134,183,200);
-                    border:2px solid #5F92B2;
-                    border-radius:5px;
-                    color:white
-                  }
-                  QPushButton:hover
-                  {
-                    background-color:rgb(0,130,150);
-                    border:2px solid #5F92B2;
-                    border-radius:5px;
-                    color:white;
-                  }
-                  QPushButton:hover:pressed
-                  {
-                    background-color:rgb(85,170,255); 
-                    border:2px solid #3C80B1;
-                    border-radius:5px;
-                    color:white;
-                  }
-</string>
-            </property>
-            <property name="text">
-             <string>预测结果导出</string>
-            </property>
-            <property name="flat">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>120</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QPushButton" name="batchPredictButton">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>80</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">/*按钮普通态*/
+             <string notr="true">/*按钮普通态*/
                            QPushButton
                            {
                            /*字体为微软雅黑*/
@@ -1070,9 +1062,102 @@
                            padding-top:3px;
                            }
                        </string>
+            </property>
+            <property name="text">
+             <string>预测结果导出</string>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>120</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="batchPredictButton">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>20</y>
+         <width>110</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>110</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>110</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+                        {
+                        background-color:transparent;
+                        border:2px solid #0782f5;
+                        border-radius:5px;
+                        color:black
+                        }
+                        QPushButton:hover
+                        {
+                        background-color:rgb(255, 248, 250);
+                        border:2px solid #5F92B2;
+                        border-radius:5px;
+                        color:black;
+                        }
+                        QPushButton:hover:pressed
+                        {
+                        border:2px solid #5F92B2;
+                        border-radius:5px;
+                        color:black;
+                        padding-right:3px;
+                        padding-top:3px;
+                        }
+                    </string>
        </property>
        <property name="text">
         <string>花朵批量预测</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/Image 图像识别.png</normaloff>images/Image 图像识别.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -1101,35 +1186,48 @@
      <widget class="QPushButton" name="batchChooseButton">
       <property name="geometry">
        <rect>
-        <x>361</x>
-        <y>470</y>
-        <width>35</width>
-        <height>35</height>
+        <x>369</x>
+        <y>472</y>
+        <width>30</width>
+        <height>30</height>
        </rect>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
       <property name="minimumSize">
        <size>
-        <width>35</width>
-        <height>35</height>
+        <width>30</width>
+        <height>30</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>35</width>
-        <height>355</height>
+        <width>30</width>
+        <height>30</height>
        </size>
       </property>
       <property name="toolTip">
-       <string>批量导入图片</string>
+       <string>一键清空</string>
       </property>
       <property name="layoutDirection">
        <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton:hover
+                 {
+                 background-color: rgb(224, 255, 254);
+                 border:2px solid #5F92B2;
+                 border-radius:5px;
+                 color:white;
+                 }
+             </string>
       </property>
       <property name="text">
        <string/>
@@ -1148,11 +1246,95 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QTextEdit" name="statisticsTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>150</y>
+        <width>421</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(234,250,255);
+border-radius: 5px;
+border: 1px outset rgb(199, 216, 255);
+padding: 3px</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="statisticsButton">
+      <property name="geometry">
+       <rect>
+        <x>840</x>
+        <y>460</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>一键清空</string>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton:hover
+                 {
+                 background-color: rgb(224, 255, 254);
+                 border:2px solid #5F92B2;
+                 border-radius:5px;
+                 color:white;
+                 }
+             </string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>images/统计.png</normaloff>images/统计.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>24</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
      <zorder>groupBox_2</zorder>
      <zorder>tableWidget</zorder>
      <zorder>clearTableButton</zorder>
      <zorder>batchImportLabel</zorder>
      <zorder>batchChooseButton</zorder>
+     <zorder>statisticsTextEdit</zorder>
+     <zorder>statisticsButton</zorder>
     </widget>
    </widget>
   </widget>
@@ -1162,12 +1344,50 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>25</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(82, 169, 220, 204), stop:1 rgba(217, 239, 231, 255));
+padding: 5px;
+border-radius: 4px;
+border: 1px solid rgb(215, 238, 255);
+</string>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>false</bool>
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>文件</string>
+     <string>文件(&amp;F)</string>
     </property>
     <property name="toolTipsVisible">
      <bool>true</bool>
@@ -1177,15 +1397,52 @@
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>帮助(&amp;H)</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menu_M">
+    <property name="title">
+     <string>模型(&amp;M)</string>
+    </property>
+    <addaction name="efficientNetB7Action"/>
+    <addaction name="efficientNetB4Action"/>
+    <addaction name="efficientNetB0Action"/>
+    <addaction name="separator"/>
+    <addaction name="mobileNetAction"/>
+    <addaction name="denseNet121Action"/>
+    <addaction name="inceptionAction"/>
+    <addaction name="vggAction"/>
+    <addaction name="separator"/>
+    <addaction name="actionCNN"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_M"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">/*#toolBar{*/
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.460227 rgba(144, 189, 222, 204), stop:1 rgba(217, 239, 231, 255));
+border-radius: 5px;
+border: 1px solid rgb(215, 238, 255);
+/*}*/
+</string>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -1193,18 +1450,13 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="myModelAction"/>
-   <addaction name="separator"/>
-   <addaction name="efficientNetB7Action"/>
-   <addaction name="efficientNetB4Action"/>
-   <addaction name="efficientNetB0Action"/>
-   <addaction name="separator"/>
-   <addaction name="mobileNetAction"/>
-   <addaction name="denseNet121Action"/>
-   <addaction name="inceptionAction"/>
-   <addaction name="vggAction"/>
+   <addaction name="actionNew"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionCNN"/>
+   <addaction name="separator"/>
+   <addaction name="actionClassify"/>
   </widget>
   <action name="myModelAction">
    <property name="text">
@@ -1222,7 +1474,7 @@
     <string>DenseNet121</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Ctrl+Alt+D</string>
    </property>
   </action>
   <action name="efficientNetB0Action">
@@ -1233,7 +1485,7 @@
     <string>EfficientNetB0</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+0</string>
+    <string>Ctrl+Alt+0</string>
    </property>
   </action>
   <action name="vggAction">
@@ -1244,7 +1496,7 @@
     <string>VGG19</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+G</string>
+    <string>Ctrl+Alt+G</string>
    </property>
   </action>
   <action name="inceptionAction">
@@ -1255,7 +1507,7 @@
     <string>InceptionV3</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+I</string>
+    <string>Ctrl+Alt+I</string>
    </property>
   </action>
   <action name="actionNew">
@@ -1266,10 +1518,11 @@
    <property name="text">
     <string>新建(&amp;N)</string>
    </property>
+   <property name="toolTip">
+    <string>新建</string>
+   </property>
    <property name="font">
-    <font>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -1286,9 +1539,12 @@
    <property name="text">
     <string>打开(&amp;O)</string>
    </property>
+   <property name="toolTip">
+    <string>打开</string>
+   </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="shortcut">
@@ -1318,7 +1574,10 @@
      <normaloff>images/折线图分布.png</normaloff>images/折线图分布.png</iconset>
    </property>
    <property name="text">
-    <string>CNN模型统计</string>
+    <string>模型统计</string>
+   </property>
+   <property name="toolTip">
+    <string>模型统计</string>
    </property>
   </action>
   <action name="mobileNetAction">
@@ -1329,7 +1588,7 @@
     <string>MobileNetV2</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+M</string>
+    <string>Ctrl+Alt+M</string>
    </property>
   </action>
   <action name="efficientNetB4Action">
@@ -1340,7 +1599,7 @@
     <string>EfficientNetB4</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+4</string>
+    <string>Ctrl+Alt+4</string>
    </property>
   </action>
   <action name="efficientNetB7Action">
@@ -1351,7 +1610,47 @@
     <string>EfficientNetB7</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+7</string>
+    <string>Ctrl+Alt+7</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/save.png</normaloff>images/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存(&amp;S)</string>
+   </property>
+   <property name="toolTip">
+    <string>保存</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionClassify">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/人工智能.png</normaloff>images/人工智能.png</iconset>
+   </property>
+   <property name="text">
+    <string>深度识别</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;进行&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;多模型&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;加权深度识别&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>关于</string>
    </property>
   </action>
  </widget>

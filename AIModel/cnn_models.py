@@ -122,7 +122,7 @@ class VGG19(Model):
         self.f1 = Dense(1024, activation="relu")
         self.b1 = BatchNormalization()
         self.d1 = Dropout(0.5)
-        self.f2 = Dense(16, activation="softmax")
+        self.f2 = Dense(20, activation="softmax")
 
     def call(self, x):
         x = self.net(x)
@@ -145,7 +145,7 @@ class InceptionV3(Model):
         self.f1 = Dense(1024, activation="relu")
         self.b1 = BatchNormalization()
         self.d1 = Dropout(0.5)
-        self.f2 = Dense(16, activation="softmax")
+        self.f2 = Dense(20, activation="softmax")
 
     def call(self, x):
         x = self.net(x)
@@ -243,7 +243,7 @@ class DenseNet121(Model):
         self.f1 = Dense(1024, activation="relu")
         self.b1 = BatchNormalization()
         self.d1 = Dropout(0.5)
-        self.f2 = Dense(16, activation="softmax")
+        self.f2 = Dense(20, activation="softmax")
 
     def call(self, x):
         x = self.net(x)
@@ -264,7 +264,7 @@ class MobileNetV2(Model):
             pooling="avg"
         )
         self.net.trainable = False
-        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+        self.f1 = Dense(20, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
 
     def call(self, x):
         x = self.net(x)
@@ -284,7 +284,7 @@ class EfficientNetB0(Model):
         self.net.trainable = True
         for layers in self.net.layers[:-10]:
             layers.trainable = False
-        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+        self.f1 = Dense(20, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
 
     def call(self, x):
         x = self.net(x)
@@ -304,7 +304,7 @@ class EfficientNetB4(Model):
         self.net.trainable = True
         for layers in self.net.layers[:-10]:
             layers.trainable = False
-        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+        self.f1 = Dense(20, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
 
     def call(self, x):
         x = self.net(x)
@@ -324,7 +324,7 @@ class EfficientNetB7(Model):
         self.net.trainable = True
         for layers in self.net.layers[:-10]:
             layers.trainable = False
-        self.f1 = Dense(16, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
+        self.f1 = Dense(20, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
 
     def call(self, x):
         x = self.net(x)

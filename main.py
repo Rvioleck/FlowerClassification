@@ -2,43 +2,68 @@ import shutil
 import sys
 
 from PIL import ImageGrab
-from PySide6.QtCharts import QChart, QChartView, QPieSeries
-from PySide6.QtCore import QEvent, QPoint, QThread, Signal, QSize
-from PySide6.QtGui import QAction, QPen, Qt, QPainter, QIcon, QColor, QCursor, QKeySequence, QShortcut, QFont
-from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QApplication, QTableWidgetItem, QMenu, QToolButton, \
-    QToolTip
+from PySide6.QtCore import QEvent, QPoint, QThread, Signal, QRect
+from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut
+from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QApplication, QTableWidgetItem, QMenu
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
+from BarStackChart import BarWidget
 from ImageCutter import Form
 from ImageViewer import ImageViewer
+from PieSeriesChart import PieWidget
 from ui_MainWindowFlower import Ui_MainWindow
 
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
+    flowers = ["杜鹃花", "叶子花", "康乃馨", "雏  菊", "蒲公英", "栀子花", "木槿花",
+               "绣球花", "鸢尾花", "丁香花", "百合花", "荷  花", "牵牛花", "水仙花",
+               "桃  花", "牡丹花", "蝴蝶兰", "玫瑰花", "樱  花", "向日葵", "郁金香"]
+
+    flower_words = ["azalea", "bougainvillea", "carnation", "daisy", "dandelion", "gardenia", "hibiscus",
+                    "hydrangea", "iris", "lilac", "lily", "lotus", "morningglory", "narcissus",
+                    "peachflower", "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
+
+    colors = [(222, 60, 60), (255, 148, 217), (218, 187, 171), (241, 203, 6), (96, 67, 1), (187, 187, 187), (227, 58, 91),
+              (169, 177, 232), (153, 69, 253), (216, 158, 221), (176, 197, 122), (106, 135, 89), (28, 77, 183), (249, 245, 138),
+              (224, 189, 213), (189, 115, 121), (185, 73, 79), (120, 0, 20), (181, 97, 127), (205, 134, 18), (240, 96, 140)]
 
     def __init__(self):
         super(MyMainWindow, self).__init__()
+        self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
         # AI线程初始化
-        self.AIThread = AIModelOperationThread()
-        self.AIThread.load_signal[Model].connect(self.loadModel)  # 加载模型
-        self.AIThread.preload_signal[Model].connect(self.preLoadModel)
-        self.AIThread.load_failed_signal[None].connect(self.loadFailed)
-        self.AIThread.classify_res_signal[int, str].connect(self.setClassifyRes)
-        self.AIThread.start()
+        self.initAIThread()
         # 全局变量初始化
         self.flower_path = ""
         self.flower_image = None
         self.batchDirectory = ""  # 记录批量图片保存路径
-        self.flowers = ["叶子花", "雏  菊", "蒲公英", "栀子花", "木槿花", "绣球花",
-                        "鸢尾花", "百合花", "荷  花", "牵牛花", "桃  花", "牡丹花",
-                        "蝴蝶兰", "玫瑰花", "向日葵", "郁金香"]
-        self.flower_words = ["bougainvillea", "daisy", "dandelion", "gardenia", "hibiscus", "hydrangea",
-                             "iris", "lily", "lotus", "morningglory", "peachflower", "peony", "phalaenopsis",
-                             "rose", "sunflower", "tulip"]
         self.files = []  # 记录已选中的批量图片路径
         self.setupUi(self)  # GUI界面初始化(Viewer)
         self.initUI()  # 业务操作初始化(Controller)
+        # 定义tableWidget的右键菜单栏
+        self.twPopMenu = QMenu()  # tableWidget右键菜单
+        self.delAction = QAction(QIcon("./images/删除.png"), "删除")  # tableWidget删除行为
+        self.twPopMenu.addAction(self.delAction)  # 行为添加至菜单
+        self.delAction.triggered.connect(self.deleteRow)  # 绑定"删除行为"的槽
+        # label预加载
+        self.batchImportLabel.setText("已加载图片张数：0张")
+        self.statusBar().showMessage("正在加载模型中...")
+        self.resultLabel.setText("未导入图片")
+        # 应用程序全局热键
+        QShortcut(QKeySequence(self.tr("Ctrl+V")), self, self.pasteImage)
+        # 初始化堆叠柱状图和扇形图
+        self.barChartWidget = BarWidget()
+        self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
+        self.pieChartWidget.setGeometry(QRect(20, 60, 451, 411))
+
+    def initAIThread(self):
+        self.AIThread = AIModelOperationThread()
+        self.AIThread.load_signal[Model].connect(self.loadModel)  # 加载模型
+        self.AIThread.preload_signal[Model].connect(self.preLoadModel)
+        self.AIThread.load_failed_signal[None].connect(self.loadFailed)
+        self.AIThread.classify_res_signal[list, str, bool].connect(self.setClassifyRes)
+        self.AIThread.batch_classify_res_signal[int, str].connect(self.setBatchClassifyRes)
+        self.AIThread.start()
 
     def initUI(self):
         # 绑定按钮点击信号
@@ -52,37 +77,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.cutButton.clicked.connect(self.cutImage)
         self.resetButton.clicked.connect(self.resetImage)
         self.saveButton.clicked.connect(self.saveImage)
-
+        self.statisticsButton.clicked.connect(self.showResultStatistics)
         # 事件过滤器
         self.imageLabel.installEventFilter(self)
         # 绑定工具栏触发信号
-        self.toolBar.actionTriggered[QAction].connect(self.chooseModel)
+        self.menu_M.triggered[QAction].connect(self.chooseModel)
         # 绑定菜单栏触发信号
         self.menu.triggered[QAction].connect(self.menuOperation)
+        self.toolBar.actionTriggered[QAction].connect(self.toolBarOperation)
         # 绑定表格组件点击信号
         self.tableWidget.cellDoubleClicked.connect(self.viewImage)
         # 绑定表格组件右键菜单信号
         self.tableWidget.customContextMenuRequested.connect(self.popMenu)
-
-        # 定义tableWidget的右键菜单栏
-        self.twPopMenu = QMenu()  # tableWidget右键菜单
-        self.delAction = QAction(QIcon("./images/删除.png"), "删除")  # tableWidget删除行为
-        self.twPopMenu.addAction(self.delAction)  # 行为添加至菜单
-        self.delAction.triggered.connect(self.deleteRow)  # 绑定"删除行为"的槽
-        # label预加载
-        self.batchImportLabel.setText("已加载图片张数：0张")
-        self.statusBar().showMessage("正在加载模型中...")
-        self.resultLabel.setText("未导入图片")
-        # 应用程序全局热键
-        QShortcut(QKeySequence(self.tr("Ctrl+V")), self, self.pasteImage)
-        # 预测详细信息按钮
-        self.detailToolButton = QToolButton()
-        self.detailToolButton.setObjectName(u"detailToolButton")
-        icon10 = QIcon()
-        icon10.addFile(u"images/\u5e2e\u52a9.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.detailToolButton.setIcon(icon10)
-        self.detailToolButton.setIconSize(QSize(20, 20))
-        self.detailToolButton.setAutoRaise(True)
 
     def eventFilter(self, watched, event) -> bool:
         """过滤器实现label点击事件"""
@@ -167,12 +173,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # AI线程启动批量预测
         print("AI Thread is running: classify")
         self.AIThread.setFiles(self.files)
-        self.AIThread.setOperation("classify")
+        self.AIThread.setOperation("batchClassify")
         self.AIThread.start()
 
-    def setClassifyRes(self, i, res):
+    def setBatchClassifyRes(self, i, res):
         icon_path = u"images/flowers/{}.png".format(res)
         self.tableWidget.setItem(i, 2, QTableWidgetItem(QIcon(icon_path), res))
+        self._drawBarStackChart_setCustomizedToolTip(i, res)
 
     def clearTableContent(self):
         res = QMessageBox.information(self, "确认", "是否清除已导入图片",
@@ -278,7 +285,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def viewImage(self, row):
         print(self.files[row])
-        self.image_viewer = ImageViewer(image=self.files[row], background=QColor(28, 31, 34))
+        self.image_viewer = ImageViewer(image=self.files[row], background=QColor(235, 255, 244))
         self.image_viewer.show()
 
     def menuOperation(self, action):
@@ -288,6 +295,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.getImage()
         elif action == self.actionClose:
             app.exit()
+
+    def toolBarOperation(self, action):
+        if action == self.actionClassify:
+            # 绑定actionClassify
+            self.deepClassify()
+
+    def deepClassify(self):
+        # 进行深度预测
+        print("AI Thread is running: deepClassify")
+        self.AIThread.setFiles(self.flower_pixmap)
+        self.AIThread.setOperation("deepClassify")
+        self.AIThread.start()
 
     def pasteImage(self):
         """
@@ -305,6 +324,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             return
         # self.flower_image = self.flower_pixmap.toImage()  # QPixmap -> QImage
         self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)
+        self.flower_name = "剪贴板临时文件.jpg"
         self.imageLabel.setPixmap(self.flower_pixmap)
         self.imageTextEdit.setText(
             "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
@@ -313,17 +333,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
                 self.flower_image.mode))
         self.pathLabel.setText("")
-        self.nameEdit.setText("剪切板临时文件")
+        self.nameEdit.setText("剪贴板临时文件")
 
     def getImage(self):
         """
         槽函数
         获取图片
         """
-        # AI线程启动参数预加载
-        print("AI Thread is running: preClassify")
-        self.AIThread.setOperation("preClassify")
-        self.AIThread.start()
         try:
             # 获取文件地址
             file, _ = QFileDialog.getOpenFileName(self, "Open file",
@@ -344,6 +360,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                     "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
                         self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
                         self.flower_image.mode))
+                self.resultLabel_2.setPixmap(QPixmap())
+                self.pieChartWidget.setVisible(True)
         except FileNotFoundError:
             QMessageBox.warning(self, "警告", "请选择一个有效路径", QMessageBox.Ok)
 
@@ -368,18 +386,24 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                     self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
                     self.flower_image.mode))
 
-
     def classifyImage(self):
         """
         槽函数
         进行图片预测
         调用饼图绘制并加载详细信息
         """
-        portion, res, index = model_predict(model=self.ai_model, pixmap=self.flower_pixmap)
-        prompt = "{}的预测结果：<b><font color=red>{}</font></b>".format(self.flower_name, res)
+        print("AI Thread is running: classify")
+        self.AIThread.setFiles(self.flower_pixmap)
+        self.AIThread.setOperation("classify")
+        self.AIThread.start()
+
+    def setClassifyRes(self, portion, res, tag=False):
+        index = self.flower_words.index(res)
+        name = self.flowers[index]
+        prompt = "{}的预测结果：<b><font color=red>{}</font></b>".format(self.flower_name, name)
         self.resultLabel.setText(prompt)
         self.resultLabel_2.setPixmap(QPixmap(u"images/flowers/{}.png".format(res)))
-        self._drawPieChart_setDetail(portion, index)
+        self._drawPieChart_setDetail(portion, tag=tag)
 
     def _showStatistics(self):
         """
@@ -388,78 +412,34 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         model_name = self.ai_model.__class__.__name__
         history_show(model_name)
 
-    def _drawPieChart_setDetail(self, portion, index):
+    def _drawPieChart_setDetail(self, portion, tag=False):
         """
         portion: 各个种类概率
         index: 最大概率索引值
         根据此次统计结果作扇形图并添加detailToolButton按钮
         """
-        colors = [(255, 148, 217), (241, 203, 6), (96, 67, 1), (187, 187, 187),
-                  (227, 58, 91), (169, 177, 232), (153, 69, 253), (176, 197, 122),
-                  (106, 135, 89), (28, 77, 183), (224, 189, 213), (189, 115, 121),
-                  (195, 195, 136), (120, 0, 20), (205, 134, 18), (240, 96, 140)]
-        series = QPieSeries()
-        for i in range(0, len(self.flowers)):
-            slice = series.append(self.flowers[i], portion[i])  # 遍历每个扇区
-            slice.setColor(QColor(colors[i][0], colors[i][1], colors[i][2]))  # 设置扇区颜色
-            slice.setBorderColor(QColor(colors[i][0], colors[i][1], colors[i][2]))  # 设置扇区边缘颜色
-            slice.setLabelColor(QColor(colors[i][0], colors[i][1], colors[i][2]))  # 设置扇区标签颜色
-            slice.setLabelArmLengthFactor(0.2)  # 设置扇区臂长占比
-            if i == index:  # 特殊处理最大扇区
-                slice.setExploded(True)  # 突出显示，设置颜色
-                slice.setLabelVisible(True)  #
-                slice.setPen(QPen(Qt.darkBlue, 2))
-            else:  # 处理其他扇区
-                if portion[i] > 0.03:  # 所在扇区概率大于0.03则可显示标签
-                    slice.setLabelVisible(True)
-        # 设置扇形图组件内占比
-        series.setPieSize(0.7)
-        # 创建QChart实例，它是PyQt5中的类
-        chart = QChart()
-        # QLegend类是显示图表的图例，先隐藏掉
-        # chart.legend().hide()
-        chart.addSeries(series)
-        chart.createDefaultAxes()
-        # 设置动画效果
-        chart.setAnimationOptions(QChart.SeriesAnimations)
-        # 设置标题
-        chart.setTitle("{}模型预测结果".format(self.ai_model.__class__.__name__))
-        chart.legend().setVisible(False)
-        # 对齐方式
-        # chart.legend().setAlignment(Qt.AlignBottom)
-        try:
-            self.verticalLayout_2.removeWidget(self.pieWidget)
-            self.verticalLayout_3.removeWidget(self.detailToolButton)
-        except Exception as e:
-            print(e)
-        # 创建ChartView，它是显示图表的控件
-        self.pieWidget = QChartView(chart)
-        self.pieWidget.setRenderHint(QPainter.Antialiasing)
-        self.pieWidget.isVisible()
-        self.verticalLayout_2.addWidget(self.pieWidget)
-        self.verticalLayout_3.addWidget(self.detailToolButton)
-        QToolTip.setFont(QFont("oldEnglish", 10))
-        toolTip = "<p style='white-space:pre'>"  # 富文本标签
-        for i in range(0, len(self.flowers)):
-            img_path = u"images/flowers/{}.png".format(self.flower_words[i])
-            if i == index:
-                toolTip += '<img src={} height="24" width="24"><b><font color={}>{}:{:.4%}</font></b>\n'.format(
-                    img_path, self.__rgb2html(colors[i]), self.flowers[i], portion[i])
-            else:
-                toolTip += '<img src={} height="24" width="24"><font color={}>{}:{:.4%}</font>\n'.format(
-                    img_path, self.__rgb2html(colors[i]), self.flowers[i], portion[i])
-        toolTip += "</p>"  # 富文本结束标签
-        self.detailToolButton.setToolTip(toolTip)
+        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
+        self.pieChartWidget.setPortion(portion)
+        self.pieChartWidget.initChart(model_name=model_name)
 
-    def __rgb2html(self, color):
-        # RGB颜色转HTML颜色
-        number = '#'
-        for i in color:
-            shu = hex(int(i))[2:]
-            if len(shu) < 2:
-                shu = '0' + shu
-            number += shu
-        return number
+    def _drawBarStackChart_setCustomizedToolTip(self, index, res):
+        self.barChartWidget.addData(self.tableWidget.item(index, 0).text(), res)
+        self.barChartWidget.initChart()
+        text = self.__getStatisticsText(self.barChartWidget.data)
+        self.statisticsTextEdit.setText(text)
+
+    def __getStatisticsText(self, data_dict):
+        text = ""
+        for directory, content in data_dict.items():
+            text += "<br /><b><font color=red>{}</font></b>统计如下:<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(directory)
+            for flower_word, count in content.items():
+                text += "{}共计<b>{}</b>张<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(
+                    self.flowers[self.flower_words.index(flower_word)],
+                    count)
+        return text
+
+    def showResultStatistics(self):
+        self.barChartWidget.show()
 
 
 class AIModelOperationThread(QThread):
@@ -469,35 +449,79 @@ class AIModelOperationThread(QThread):
     load_signal = Signal(Model)
     load_failed_signal = Signal()
     preload_signal = Signal(Model)
-    classify_res_signal = Signal(int, str)
+    batch_classify_res_signal = Signal(int, str)
+    # 传递结果列表portion, 结果值res, 是否为深度测评tag
+    classify_res_signal = Signal(list, str, bool)
+
+    flower_words = MyMainWindow.flower_words
 
     def __init__(self, parent=None):
         super(AIModelOperationThread, self).__init__(parent)
         print("AIThread Initial")
         self.operation = "load"
-        self.files = []
-        self.ai_model = EfficientNetB7()
+        self.ai_model = EfficientNetB4()
 
     def run(self) -> None:
-        if self.operation == "load":
-            # AI线程进行模型初始化操作
-            load_success = load_model(self.ai_model)
-            if not load_success:
-                self.load_failed_signal.emit()
-            else:
-                self.load_signal.emit(self.ai_model)
-            print("AI Thread has finished loading")
+        if self.operation == "load":  # 线程进行模型加载
+            self.load()  # 加载AI模型
+            # self.preClassify()  # 预加载模型权重
         elif self.operation == "preClassify":
-            # AI线程参数预加载操作
-            model_predict(self.ai_model, QPixmap("./images/帮助.png"))
-            self.preload_signal.emit(self.ai_model)
-            print("AI Thread has finished preClassifying")
-
+            self.preClassify()
         elif self.operation == "classify":
-            for i, file in enumerate(self.files):
-                _, res, _ = model_predict(self.ai_model, QPixmap(file))
-                self.classify_res_signal.emit(i, res)
-            print("AI Thread has finished classifying")
+            self.classify()
+        elif self.operation == "batchClassify":
+            self.batchClassify()
+        elif self.operation == "deepClassify":
+            self.deepClassify()
+
+    def classify(self):
+        # self.files仅含一个元素
+        portion, res, index = model_predict(self.ai_model, QPixmap(self.files))
+        self.classify_res_signal[list, str, bool].emit(portion, res, False)
+        print("AI Thread has finished classifying")
+
+    def batchClassify(self):
+        for i, file in enumerate(self.files):
+            portion, res, index = model_predict(self.ai_model, QPixmap(file))
+            self.batch_classify_res_signal[int, str].emit(i, res)
+        print("AI Thread has finished batchClassifying")
+
+    def deepClassify(self):
+        models = [EfficientNetB7(), EfficientNetB4(), EfficientNetB0(),
+                  MobileNetV2(), DenseNet121(), InceptionV3(), VGG19()]
+        weights = [0.888, 0.925, 0.886, 0.877, 0.889, 0, 0]
+        whole_portion = [0] * len(self.flower_words)
+        for j, this_model in enumerate(models):
+            print("load {}".format(this_model.__class__.__name__))
+            load_success = load_model(this_model)
+            if not load_success:
+                continue
+            portion, res, index = model_predict(this_model, QPixmap(self.files))
+            for i, per in enumerate(portion):
+                whole_portion[i] += per * weights[j]
+            res = self.flower_words[whole_portion.index(max(whole_portion))]
+            standard_portion = self.normalizePortion(whole_portion)
+            self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
+        print("AI Thread has finished deepClassifying")
+
+    @staticmethod
+    def normalizePortion(portion):
+        return [(i / sum(portion)) for i in portion]
+
+    def load(self):
+        # AI线程进行模型初始化操作
+        load_success = load_model(self.ai_model)
+        if not load_success:
+            self.load_failed_signal[None].emit()
+        else:
+            self.load_signal[Model].emit(self.ai_model)
+        print("AI Thread has finished loading")
+
+    def preClassify(self):
+        # AI线程参数预加载操作
+        model_predict(self.ai_model, QPixmap("./images/帮助.png"))
+        self.preload_signal[Model].emit(self.ai_model)
+        print("AI Thread has finished preClassifying")
 
     def setOperation(self, operation: str):
         self.operation = operation
@@ -507,6 +531,7 @@ class AIModelOperationThread(QThread):
 
     def setFiles(self, files):
         self.files = files
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -28,16 +28,17 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.setEnabled(True)
-        MainWindow.resize(900, 600)
+        MainWindow.resize(900, 610)
         MainWindow.setMinimumSize(QSize(900, 600))
-        MainWindow.setMaximumSize(QSize(900, 600))
+        MainWindow.setMaximumSize(QSize(900, 610))
         MainWindow.setContextMenuPolicy(Qt.NoContextMenu)
         icon = QIcon()
-        icon.addFile(u":/pic/images/python.jpg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"images/AI\u8bc6\u522b.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet(u"")
+        MainWindow.setStyleSheet(u"#MainWindow{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(82, 169, 220, 204), stop:1 rgba(217, 239, 231, 255));\n"
+"border-radius:5px;\n"
+"}")
         MainWindow.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QTabWidget.Triangular)
@@ -58,7 +59,6 @@ class Ui_MainWindow(object):
         icon1.addFile(u"images/new.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionNew.setIcon(icon1)
         font = QFont()
-        font.setPointSize(10)
         self.actionNew.setFont(font)
         self.actionNew.setShortcutContext(Qt.WidgetWithChildrenShortcut)
         self.actionOpen = QAction(MainWindow)
@@ -66,14 +66,18 @@ class Ui_MainWindow(object):
         icon2 = QIcon()
         icon2.addFile(u"images/open.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionOpen.setIcon(icon2)
-        self.actionOpen.setFont(font)
+        font1 = QFont()
+        font1.setPointSize(9)
+        self.actionOpen.setFont(font1)
         self.actionOpen.setShortcutContext(Qt.WidgetWithChildrenShortcut)
         self.actionClose = QAction(MainWindow)
         self.actionClose.setObjectName(u"actionClose")
         icon3 = QIcon()
         icon3.addFile(u"images/close.ico", QSize(), QIcon.Normal, QIcon.Off)
         self.actionClose.setIcon(icon3)
-        self.actionClose.setFont(font)
+        font2 = QFont()
+        font2.setPointSize(10)
+        self.actionClose.setFont(font2)
         self.actionCNN = QAction(MainWindow)
         self.actionCNN.setObjectName(u"actionCNN")
         icon4 = QIcon()
@@ -90,17 +94,56 @@ class Ui_MainWindow(object):
         self.efficientNetB4Action.setObjectName(u"efficientNetB4Action")
         self.efficientNetB7Action = QAction(MainWindow)
         self.efficientNetB7Action.setObjectName(u"efficientNetB7Action")
+        self.actionSave = QAction(MainWindow)
+        self.actionSave.setObjectName(u"actionSave")
+        icon5 = QIcon()
+        icon5.addFile(u"images/save.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.actionSave.setIcon(icon5)
+        self.actionClassify = QAction(MainWindow)
+        self.actionClassify.setObjectName(u"actionClassify")
+        icon6 = QIcon()
+        icon6.addFile(u"images/\u4eba\u5de5\u667a\u80fd.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.actionClassify.setIcon(icon6)
+        font3 = QFont()
+        font3.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font3.setPointSize(10)
+        font3.setBold(True)
+        font3.setUnderline(True)
+        self.actionClassify.setFont(font3)
+        self.actionAbout = QAction(MainWindow)
+        self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setGeometry(QRect(0, 0, 901, 531))
+        font4 = QFont()
+        font4.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font4.setPointSize(11)
+        font4.setBold(False)
+        self.tabWidget.setFont(font4)
+        self.tabWidget.setStyleSheet(u"#tabWidget{\n"
+"background-color:rgb(202,229,230)\n"
+"}")
         self.tabWidget.setTabShape(QTabWidget.Triangular)
+        self.tabWidget.setMovable(True)
         self.tab1 = QWidget()
         self.tab1.setObjectName(u"tab1")
+        self.tab1.setStyleSheet(u"#tab1{\n"
+"border-radius: 8px;\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.0511364 rgba(86, 140, 209, 97), stop:1 rgba(228, 237, 209, 175));\n"
+"border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 169, 220, 168), stop:1 rgba(194, 239, 224, 199))\n"
+"/*rgb(244, 248, 255)*/\n"
+"}")
         self.groupBox = QGroupBox(self.tab1)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setGeometry(QRect(20, 13, 331, 331))
+        font5 = QFont()
+        font5.setPointSize(10)
+        font5.setBold(True)
+        self.groupBox.setFont(font5)
+        self.groupBox.setAlignment(Qt.AlignCenter)
+        self.groupBox.setFlat(True)
         self.imageLabel = QLabel(self.groupBox)
         self.imageLabel.setObjectName(u"imageLabel")
         self.imageLabel.setGeometry(QRect(50, 97, 224, 224))
@@ -111,13 +154,13 @@ class Ui_MainWindow(object):
         self.imageLabel.setSizePolicy(sizePolicy)
         self.imageLabel.setMinimumSize(QSize(224, 224))
         self.imageLabel.setMaximumSize(QSize(224, 224))
-        font1 = QFont()
-        font1.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font1.setPointSize(16)
-        font1.setBold(True)
-        self.imageLabel.setFont(font1)
+        font6 = QFont()
+        font6.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font6.setPointSize(16)
+        font6.setBold(True)
+        self.imageLabel.setFont(font6)
         self.imageLabel.setAutoFillBackground(False)
-        self.imageLabel.setPixmap(QPixmap(u"images/\u56fe\u7247\u6dfb\u52a0.png"))
+        self.imageLabel.setPixmap(QPixmap(u"images/\u56fe\u50cf\u8bc6\u522b.png"))
         self.imageLabel.setScaledContents(True)
         self.imageLabel.setAlignment(Qt.AlignCenter)
         self.imageLabel.setWordWrap(False)
@@ -131,9 +174,9 @@ class Ui_MainWindow(object):
         self.chooseButton.setSizePolicy(sizePolicy1)
         self.chooseButton.setMinimumSize(QSize(32, 32))
         self.chooseButton.setMaximumSize(QSize(32, 32))
-        icon5 = QIcon()
-        icon5.addFile(u":/pic/images/\u6253\u5f00\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.chooseButton.setIcon(icon5)
+        icon7 = QIcon()
+        icon7.addFile(u":/pic/images/\u6253\u5f00\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.chooseButton.setIcon(icon7)
         self.chooseButton.setIconSize(QSize(32, 32))
         self.chooseButton.setAutoDefault(False)
         self.chooseButton.setFlat(True)
@@ -141,6 +184,10 @@ class Ui_MainWindow(object):
         self.nameEdit.setObjectName(u"nameEdit")
         self.nameEdit.setGeometry(QRect(50, 64, 261, 21))
         self.nameEdit.setCursor(QCursor(Qt.IBeamCursor))
+        self.nameEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"border-radius: 5px;\n"
+"border: 1px outset rgb(199, 216, 255);\n"
+"padding: 3px")
         self.nameEdit.setReadOnly(True)
         self.pathLabel = QLabel(self.groupBox)
         self.pathLabel.setObjectName(u"pathLabel")
@@ -149,12 +196,12 @@ class Ui_MainWindow(object):
         self.pathLabel.setSizePolicy(sizePolicy)
         self.pathLabel.setMinimumSize(QSize(0, 30))
         self.pathLabel.setMaximumSize(QSize(16777215, 50))
-        font2 = QFont()
-        font2.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font2.setPointSize(10)
-        self.pathLabel.setFont(font2)
+        font7 = QFont()
+        font7.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font7.setPointSize(10)
+        self.pathLabel.setFont(font7)
         self.pathLabel.setTextFormat(Qt.RichText)
-        self.pathLabel.setAlignment(Qt.AlignCenter)
+        self.pathLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.pathLabel.setWordWrap(True)
         self.label_2 = QLabel(self.groupBox)
         self.label_2.setObjectName(u"label_2")
@@ -162,6 +209,9 @@ class Ui_MainWindow(object):
         self.groupBox_4 = QGroupBox(self.tab1)
         self.groupBox_4.setObjectName(u"groupBox_4")
         self.groupBox_4.setGeometry(QRect(20, 355, 331, 141))
+        self.groupBox_4.setFont(font5)
+        self.groupBox_4.setAlignment(Qt.AlignCenter)
+        self.groupBox_4.setFlat(True)
         self.cutButton = QPushButton(self.groupBox_4)
         self.cutButton.setObjectName(u"cutButton")
         self.cutButton.setGeometry(QRect(230, 20, 91, 31))
@@ -188,13 +238,17 @@ class Ui_MainWindow(object):
 "                        padding-top:3px;\n"
 "                        }\n"
 "                    ")
-        icon6 = QIcon()
-        icon6.addFile(u"images/\u622a\u53d6.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.cutButton.setIcon(icon6)
+        icon8 = QIcon()
+        icon8.addFile(u"images/\u622a\u53d6.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.cutButton.setIcon(icon8)
         self.cutButton.setIconSize(QSize(24, 24))
         self.imageTextEdit = QTextEdit(self.groupBox_4)
         self.imageTextEdit.setObjectName(u"imageTextEdit")
         self.imageTextEdit.setGeometry(QRect(10, 20, 211, 111))
+        self.imageTextEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"border-radius: 5px;\n"
+"border: 1px outset rgb(199, 216, 255);\n"
+"padding: 3px")
         self.imageTextEdit.setReadOnly(True)
         self.resetButton = QPushButton(self.groupBox_4)
         self.resetButton.setObjectName(u"resetButton")
@@ -222,9 +276,9 @@ class Ui_MainWindow(object):
 "                        padding-top:3px;\n"
 "                        }\n"
 "                    ")
-        icon7 = QIcon()
-        icon7.addFile(u"images/\u590d\u4f4d.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.resetButton.setIcon(icon7)
+        icon9 = QIcon()
+        icon9.addFile(u"images/\u590d\u4f4d.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.resetButton.setIcon(icon9)
         self.resetButton.setIconSize(QSize(21, 21))
         self.saveButton = QPushButton(self.groupBox_4)
         self.saveButton.setObjectName(u"saveButton")
@@ -252,23 +306,24 @@ class Ui_MainWindow(object):
 "                        padding-top:3px;\n"
 "                        }\n"
 "                    ")
-        icon8 = QIcon()
-        icon8.addFile(u"images/\u4fdd\u5b58.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.saveButton.setIcon(icon8)
+        icon10 = QIcon()
+        icon10.addFile(u"images/\u4fdd\u5b58.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.saveButton.setIcon(icon10)
         self.saveButton.setIconSize(QSize(20, 20))
         self.groupBox_5 = QGroupBox(self.tab1)
         self.groupBox_5.setObjectName(u"groupBox_5")
         self.groupBox_5.setGeometry(QRect(380, 10, 491, 481))
+        self.groupBox_5.setMinimumSize(QSize(0, 0))
+        font8 = QFont()
+        font8.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font8.setPointSize(12)
+        font8.setBold(True)
+        self.groupBox_5.setFont(font8)
         self.groupBox_5.setAlignment(Qt.AlignCenter)
-        self.verticalLayoutWidget = QWidget(self.groupBox_5)
-        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(20, 60, 451, 401))
-        self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.groupBox_5.setFlat(True)
         self.layoutWidget = QWidget(self.groupBox_5)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(20, 26, 421, 32))
+        self.layoutWidget.setGeometry(QRect(20, 26, 451, 32))
         self.horizontalLayout_3 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -305,9 +360,7 @@ class Ui_MainWindow(object):
 "                        padding-top:3px;\n"
 "                        }\n"
 "                    ")
-        icon9 = QIcon()
-        icon9.addFile(u"images/AI\u8bc6\u522b.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.predictButton.setIcon(icon9)
+        self.predictButton.setIcon(icon)
         self.predictButton.setIconSize(QSize(24, 24))
         self.predictButton.setFlat(True)
 
@@ -321,7 +374,7 @@ class Ui_MainWindow(object):
         sizePolicy3.setHeightForWidth(self.resultLabel.sizePolicy().hasHeightForWidth())
         self.resultLabel.setSizePolicy(sizePolicy3)
         self.resultLabel.setMinimumSize(QSize(20, 25))
-        self.resultLabel.setMaximumSize(QSize(500, 25))
+        self.resultLabel.setMaximumSize(QSize(600, 25))
         self.resultLabel.setScaledContents(True)
         self.resultLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
@@ -334,8 +387,8 @@ class Ui_MainWindow(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy4)
-        self.label_3.setMinimumSize(QSize(5, 0))
-        self.label_3.setMaximumSize(QSize(5, 16777215))
+        self.label_3.setMinimumSize(QSize(3, 0))
+        self.label_3.setMaximumSize(QSize(3, 16777215))
 
         self.horizontalLayout_3.addWidget(self.label_3)
 
@@ -350,47 +403,62 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.resultLabel_2)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(0, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
-        self.verticalLayoutWidget_2 = QWidget(self.groupBox_5)
-        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(445, 31, 21, 20))
-        self.verticalLayout_3 = QVBoxLayout(self.verticalLayoutWidget_2)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.tabWidget.addTab(self.tab1, "")
         self.tab2 = QWidget()
         self.tab2.setObjectName(u"tab2")
+        self.tab2.setStyleSheet(u"#tab2{\n"
+"border-radius: 8px;\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.0511364 rgba(86, 140, 209, 97), stop:1 rgba(228, 237, 209, 175));\n"
+"border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 169, 220, 168), stop:1 rgba(194, 239, 224, 199))\n"
+"/*rgb(244, 248, 255)*/\n"
+"}")
         self.tableWidget = QTableWidget(self.tab2)
         if (self.tableWidget.columnCount() < 3):
             self.tableWidget.setColumnCount(3)
-        icon10 = QIcon()
-        icon10.addFile(u"images/\u6587\u4ef6\u5939 (2).png", QSize(), QIcon.Normal, QIcon.Off)
-        font3 = QFont()
-        font3.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
-        font3.setPointSize(11)
-        font3.setBold(True)
-        __qtablewidgetitem = QTableWidgetItem()
-        __qtablewidgetitem.setFont(font3);
-        __qtablewidgetitem.setIcon(icon10);
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         icon11 = QIcon()
-        icon11.addFile(u"images/\u56fe\u7247(1).png", QSize(), QIcon.Normal, QIcon.Off)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        __qtablewidgetitem1.setFont(font3);
-        __qtablewidgetitem1.setIcon(icon11);
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        icon11.addFile(u"images/\u6587\u4ef6\u5939 (2).png", QSize(), QIcon.Normal, QIcon.Off)
+        font9 = QFont()
+        font9.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
+        font9.setPointSize(11)
+        font9.setBold(True)
+        __qtablewidgetitem = QTableWidgetItem()
+        __qtablewidgetitem.setFont(font9);
+        __qtablewidgetitem.setIcon(icon11);
+        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         icon12 = QIcon()
-        icon12.addFile(u"images/\u82b1\u6735.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon12.addFile(u"images/\u56fe\u7247(1).png", QSize(), QIcon.Normal, QIcon.Off)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        __qtablewidgetitem1.setFont(font9);
+        __qtablewidgetitem1.setIcon(icon12);
+        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        icon13 = QIcon()
+        icon13.addFile(u"images/\u82b1\u6735.png", QSize(), QIcon.Normal, QIcon.Off)
         __qtablewidgetitem2 = QTableWidgetItem()
-        __qtablewidgetitem2.setFont(font3);
-        __qtablewidgetitem2.setIcon(icon12);
+        __qtablewidgetitem2.setFont(font9);
+        __qtablewidgetitem2.setIcon(icon13);
         self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        if (self.tableWidget.rowCount() < 2):
+            self.tableWidget.setRowCount(2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(0, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(1, __qtablewidgetitem4)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setGeometry(QRect(0, 0, 431, 471))
         self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tableWidget.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"gridline-color: rgb(85, 85, 0);\n"
+"alternate-background-color:rgb(170, 0, 0);\n"
+"selection-color:red;\n"
+"selection-background-color: rgb(191,211,238);\n"
+"border:1px solid rgb(0, 85, 0);\n"
+"\n"
+"\n"
+"")
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableWidget.setIconSize(QSize(24, 24))
@@ -399,17 +467,18 @@ class Ui_MainWindow(object):
         self.tableWidget.setSortingEnabled(True)
         self.tableWidget.setColumnCount(3)
         self.tableWidget.horizontalHeader().setMinimumSectionSize(30)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(140)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(130)
         self.tableWidget.verticalHeader().setVisible(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(30)
         self.tableWidget.verticalHeader().setProperty("showSortIndicator", True)
         self.clearTableButton = QPushButton(self.tab2)
         self.clearTableButton.setObjectName(u"clearTableButton")
-        self.clearTableButton.setGeometry(QRect(400, 470, 35, 35))
+        self.clearTableButton.setGeometry(QRect(404, 472, 30, 30))
         sizePolicy1.setHeightForWidth(self.clearTableButton.sizePolicy().hasHeightForWidth())
         self.clearTableButton.setSizePolicy(sizePolicy1)
-        self.clearTableButton.setMinimumSize(QSize(35, 35))
-        self.clearTableButton.setMaximumSize(QSize(35, 35))
+        self.clearTableButton.setMinimumSize(QSize(30, 30))
+        self.clearTableButton.setMaximumSize(QSize(30, 30))
         self.clearTableButton.setLayoutDirection(Qt.LeftToRight)
         self.clearTableButton.setAutoFillBackground(False)
         self.clearTableButton.setStyleSheet(u"QPushButton:hover\n"
@@ -420,17 +489,17 @@ class Ui_MainWindow(object):
 "                 color:white;\n"
 "                 }\n"
 "             ")
-        icon13 = QIcon()
-        icon13.addFile(u"images/\u5220\u9664.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.clearTableButton.setIcon(icon13)
+        icon14 = QIcon()
+        icon14.addFile(u"images/\u5220\u9664.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clearTableButton.setIcon(icon14)
         self.clearTableButton.setIconSize(QSize(24, 24))
         self.clearTableButton.setFlat(True)
         self.groupBox_2 = QGroupBox(self.tab2)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(450, 130, 421, 111))
+        self.groupBox_2.setGeometry(QRect(450, 10, 421, 131))
         self.layoutWidget1 = QWidget(self.groupBox_2)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(11, 33, 401, 67))
+        self.layoutWidget1.setGeometry(QRect(10, 50, 401, 72))
         self.verticalLayout = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -443,14 +512,18 @@ class Ui_MainWindow(object):
 
         self.savePathLineEdit = QLineEdit(self.layoutWidget1)
         self.savePathLineEdit.setObjectName(u"savePathLineEdit")
+        self.savePathLineEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"border-radius: 5px;\n"
+"border: 1px inset rgb(199, 216, 255);\n"
+"padding: 3px")
 
         self.horizontalLayout.addWidget(self.savePathLineEdit)
 
         self.getDirectoryButton = QToolButton(self.layoutWidget1)
         self.getDirectoryButton.setObjectName(u"getDirectoryButton")
-        icon14 = QIcon()
-        icon14.addFile(u"images/\u6587\u4ef6\u5939.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.getDirectoryButton.setIcon(icon14)
+        icon15 = QIcon()
+        icon15.addFile(u"images/\u6587\u4ef6\u5939.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.getDirectoryButton.setIcon(icon15)
         self.getDirectoryButton.setIconSize(QSize(24, 24))
         self.getDirectoryButton.setAutoRaise(True)
 
@@ -478,65 +551,7 @@ class Ui_MainWindow(object):
         self.batchExportButton.setMaximumSize(QSize(80, 25))
         self.batchExportButton.setLayoutDirection(Qt.LeftToRight)
         self.batchExportButton.setAutoFillBackground(False)
-        self.batchExportButton.setStyleSheet(u"QPushButton\n"
-"                  {\n"
-"                    background-color:rgb(134,183,200);\n"
-"                    border:2px solid #5F92B2;\n"
-"                    border-radius:5px;\n"
-"                    color:white\n"
-"                  }\n"
-"                  QPushButton:hover\n"
-"                  {\n"
-"                    background-color:rgb(0,130,150);\n"
-"                    border:2px solid #5F92B2;\n"
-"                    border-radius:5px;\n"
-"                    color:white;\n"
-"                  }\n"
-"                  QPushButton:hover:pressed\n"
-"                  {\n"
-"                    background-color:rgb(85,170,255); \n"
-"                    border:2px solid #3C80B1;\n"
-"                    border-radius:5px;\n"
-"                    color:white;\n"
-"                  }\n"
-"")
-        self.batchExportButton.setFlat(False)
-
-        self.horizontalLayout_2.addWidget(self.batchExportButton)
-
-        self.horizontalSpacer_2 = QSpacerItem(120, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
-
-        self.groupBox_3 = QGroupBox(self.tab2)
-        self.groupBox_3.setObjectName(u"groupBox_3")
-        self.groupBox_3.setGeometry(QRect(450, 10, 171, 111))
-        self.batchChooseButton = QPushButton(self.groupBox_3)
-        self.batchChooseButton.setObjectName(u"batchChooseButton")
-        self.batchChooseButton.setGeometry(QRect(10, 20, 40, 40))
-        sizePolicy2.setHeightForWidth(self.batchChooseButton.sizePolicy().hasHeightForWidth())
-        self.batchChooseButton.setSizePolicy(sizePolicy2)
-        self.batchChooseButton.setMinimumSize(QSize(40, 40))
-        self.batchChooseButton.setMaximumSize(QSize(40, 40))
-        self.batchChooseButton.setLayoutDirection(Qt.LeftToRight)
-        icon15 = QIcon()
-        icon15.addFile(u"images/\u5bfc\u5165.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.batchChooseButton.setIcon(icon15)
-        self.batchChooseButton.setIconSize(QSize(24, 24))
-        self.batchChooseButton.setFlat(True)
-        self.batchPredictButton = QPushButton(self.groupBox_3)
-        self.batchPredictButton.setObjectName(u"batchPredictButton")
-        self.batchPredictButton.setGeometry(QRect(20, 70, 80, 25))
-        sizePolicy2.setHeightForWidth(self.batchPredictButton.sizePolicy().hasHeightForWidth())
-        self.batchPredictButton.setSizePolicy(sizePolicy2)
-        self.batchPredictButton.setMinimumSize(QSize(80, 25))
-        self.batchPredictButton.setMaximumSize(QSize(80, 25))
-        self.batchPredictButton.setLayoutDirection(Qt.LeftToRight)
-        self.batchPredictButton.setAutoFillBackground(False)
-        self.batchPredictButton.setStyleSheet(u"/*\u6309\u94ae\u666e\u901a\u6001*/\n"
+        self.batchExportButton.setStyleSheet(u"/*\u6309\u94ae\u666e\u901a\u6001*/\n"
 "                           QPushButton\n"
 "                           {\n"
 "                           /*\u5b57\u4f53\u4e3a\u5fae\u8f6f\u96c5\u9ed1*/\n"
@@ -574,53 +589,193 @@ class Ui_MainWindow(object):
 "                           padding-top:3px;\n"
 "                           }\n"
 "                       ")
+        self.batchExportButton.setFlat(False)
+
+        self.horizontalLayout_2.addWidget(self.batchExportButton)
+
+        self.horizontalSpacer_2 = QSpacerItem(120, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+
+        self.batchPredictButton = QPushButton(self.groupBox_2)
+        self.batchPredictButton.setObjectName(u"batchPredictButton")
+        self.batchPredictButton.setGeometry(QRect(150, 20, 110, 25))
+        sizePolicy2.setHeightForWidth(self.batchPredictButton.sizePolicy().hasHeightForWidth())
+        self.batchPredictButton.setSizePolicy(sizePolicy2)
+        self.batchPredictButton.setMinimumSize(QSize(110, 25))
+        self.batchPredictButton.setMaximumSize(QSize(110, 25))
+        self.batchPredictButton.setLayoutDirection(Qt.LeftToRight)
+        self.batchPredictButton.setAutoFillBackground(False)
+        self.batchPredictButton.setStyleSheet(u"QPushButton\n"
+"                        {\n"
+"                        background-color:transparent;\n"
+"                        border:2px solid #0782f5;\n"
+"                        border-radius:5px;\n"
+"                        color:black\n"
+"                        }\n"
+"                        QPushButton:hover\n"
+"                        {\n"
+"                        background-color:rgb(255, 248, 250);\n"
+"                        border:2px solid #5F92B2;\n"
+"                        border-radius:5px;\n"
+"                        color:black;\n"
+"                        }\n"
+"                        QPushButton:hover:pressed\n"
+"                        {\n"
+"                        border:2px solid #5F92B2;\n"
+"                        border-radius:5px;\n"
+"                        color:black;\n"
+"                        padding-right:3px;\n"
+"                        padding-top:3px;\n"
+"                        }\n"
+"                    ")
+        icon16 = QIcon()
+        icon16.addFile(u"images/Image \u56fe\u50cf\u8bc6\u522b.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.batchPredictButton.setIcon(icon16)
+        self.batchPredictButton.setIconSize(QSize(24, 24))
         self.batchPredictButton.setFlat(False)
         self.batchImportLabel = QLabel(self.tab2)
         self.batchImportLabel.setObjectName(u"batchImportLabel")
-        self.batchImportLabel.setGeometry(QRect(9, 477, 391, 21))
-        font4 = QFont()
-        font4.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
-        font4.setPointSize(11)
-        self.batchImportLabel.setFont(font4)
+        self.batchImportLabel.setGeometry(QRect(9, 477, 351, 21))
+        font10 = QFont()
+        font10.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
+        font10.setPointSize(11)
+        self.batchImportLabel.setFont(font10)
+        self.batchChooseButton = QPushButton(self.tab2)
+        self.batchChooseButton.setObjectName(u"batchChooseButton")
+        self.batchChooseButton.setGeometry(QRect(369, 472, 30, 30))
+        sizePolicy1.setHeightForWidth(self.batchChooseButton.sizePolicy().hasHeightForWidth())
+        self.batchChooseButton.setSizePolicy(sizePolicy1)
+        self.batchChooseButton.setMinimumSize(QSize(30, 30))
+        self.batchChooseButton.setMaximumSize(QSize(30, 30))
+        self.batchChooseButton.setLayoutDirection(Qt.LeftToRight)
+        self.batchChooseButton.setAutoFillBackground(False)
+        self.batchChooseButton.setStyleSheet(u"QPushButton:hover\n"
+"                 {\n"
+"                 background-color: rgb(224, 255, 254);\n"
+"                 border:2px solid #5F92B2;\n"
+"                 border-radius:5px;\n"
+"                 color:white;\n"
+"                 }\n"
+"             ")
+        icon17 = QIcon()
+        icon17.addFile(u"images/\u5bfc\u5165.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.batchChooseButton.setIcon(icon17)
+        self.batchChooseButton.setIconSize(QSize(24, 24))
+        self.batchChooseButton.setFlat(True)
+        self.statisticsTextEdit = QTextEdit(self.tab2)
+        self.statisticsTextEdit.setObjectName(u"statisticsTextEdit")
+        self.statisticsTextEdit.setGeometry(QRect(450, 150, 421, 341))
+        self.statisticsTextEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"border-radius: 5px;\n"
+"border: 1px outset rgb(199, 216, 255);\n"
+"padding: 3px")
+        self.statisticsTextEdit.setReadOnly(True)
+        self.statisticsButton = QPushButton(self.tab2)
+        self.statisticsButton.setObjectName(u"statisticsButton")
+        self.statisticsButton.setGeometry(QRect(840, 460, 30, 30))
+        sizePolicy1.setHeightForWidth(self.statisticsButton.sizePolicy().hasHeightForWidth())
+        self.statisticsButton.setSizePolicy(sizePolicy1)
+        self.statisticsButton.setMinimumSize(QSize(30, 30))
+        self.statisticsButton.setMaximumSize(QSize(30, 30))
+        self.statisticsButton.setLayoutDirection(Qt.LeftToRight)
+        self.statisticsButton.setAutoFillBackground(False)
+        self.statisticsButton.setStyleSheet(u"QPushButton:hover\n"
+"                 {\n"
+"                 background-color: rgb(224, 255, 254);\n"
+"                 border:2px solid #5F92B2;\n"
+"                 border-radius:5px;\n"
+"                 color:white;\n"
+"                 }\n"
+"             ")
+        icon18 = QIcon()
+        icon18.addFile(u"images/\u7edf\u8ba1.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.statisticsButton.setIcon(icon18)
+        self.statisticsButton.setIconSize(QSize(24, 24))
+        self.statisticsButton.setFlat(True)
         self.tabWidget.addTab(self.tab2, "")
-        self.groupBox_3.raise_()
         self.groupBox_2.raise_()
         self.tableWidget.raise_()
         self.clearTableButton.raise_()
         self.batchImportLabel.raise_()
+        self.batchChooseButton.raise_()
+        self.statisticsTextEdit.raise_()
+        self.statisticsButton.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 900, 22))
+        self.menubar.setGeometry(QRect(0, 0, 900, 30))
+        sizePolicy5 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(25)
+        sizePolicy5.setHeightForWidth(self.menubar.sizePolicy().hasHeightForWidth())
+        self.menubar.setSizePolicy(sizePolicy5)
+        self.menubar.setMinimumSize(QSize(0, 30))
+        self.menubar.setMaximumSize(QSize(16777215, 30))
+        font11 = QFont()
+        font11.setFamilies([u"Microsoft YaHei"])
+        font11.setPointSize(10)
+        font11.setBold(False)
+        self.menubar.setFont(font11)
+        self.menubar.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(82, 169, 220, 204), stop:1 rgba(217, 239, 231, 255));\n"
+"padding: 5px;\n"
+"border-radius: 4px;\n"
+"border: 1px solid rgb(215, 238, 255);\n"
+"")
+        self.menubar.setDefaultUp(False)
+        self.menubar.setNativeMenuBar(False)
         self.menu = QMenu(self.menubar)
         self.menu.setObjectName(u"menu")
         self.menu.setToolTipsVisible(True)
+        self.menu_2 = QMenu(self.menubar)
+        self.menu_2.setObjectName(u"menu_2")
+        self.menu_M = QMenu(self.menubar)
+        self.menu_M.setObjectName(u"menu_M")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.toolBar = QToolBar(MainWindow)
         self.toolBar.setObjectName(u"toolBar")
-        self.toolBar.setStyleSheet(u"")
+        self.toolBar.setEnabled(True)
+        self.toolBar.setStyleSheet(u"/*#toolBar{*/\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.460227 rgba(144, 189, 222, 204), stop:1 rgba(217, 239, 231, 255));\n"
+"border-radius: 5px;\n"
+"border: 1px solid rgb(215, 238, 255);\n"
+"/*}*/\n"
+"")
+        self.toolBar.setAllowedAreas(Qt.BottomToolBarArea|Qt.TopToolBarArea)
+        self.toolBar.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         MainWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
 
         self.menubar.addAction(self.menu.menuAction())
+        self.menubar.addAction(self.menu_M.menuAction())
+        self.menubar.addAction(self.menu_2.menuAction())
         self.menu.addAction(self.actionNew)
         self.menu.addAction(self.actionOpen)
         self.menu.addSeparator()
         self.menu.addAction(self.actionClose)
-        self.toolBar.addAction(self.myModelAction)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.efficientNetB7Action)
-        self.toolBar.addAction(self.efficientNetB4Action)
-        self.toolBar.addAction(self.efficientNetB0Action)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.mobileNetAction)
-        self.toolBar.addAction(self.denseNet121Action)
-        self.toolBar.addAction(self.inceptionAction)
-        self.toolBar.addAction(self.vggAction)
+        self.menu_2.addAction(self.actionAbout)
+        self.menu_M.addAction(self.efficientNetB7Action)
+        self.menu_M.addAction(self.efficientNetB4Action)
+        self.menu_M.addAction(self.efficientNetB0Action)
+        self.menu_M.addSeparator()
+        self.menu_M.addAction(self.mobileNetAction)
+        self.menu_M.addAction(self.denseNet121Action)
+        self.menu_M.addAction(self.inceptionAction)
+        self.menu_M.addAction(self.vggAction)
+        self.menu_M.addSeparator()
+        self.menu_M.addAction(self.actionCNN)
+        self.toolBar.addAction(self.actionNew)
+        self.toolBar.addAction(self.actionOpen)
+        self.toolBar.addAction(self.actionSave)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionCNN)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionClassify)
 
         self.retranslateUi(MainWindow)
 
@@ -642,63 +797,84 @@ class Ui_MainWindow(object):
         self.denseNet121Action.setToolTip(QCoreApplication.translate("MainWindow", u"DenseNet121", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.denseNet121Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+D", None))
+        self.denseNet121Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+D", None))
 #endif // QT_CONFIG(shortcut)
         self.efficientNetB0Action.setText(QCoreApplication.translate("MainWindow", u"EfficientNetB0", None))
 #if QT_CONFIG(tooltip)
         self.efficientNetB0Action.setToolTip(QCoreApplication.translate("MainWindow", u"EfficientNetB0", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.efficientNetB0Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+0", None))
+        self.efficientNetB0Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+0", None))
 #endif // QT_CONFIG(shortcut)
         self.vggAction.setText(QCoreApplication.translate("MainWindow", u"VGG19", None))
 #if QT_CONFIG(tooltip)
         self.vggAction.setToolTip(QCoreApplication.translate("MainWindow", u"VGG19", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.vggAction.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+G", None))
+        self.vggAction.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+G", None))
 #endif // QT_CONFIG(shortcut)
         self.inceptionAction.setText(QCoreApplication.translate("MainWindow", u"InceptionV3", None))
 #if QT_CONFIG(tooltip)
         self.inceptionAction.setToolTip(QCoreApplication.translate("MainWindow", u"InceptionV3", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.inceptionAction.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+I", None))
+        self.inceptionAction.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+I", None))
 #endif // QT_CONFIG(shortcut)
         self.actionNew.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u5efa(&N)", None))
+#if QT_CONFIG(tooltip)
+        self.actionNew.setToolTip(QCoreApplication.translate("MainWindow", u"\u65b0\u5efa", None))
+#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
         self.actionNew.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
 #endif // QT_CONFIG(shortcut)
         self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"\u6253\u5f00(&O)", None))
+#if QT_CONFIG(tooltip)
+        self.actionOpen.setToolTip(QCoreApplication.translate("MainWindow", u"\u6253\u5f00", None))
+#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
         self.actionOpen.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+O", None))
 #endif // QT_CONFIG(shortcut)
         self.actionClose.setText(QCoreApplication.translate("MainWindow", u"\u5173\u95ed(&C)", None))
-        self.actionCNN.setText(QCoreApplication.translate("MainWindow", u"CNN\u6a21\u578b\u7edf\u8ba1", None))
+        self.actionCNN.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u7edf\u8ba1", None))
+#if QT_CONFIG(tooltip)
+        self.actionCNN.setToolTip(QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u7edf\u8ba1", None))
+#endif // QT_CONFIG(tooltip)
         self.mobileNetAction.setText(QCoreApplication.translate("MainWindow", u"MobileNetV2", None))
 #if QT_CONFIG(tooltip)
         self.mobileNetAction.setToolTip(QCoreApplication.translate("MainWindow", u"MobileNetV2", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.mobileNetAction.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+M", None))
+        self.mobileNetAction.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+M", None))
 #endif // QT_CONFIG(shortcut)
         self.efficientNetB4Action.setText(QCoreApplication.translate("MainWindow", u"EfficientNetB4", None))
 #if QT_CONFIG(tooltip)
         self.efficientNetB4Action.setToolTip(QCoreApplication.translate("MainWindow", u"EfficientNetB4", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.efficientNetB4Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+4", None))
+        self.efficientNetB4Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+4", None))
 #endif // QT_CONFIG(shortcut)
         self.efficientNetB7Action.setText(QCoreApplication.translate("MainWindow", u"EfficientNetB7", None))
 #if QT_CONFIG(tooltip)
         self.efficientNetB7Action.setToolTip(QCoreApplication.translate("MainWindow", u"EfficientNetB7", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
-        self.efficientNetB7Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+7", None))
+        self.efficientNetB7Action.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Alt+7", None))
 #endif // QT_CONFIG(shortcut)
+        self.actionSave.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58(&S)", None))
+#if QT_CONFIG(tooltip)
+        self.actionSave.setToolTip(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.actionSave.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+S", None))
+#endif // QT_CONFIG(shortcut)
+        self.actionClassify.setText(QCoreApplication.translate("MainWindow", u"\u6df1\u5ea6\u8bc6\u522b", None))
+#if QT_CONFIG(tooltip)
+        self.actionClassify.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:10pt;\">\u8fdb\u884c</span><span style=\" font-size:10pt; font-weight:700;\">\u591a\u6a21\u578b</span><span style=\" font-size:10pt;\">\u52a0\u6743\u6df1\u5ea6\u8bc6\u522b</span></p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+        self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"\u5173\u4e8e", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u5bfc\u5165", None))
 #if QT_CONFIG(tooltip)
-        self.imageLabel.setToolTip(QCoreApplication.translate("MainWindow", u"\u53cc\u51fb\u9009\u62e9\u6587\u4ef6", None))
+        self.imageLabel.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u53cc\u51fb\u9009\u62e9\u6587\u4ef6</p><p><span style=\" font-weight:700;\">Ctrl-V </span>\u7c98\u8d34\u526a\u5207\u677f\u56fe\u7247</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.imageLabel.setText("")
         self.chooseButton.setText("")
@@ -724,6 +900,10 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u540d\u79f0", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u82b1\u6735\u9884\u6d4b\u7ed3\u679c", None));
+        ___qtablewidgetitem3 = self.tableWidget.verticalHeaderItem(0)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u5efa\u884c", None));
+        ___qtablewidgetitem4 = self.tableWidget.verticalHeaderItem(1)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"test2", None));
 #if QT_CONFIG(whatsthis)
         self.tableWidget.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
@@ -731,20 +911,25 @@ class Ui_MainWindow(object):
         self.clearTableButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4e00\u952e\u6e05\u7a7a", None))
 #endif // QT_CONFIG(tooltip)
         self.clearTableButton.setText("")
-        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"\u7ed3\u679c\u5bfc\u51fa", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u9884\u6d4b", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u8def\u5f84\uff1a", None))
         self.getDirectoryButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.batchRenameRadioButton.setText(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u91cd\u547d\u540d", None))
         self.batchExportButton.setText(QCoreApplication.translate("MainWindow", u"\u9884\u6d4b\u7ed3\u679c\u5bfc\u51fa", None))
-        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u5bfc\u5165", None))
-#if QT_CONFIG(tooltip)
-        self.batchChooseButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u5bfc\u5165\u56fe\u7247", None))
-#endif // QT_CONFIG(tooltip)
-        self.batchChooseButton.setText("")
         self.batchPredictButton.setText(QCoreApplication.translate("MainWindow", u"\u82b1\u6735\u6279\u91cf\u9884\u6d4b", None))
         self.batchImportLabel.setText("")
+#if QT_CONFIG(tooltip)
+        self.batchChooseButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4e00\u952e\u6e05\u7a7a", None))
+#endif // QT_CONFIG(tooltip)
+        self.batchChooseButton.setText("")
+#if QT_CONFIG(tooltip)
+        self.statisticsButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4e00\u952e\u6e05\u7a7a", None))
+#endif // QT_CONFIG(tooltip)
+        self.statisticsButton.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab2), QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u9884\u6d4b", None))
-        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
+        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6(&F)", None))
+        self.menu_2.setTitle(QCoreApplication.translate("MainWindow", u"\u5e2e\u52a9(&H)", None))
+        self.menu_M.setTitle(QCoreApplication.translate("MainWindow", u"\u6a21\u578b(&M)", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 
