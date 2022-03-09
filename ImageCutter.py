@@ -6,11 +6,11 @@ from PySide6.QtWidgets import QApplication, QDialog, QPushButton, QMessageBox, \
 from my_graphics import GraphicsView
 
 
-class Form(QDialog):
+class ImageCutter(QDialog):
     save_signal = Signal(QPixmap)
 
     def __init__(self, image):
-        super(Form, self).__init__()
+        super(ImageCutter, self).__init__()
         self.resize(1024, 768)
         self.image = image
         self.init_ui()
@@ -25,20 +25,21 @@ class Form(QDialog):
         self.horizontalFlipToolButton.clicked.connect(self.horizontalFlipToolButton_clicked)
         self.verticalFlipToolButton.clicked.connect(self.verticalFlipToolButton_clicked)
         self.rotationDial.valueChanged.connect(self.rotationDial_valueChanged)
-        # image_item = GraphicsPolygonItem()
-        # image_item.setFlag(QGraphicsItem.ItemIsMovable)
-        # self.scene.addItem(image_item)
 
     def init_ui(self):
-        # self.leftPushButton = QPushButton(self, QPixmap())
-
-        self.cutPushButton = QPushButton('裁剪', self)
+        self.cutPushButton = QPushButton(self)
+        self.cutPushButton.setObjectName(u"putButton_cut")
+        self.cutPushButton.setGeometry(QRect(790, 707, 41, 41))
+        icon = QIcon()
+        icon.addFile(u"images/\u7f16\u8f91\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.cutPushButton.setIcon(icon)
+        self.cutPushButton.setIconSize(QSize(32, 32))
         self.cutPushButton.setCheckable(True)
-        self.cutPushButton.setMaximumSize(QSize(100, 16777215))
-        self.cutPushButton.setGeometry(QRect(740, 710, 91, 31))
-
-        self.savePushButton = QPushButton('确定', self)
-        # self.savePushButton.setEnabled(False)
+        self.cutPushButton.setFlat(True)
+        self.savePushButton = QPushButton(self)
+        self.savePushButton.setText("确定")
+        self.savePushButton.setObjectName(u"putButton_save")
+        self.savePushButton.setEnabled(False)
         self.savePushButton.setGeometry(QRect(880, 710, 91, 31))
 
         self.graphicsView = GraphicsView(self.image, self)
@@ -51,10 +52,11 @@ class Form(QDialog):
         self.rightRotateToolButton.setText("顺时针旋转")
         self.rightRotateToolButton.setObjectName(u"rightRotateToolButton")
         self.rightRotateToolButton.setGeometry(QRect(50, 700, 71, 61))
-        icon = QIcon()
-        icon.addFile(u"images/\u987a\u65f6\u9488.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.rightRotateToolButton.setIcon(icon)
+        icon1 = QIcon()
+        icon1.addFile(u"images/\u53f3\u65cb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.rightRotateToolButton.setIcon(icon1)
         self.rightRotateToolButton.setIconSize(QSize(36, 36))
+        self.rightRotateToolButton.setCheckable(False)
         self.rightRotateToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.rightRotateToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.rightRotateToolButton.setAutoRaise(True)
@@ -62,44 +64,46 @@ class Form(QDialog):
         self.leftRotateToolButton.setText("逆时针旋转")
         self.leftRotateToolButton.setObjectName(u"leftRotateToolButton")
         self.leftRotateToolButton.setGeometry(QRect(180, 700, 71, 61))
-        icon1 = QIcon()
-        icon1.addFile(u"images/\u9006\u65f6\u9488.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.leftRotateToolButton.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u"images/\u5de6\u65cb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.leftRotateToolButton.setIcon(icon2)
         self.leftRotateToolButton.setIconSize(QSize(36, 36))
+        self.leftRotateToolButton.setCheckable(False)
         self.leftRotateToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.leftRotateToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.leftRotateToolButton.setAutoRaise(True)
         self.horizontalFlipToolButton = QToolButton(self)
         self.horizontalFlipToolButton.setText("水平翻转")
-        self.horizontalFlipToolButton.setObjectName(u"horizontalUSDToolButton")
+        self.horizontalFlipToolButton.setObjectName(u"horizontalFlipToolButton")
         self.horizontalFlipToolButton.setGeometry(QRect(400, 700, 71, 61))
-        icon2 = QIcon()
-        icon2.addFile(u"images/\u6c34\u5e73\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.horizontalFlipToolButton.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"images/\u6c34\u5e73\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.horizontalFlipToolButton.setIcon(icon3)
         self.horizontalFlipToolButton.setIconSize(QSize(36, 36))
         self.horizontalFlipToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.horizontalFlipToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.horizontalFlipToolButton.setAutoRaise(True)
         self.verticalFlipToolButton = QToolButton(self)
-        self.verticalFlipToolButton.setText("竖直翻转")
-        self.verticalFlipToolButton.setObjectName(u"verticalUSDToolButton")
+        self.verticalFlipToolButton.setText("垂直翻转")
+        self.verticalFlipToolButton.setObjectName(u"verticalFlipToolButton")
         self.verticalFlipToolButton.setGeometry(QRect(310, 700, 71, 61))
-        icon3 = QIcon()
-        icon3.addFile(u"images/\u7ad6\u76f4\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.verticalFlipToolButton.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"images/\u5782\u76f4\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.verticalFlipToolButton.setIcon(icon4)
         self.verticalFlipToolButton.setIconSize(QSize(36, 36))
+        self.verticalFlipToolButton.setCheckable(False)
         self.verticalFlipToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.verticalFlipToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.verticalFlipToolButton.setAutoRaise(True)
         self.rotationDial = QDial(self)
         self.rotationDial.setObjectName(u"rotationDial")
         self.rotationDial.setGeometry(QRect(125, 700, 50, 50))
-        self.rotationDial.setMaximum(100)
-        self.rotationDial.setMinimum(20)
-        self.rotationDial.setSingleStep(2)
+        self.rotationDial.setMaximum(360)
+        self.rotationDial.setSingleStep(5)
         self.rotationDial.setPageStep(20)
         self.rotationDial.setInvertedAppearance(False)
         self.rotationDial.setInvertedControls(False)
+        self.rotationDial.setWrapping(True)
         self.rotationDial.setNotchesVisible(True)
 
         self.savePushButton.setStyleSheet(u"QPushButton\n"
@@ -123,28 +127,6 @@ class Form(QDialog):
                                           "    padding-top:3px;\n"
                                           "}\n"
                                           "")
-        self.cutPushButton.setStyleSheet(u"QPushButton\n"
-                                         "{\n"
-                                         "    color:white;\n"
-                                         "    background-color:rgb(14 , 150 , 254);\n"
-                                         "    border-radius:5px;\n"
-                                         "}\n"
-                                         " \n"
-                                         "QPushButton:hover\n"
-                                         "{\n"
-                                         "    color:white;\n"
-                                         "    background-color:rgb(44 , 137 , 255);\n"
-                                         "}\n"
-                                         " \n"
-                                         "QPushButton:pressed\n"
-                                         "{\n"
-                                         "    color:white;\n"
-                                         "    background-color:rgb(14 , 135 , 228);\n"
-                                         "    padding-left:3px;\n"
-                                         "    padding-top:3px;\n"
-                                         "}\n"
-                                         "")
-
     def pushButton_cut_clicked(self):
         if self.graphicsView.image_item.is_start_cut:
             self.graphicsView.image_item.is_start_cut = False
@@ -191,6 +173,6 @@ if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)
-    form = Form("test.png")
+    form = ImageCutter("test.png")
     form.show()
     app.exec()

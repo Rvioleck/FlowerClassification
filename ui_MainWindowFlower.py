@@ -16,13 +16,12 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QGroupBox, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QMainWindow,
-    QMenu, QMenuBar, QPushButton, QRadioButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QTextEdit, QToolBar,
-    QToolButton, QVBoxLayout, QWidget)
-import apprcc_rc
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGroupBox,
+    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+    QMainWindow, QMenu, QMenuBar, QPushButton,
+    QRadioButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit,
+    QToolBar, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -56,7 +55,7 @@ class Ui_MainWindow(object):
         self.actionNew = QAction(MainWindow)
         self.actionNew.setObjectName(u"actionNew")
         icon1 = QIcon()
-        icon1.addFile(u"images/new.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"images/\u65b0\u5efa.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionNew.setIcon(icon1)
         font = QFont()
         self.actionNew.setFont(font)
@@ -64,29 +63,22 @@ class Ui_MainWindow(object):
         self.actionOpen = QAction(MainWindow)
         self.actionOpen.setObjectName(u"actionOpen")
         icon2 = QIcon()
-        icon2.addFile(u"images/open.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"images/\u6253\u5f00.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionOpen.setIcon(icon2)
-        font1 = QFont()
-        font1.setPointSize(9)
-        self.actionOpen.setFont(font1)
+        self.actionOpen.setFont(font)
         self.actionOpen.setShortcutContext(Qt.WidgetWithChildrenShortcut)
         self.actionClose = QAction(MainWindow)
         self.actionClose.setObjectName(u"actionClose")
         icon3 = QIcon()
-        icon3.addFile(u"images/close.ico", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"images/\u5173\u95ed.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionClose.setIcon(icon3)
-        font2 = QFont()
-        font2.setPointSize(10)
-        self.actionClose.setFont(font2)
+        font1 = QFont()
+        font1.setPointSize(10)
+        self.actionClose.setFont(font1)
         self.actionCNN = QAction(MainWindow)
         self.actionCNN.setObjectName(u"actionCNN")
         icon4 = QIcon()
-        iconThemeName = u"\u7edf\u8ba1"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon4 = QIcon.fromTheme(iconThemeName)
-        else:
-            icon4.addFile(u"images/\u6298\u7ebf\u56fe\u5206\u5e03.png", QSize(), QIcon.Normal, QIcon.Off)
-        
+        icon4.addFile(u"images/\u6298\u7ebf\u56fe.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionCNN.setIcon(icon4)
         self.mobileNetAction = QAction(MainWindow)
         self.mobileNetAction.setObjectName(u"mobileNetAction")
@@ -97,19 +89,19 @@ class Ui_MainWindow(object):
         self.actionSave = QAction(MainWindow)
         self.actionSave.setObjectName(u"actionSave")
         icon5 = QIcon()
-        icon5.addFile(u"images/save.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"images/\u4fdd\u5b58.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionSave.setIcon(icon5)
         self.actionClassify = QAction(MainWindow)
         self.actionClassify.setObjectName(u"actionClassify")
         icon6 = QIcon()
         icon6.addFile(u"images/\u4eba\u5de5\u667a\u80fd.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actionClassify.setIcon(icon6)
-        font3 = QFont()
-        font3.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font3.setPointSize(10)
-        font3.setBold(True)
-        font3.setUnderline(True)
-        self.actionClassify.setFont(font3)
+        font2 = QFont()
+        font2.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font2.setPointSize(10)
+        font2.setBold(True)
+        font2.setUnderline(True)
+        self.actionClassify.setFont(font2)
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
@@ -117,11 +109,11 @@ class Ui_MainWindow(object):
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setGeometry(QRect(0, 0, 901, 531))
-        font4 = QFont()
-        font4.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font4.setPointSize(11)
-        font4.setBold(False)
-        self.tabWidget.setFont(font4)
+        font3 = QFont()
+        font3.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font3.setPointSize(11)
+        font3.setBold(False)
+        self.tabWidget.setFont(font3)
         self.tabWidget.setStyleSheet(u"#tabWidget{\n"
 "background-color:rgb(202,229,230)\n"
 "}")
@@ -131,22 +123,22 @@ class Ui_MainWindow(object):
         self.tab1.setObjectName(u"tab1")
         self.tab1.setStyleSheet(u"#tab1{\n"
 "border-radius: 8px;\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.0511364 rgba(86, 140, 209, 97), stop:1 rgba(228, 237, 209, 175));\n"
+"background-color: qlineargradient(spread:pad, x1:0.358, y1:0.397909, x2:0.823, y2:0.704864, stop:0 rgba(86, 140, 209, 157), stop:0.903409 rgba(228, 237, 209, 199));\n"
 "border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 169, 220, 168), stop:1 rgba(194, 239, 224, 199))\n"
 "/*rgb(244, 248, 255)*/\n"
 "}")
         self.groupBox = QGroupBox(self.tab1)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(20, 13, 331, 331))
-        font5 = QFont()
-        font5.setPointSize(10)
-        font5.setBold(True)
-        self.groupBox.setFont(font5)
+        self.groupBox.setGeometry(QRect(20, 13, 341, 331))
+        font4 = QFont()
+        font4.setPointSize(10)
+        font4.setBold(True)
+        self.groupBox.setFont(font4)
         self.groupBox.setAlignment(Qt.AlignCenter)
         self.groupBox.setFlat(True)
         self.imageLabel = QLabel(self.groupBox)
         self.imageLabel.setObjectName(u"imageLabel")
-        self.imageLabel.setGeometry(QRect(50, 97, 224, 224))
+        self.imageLabel.setGeometry(QRect(50, 100, 224, 224))
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -154,13 +146,14 @@ class Ui_MainWindow(object):
         self.imageLabel.setSizePolicy(sizePolicy)
         self.imageLabel.setMinimumSize(QSize(224, 224))
         self.imageLabel.setMaximumSize(QSize(224, 224))
-        font6 = QFont()
-        font6.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font6.setPointSize(16)
-        font6.setBold(True)
-        self.imageLabel.setFont(font6)
+        font5 = QFont()
+        font5.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font5.setPointSize(16)
+        font5.setBold(True)
+        self.imageLabel.setFont(font5)
+        self.imageLabel.setCursor(QCursor(Qt.PointingHandCursor))
         self.imageLabel.setAutoFillBackground(False)
-        self.imageLabel.setPixmap(QPixmap(u"images/\u56fe\u50cf\u8bc6\u522b.png"))
+        self.imageLabel.setPixmap(QPixmap(u"images/\u4e0a\u4f20\u56fe\u7247.png"))
         self.imageLabel.setScaledContents(True)
         self.imageLabel.setAlignment(Qt.AlignCenter)
         self.imageLabel.setWordWrap(False)
@@ -174,15 +167,15 @@ class Ui_MainWindow(object):
         self.chooseButton.setSizePolicy(sizePolicy1)
         self.chooseButton.setMinimumSize(QSize(32, 32))
         self.chooseButton.setMaximumSize(QSize(32, 32))
+        self.chooseButton.setCursor(QCursor(Qt.PointingHandCursor))
         icon7 = QIcon()
-        icon7.addFile(u":/pic/images/\u6253\u5f00\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u"images/\u5bfc\u5165\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
         self.chooseButton.setIcon(icon7)
-        self.chooseButton.setIconSize(QSize(32, 32))
-        self.chooseButton.setAutoDefault(False)
+        self.chooseButton.setIconSize(QSize(28, 28))
         self.chooseButton.setFlat(True)
         self.nameEdit = QLineEdit(self.groupBox)
         self.nameEdit.setObjectName(u"nameEdit")
-        self.nameEdit.setGeometry(QRect(50, 64, 261, 21))
+        self.nameEdit.setGeometry(QRect(50, 64, 261, 25))
         self.nameEdit.setCursor(QCursor(Qt.IBeamCursor))
         self.nameEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
 "border-radius: 5px;\n"
@@ -196,10 +189,10 @@ class Ui_MainWindow(object):
         self.pathLabel.setSizePolicy(sizePolicy)
         self.pathLabel.setMinimumSize(QSize(0, 30))
         self.pathLabel.setMaximumSize(QSize(16777215, 50))
-        font7 = QFont()
-        font7.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font7.setPointSize(10)
-        self.pathLabel.setFont(font7)
+        font6 = QFont()
+        font6.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font6.setPointSize(10)
+        self.pathLabel.setFont(font6)
         self.pathLabel.setTextFormat(Qt.RichText)
         self.pathLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.pathLabel.setWordWrap(True)
@@ -208,24 +201,24 @@ class Ui_MainWindow(object):
         self.label_2.setGeometry(QRect(10, 30, 31, 16))
         self.groupBox_4 = QGroupBox(self.tab1)
         self.groupBox_4.setObjectName(u"groupBox_4")
-        self.groupBox_4.setGeometry(QRect(20, 355, 331, 141))
-        self.groupBox_4.setFont(font5)
+        self.groupBox_4.setGeometry(QRect(20, 355, 341, 141))
+        self.groupBox_4.setFont(font4)
         self.groupBox_4.setAlignment(Qt.AlignCenter)
         self.groupBox_4.setFlat(True)
         self.cutButton = QPushButton(self.groupBox_4)
         self.cutButton.setObjectName(u"cutButton")
-        self.cutButton.setGeometry(QRect(230, 20, 91, 31))
+        self.cutButton.setGeometry(QRect(188, 33, 31, 30))
         self.cutButton.setStyleSheet(u"QPushButton\n"
 "                        {\n"
 "                        background-color:transparent;\n"
-"                        border:2px solid #0782f5;\n"
+"                        border:2px solid rgb(59,154,156);\n"
 "                        border-radius:5px;\n"
 "                        color:black\n"
 "                        }\n"
 "                        QPushButton:hover\n"
 "                        {\n"
-"                        background-color:rgb(255, 248, 250);\n"
-"                        border:2px solid #5F92B2;\n"
+"                        background-color:rgb(234,250,255);\n"
+"                        border:2px solid rgb(7,130,245);\n"
 "                        border-radius:5px;\n"
 "                        color:black;\n"
 "                        }\n"
@@ -239,12 +232,12 @@ class Ui_MainWindow(object):
 "                        }\n"
 "                    ")
         icon8 = QIcon()
-        icon8.addFile(u"images/\u622a\u53d6.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon8.addFile(u"images/\u6570\u636e\u96c6\u9884\u5904\u7406_\u56fe\u7247\u88c1\u526a.png", QSize(), QIcon.Normal, QIcon.Off)
         self.cutButton.setIcon(icon8)
         self.cutButton.setIconSize(QSize(24, 24))
         self.imageTextEdit = QTextEdit(self.groupBox_4)
         self.imageTextEdit.setObjectName(u"imageTextEdit")
-        self.imageTextEdit.setGeometry(QRect(10, 20, 211, 111))
+        self.imageTextEdit.setGeometry(QRect(10, 20, 171, 111))
         self.imageTextEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
 "border-radius: 5px;\n"
 "border: 1px outset rgb(199, 216, 255);\n"
@@ -252,18 +245,18 @@ class Ui_MainWindow(object):
         self.imageTextEdit.setReadOnly(True)
         self.resetButton = QPushButton(self.groupBox_4)
         self.resetButton.setObjectName(u"resetButton")
-        self.resetButton.setGeometry(QRect(230, 60, 91, 31))
+        self.resetButton.setGeometry(QRect(188, 88, 31, 31))
         self.resetButton.setStyleSheet(u"QPushButton\n"
 "                        {\n"
 "                        background-color:transparent;\n"
-"                        border:2px solid #0782f5;\n"
+"                        border:2px solid rgb(59,154,156);\n"
 "                        border-radius:5px;\n"
 "                        color:black\n"
 "                        }\n"
 "                        QPushButton:hover\n"
 "                        {\n"
-"                        background-color:rgb(255, 248, 250);\n"
-"                        border:2px solid #5F92B2;\n"
+"                        background-color:rgb(234,250,255);\n"
+"                        border:2px solid rgb(7,130,245);\n"
 "                        border-radius:5px;\n"
 "                        color:black;\n"
 "                        }\n"
@@ -282,18 +275,18 @@ class Ui_MainWindow(object):
         self.resetButton.setIconSize(QSize(21, 21))
         self.saveButton = QPushButton(self.groupBox_4)
         self.saveButton.setObjectName(u"saveButton")
-        self.saveButton.setGeometry(QRect(230, 100, 91, 31))
+        self.saveButton.setGeometry(QRect(236, 28, 100, 31))
         self.saveButton.setStyleSheet(u"QPushButton\n"
 "                        {\n"
 "                        background-color:transparent;\n"
-"                        border:2px solid #0782f5;\n"
+"                        border:2px solid rgb(59,154,156);\n"
 "                        border-radius:5px;\n"
 "                        color:black\n"
 "                        }\n"
 "                        QPushButton:hover\n"
 "                        {\n"
-"                        background-color:rgb(255, 248, 250);\n"
-"                        border:2px solid #5F92B2;\n"
+"                        background-color:rgb(234,250,255);\n"
+"                        border:2px solid rgb(7,130,245);\n"
 "                        border-radius:5px;\n"
 "                        color:black;\n"
 "                        }\n"
@@ -307,18 +300,49 @@ class Ui_MainWindow(object):
 "                        }\n"
 "                    ")
         icon10 = QIcon()
-        icon10.addFile(u"images/\u4fdd\u5b58.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon10.addFile(u"images/\u4fdd\u5b58\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
         self.saveButton.setIcon(icon10)
         self.saveButton.setIconSize(QSize(20, 20))
+        self.saveNameEdit = QLineEdit(self.groupBox_4)
+        self.saveNameEdit.setObjectName(u"saveNameEdit")
+        self.saveNameEdit.setGeometry(QRect(239, 71, 91, 25))
+        self.saveNameEdit.setCursor(QCursor(Qt.IBeamCursor))
+        self.saveNameEdit.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"border-radius: 5px;\n"
+"border: 1px outset rgb(199, 216, 255);\n"
+"padding: 3px")
+        self.saveNameEdit.setFrame(True)
+        self.savePathLineEdit_2 = QLineEdit(self.groupBox_4)
+        self.savePathLineEdit_2.setObjectName(u"savePathLineEdit_2")
+        self.savePathLineEdit_2.setGeometry(QRect(238, 105, 71, 25))
+        self.savePathLineEdit_2.setCursor(QCursor(Qt.IBeamCursor))
+        self.savePathLineEdit_2.setStyleSheet(u"background-color:rgb(234,250,255);\n"
+"border-radius: 5px;\n"
+"border: 1px outset rgb(199, 216, 255);\n"
+"padding: 3px")
+        self.savePathLineEdit_2.setReadOnly(True)
+        self.line = QFrame(self.groupBox_4)
+        self.line.setObjectName(u"line")
+        self.line.setGeometry(QRect(216, 20, 20, 110))
+        self.line.setFrameShape(QFrame.VLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+        self.getDirectoryButton_2 = QToolButton(self.groupBox_4)
+        self.getDirectoryButton_2.setObjectName(u"getDirectoryButton_2")
+        self.getDirectoryButton_2.setGeometry(QRect(311, 106, 24, 22))
+        icon11 = QIcon()
+        icon11.addFile(u"images/\u9009\u62e9.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.getDirectoryButton_2.setIcon(icon11)
+        self.getDirectoryButton_2.setIconSize(QSize(24, 24))
+        self.getDirectoryButton_2.setAutoRaise(True)
         self.groupBox_5 = QGroupBox(self.tab1)
         self.groupBox_5.setObjectName(u"groupBox_5")
         self.groupBox_5.setGeometry(QRect(380, 10, 491, 481))
         self.groupBox_5.setMinimumSize(QSize(0, 0))
-        font8 = QFont()
-        font8.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
-        font8.setPointSize(12)
-        font8.setBold(True)
-        self.groupBox_5.setFont(font8)
+        font7 = QFont()
+        font7.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
+        font7.setPointSize(12)
+        font7.setBold(True)
+        self.groupBox_5.setFont(font7)
         self.groupBox_5.setAlignment(Qt.AlignCenter)
         self.groupBox_5.setFlat(True)
         self.layoutWidget = QWidget(self.groupBox_5)
@@ -407,6 +431,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
+        self.label_4 = QLabel(self.groupBox_5)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(132, 145, 261, 251))
+        self.label_4.setPixmap(QPixmap(u"images/rongzi.png"))
+        self.line_2 = QFrame(self.tab1)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setGeometry(QRect(355, 28, 20, 461))
+        self.line_2.setFrameShape(QFrame.VLine)
+        self.line_2.setFrameShadow(QFrame.Sunken)
         self.tabWidget.addTab(self.tab1, "")
         self.tab2 = QWidget()
         self.tab2.setObjectName(u"tab2")
@@ -419,34 +452,28 @@ class Ui_MainWindow(object):
         self.tableWidget = QTableWidget(self.tab2)
         if (self.tableWidget.columnCount() < 3):
             self.tableWidget.setColumnCount(3)
-        icon11 = QIcon()
-        icon11.addFile(u"images/\u6587\u4ef6\u5939 (2).png", QSize(), QIcon.Normal, QIcon.Off)
-        font9 = QFont()
-        font9.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
-        font9.setPointSize(11)
-        font9.setBold(True)
-        __qtablewidgetitem = QTableWidgetItem()
-        __qtablewidgetitem.setFont(font9);
-        __qtablewidgetitem.setIcon(icon11);
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         icon12 = QIcon()
-        icon12.addFile(u"images/\u56fe\u7247(1).png", QSize(), QIcon.Normal, QIcon.Off)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        __qtablewidgetitem1.setFont(font9);
-        __qtablewidgetitem1.setIcon(icon12);
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        icon12.addFile(u"images/\u6587\u4ef6\u5939.png", QSize(), QIcon.Normal, QIcon.Off)
+        font8 = QFont()
+        font8.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
+        font8.setPointSize(11)
+        font8.setBold(True)
+        __qtablewidgetitem = QTableWidgetItem()
+        __qtablewidgetitem.setFont(font8);
+        __qtablewidgetitem.setIcon(icon12);
+        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         icon13 = QIcon()
-        icon13.addFile(u"images/\u82b1\u6735.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon13.addFile(u"images/\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        __qtablewidgetitem1.setFont(font8);
+        __qtablewidgetitem1.setIcon(icon13);
+        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        icon14 = QIcon()
+        icon14.addFile(u"images/\u82b1\u6735.png", QSize(), QIcon.Normal, QIcon.Off)
         __qtablewidgetitem2 = QTableWidgetItem()
-        __qtablewidgetitem2.setFont(font9);
-        __qtablewidgetitem2.setIcon(icon13);
+        __qtablewidgetitem2.setFont(font8);
+        __qtablewidgetitem2.setIcon(icon14);
         self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        if (self.tableWidget.rowCount() < 2):
-            self.tableWidget.setRowCount(2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(0, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(1, __qtablewidgetitem4)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setGeometry(QRect(0, 0, 431, 471))
         self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -489,9 +516,9 @@ class Ui_MainWindow(object):
 "                 color:white;\n"
 "                 }\n"
 "             ")
-        icon14 = QIcon()
-        icon14.addFile(u"images/\u5220\u9664.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.clearTableButton.setIcon(icon14)
+        icon15 = QIcon()
+        icon15.addFile(u"images/\u5220\u9664.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clearTableButton.setIcon(icon15)
         self.clearTableButton.setIconSize(QSize(24, 24))
         self.clearTableButton.setFlat(True)
         self.groupBox_2 = QGroupBox(self.tab2)
@@ -521,9 +548,7 @@ class Ui_MainWindow(object):
 
         self.getDirectoryButton = QToolButton(self.layoutWidget1)
         self.getDirectoryButton.setObjectName(u"getDirectoryButton")
-        icon15 = QIcon()
-        icon15.addFile(u"images/\u6587\u4ef6\u5939.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.getDirectoryButton.setIcon(icon15)
+        self.getDirectoryButton.setIcon(icon12)
         self.getDirectoryButton.setIconSize(QSize(24, 24))
         self.getDirectoryButton.setAutoRaise(True)
 
@@ -640,10 +665,10 @@ class Ui_MainWindow(object):
         self.batchImportLabel = QLabel(self.tab2)
         self.batchImportLabel.setObjectName(u"batchImportLabel")
         self.batchImportLabel.setGeometry(QRect(9, 477, 351, 21))
-        font10 = QFont()
-        font10.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
-        font10.setPointSize(11)
-        self.batchImportLabel.setFont(font10)
+        font9 = QFont()
+        font9.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
+        font9.setPointSize(11)
+        self.batchImportLabel.setFont(font9)
         self.batchChooseButton = QPushButton(self.tab2)
         self.batchChooseButton.setObjectName(u"batchChooseButton")
         self.batchChooseButton.setGeometry(QRect(369, 472, 30, 30))
@@ -651,8 +676,6 @@ class Ui_MainWindow(object):
         self.batchChooseButton.setSizePolicy(sizePolicy1)
         self.batchChooseButton.setMinimumSize(QSize(30, 30))
         self.batchChooseButton.setMaximumSize(QSize(30, 30))
-        self.batchChooseButton.setLayoutDirection(Qt.LeftToRight)
-        self.batchChooseButton.setAutoFillBackground(False)
         self.batchChooseButton.setStyleSheet(u"QPushButton:hover\n"
 "                 {\n"
 "                 background-color: rgb(224, 255, 254);\n"
@@ -681,8 +704,6 @@ class Ui_MainWindow(object):
         self.statisticsButton.setSizePolicy(sizePolicy1)
         self.statisticsButton.setMinimumSize(QSize(30, 30))
         self.statisticsButton.setMaximumSize(QSize(30, 30))
-        self.statisticsButton.setLayoutDirection(Qt.LeftToRight)
-        self.statisticsButton.setAutoFillBackground(False)
         self.statisticsButton.setStyleSheet(u"QPushButton:hover\n"
 "                 {\n"
 "                 background-color: rgb(224, 255, 254);\n"
@@ -692,7 +713,7 @@ class Ui_MainWindow(object):
 "                 }\n"
 "             ")
         icon18 = QIcon()
-        icon18.addFile(u"images/\u7edf\u8ba1.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon18.addFile(u"images/\u5806\u53e0\u67f1\u72b6\u56fe.png", QSize(), QIcon.Normal, QIcon.Off)
         self.statisticsButton.setIcon(icon18)
         self.statisticsButton.setIconSize(QSize(24, 24))
         self.statisticsButton.setFlat(True)
@@ -715,15 +736,16 @@ class Ui_MainWindow(object):
         self.menubar.setSizePolicy(sizePolicy5)
         self.menubar.setMinimumSize(QSize(0, 30))
         self.menubar.setMaximumSize(QSize(16777215, 30))
-        font11 = QFont()
-        font11.setFamilies([u"Microsoft YaHei"])
-        font11.setPointSize(10)
-        font11.setBold(False)
-        self.menubar.setFont(font11)
-        self.menubar.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(82, 169, 220, 204), stop:1 rgba(217, 239, 231, 255));\n"
+        font10 = QFont()
+        font10.setFamilies([u"Microsoft YaHei"])
+        font10.setPointSize(10)
+        font10.setBold(False)
+        self.menubar.setFont(font10)
+        self.menubar.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(85,166,212, 133), stop:1 rgba(217, 239, 231, 255));\n"
+"/*qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.170455 rgba(82, 169, 220, 204), stop:1 rgba(217, 239, 231, 255));*/\n"
 "padding: 5px;\n"
 "border-radius: 4px;\n"
-"border: 1px solid rgb(215, 238, 255);\n"
+"\n"
 "")
         self.menubar.setDefaultUp(False)
         self.menubar.setNativeMenuBar(False)
@@ -741,10 +763,13 @@ class Ui_MainWindow(object):
         self.toolBar = QToolBar(MainWindow)
         self.toolBar.setObjectName(u"toolBar")
         self.toolBar.setEnabled(True)
+        self.toolBar.setCursor(QCursor(Qt.PointingHandCursor))
         self.toolBar.setStyleSheet(u"/*#toolBar{*/\n"
 "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.460227 rgba(144, 189, 222, 204), stop:1 rgba(217, 239, 231, 255));\n"
+"height: 20px;\n"
 "border-radius: 5px;\n"
 "border: 1px solid rgb(215, 238, 255);\n"
+"padding: 3px\n"
 "/*}*/\n"
 "")
         self.toolBar.setAllowedAreas(Qt.BottomToolBarArea|Qt.TopToolBarArea)
@@ -759,6 +784,8 @@ class Ui_MainWindow(object):
         self.menu.addSeparator()
         self.menu.addAction(self.actionClose)
         self.menu_2.addAction(self.actionAbout)
+        self.menu_2.addSeparator()
+        self.menu_2.addAction(self.actionCNN)
         self.menu_M.addAction(self.efficientNetB7Action)
         self.menu_M.addAction(self.efficientNetB4Action)
         self.menu_M.addAction(self.efficientNetB0Action)
@@ -780,7 +807,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(0)
-        self.chooseButton.setDefault(False)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -877,18 +903,48 @@ class Ui_MainWindow(object):
         self.imageLabel.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u53cc\u51fb\u9009\u62e9\u6587\u4ef6</p><p><span style=\" font-weight:700;\">Ctrl-V </span>\u7c98\u8d34\u526a\u5207\u677f\u56fe\u7247</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.imageLabel.setText("")
-        self.chooseButton.setText("")
+#if QT_CONFIG(tooltip)
+        self.chooseButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u6253\u5f00\u56fe\u7247", None))
+#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(shortcut)
         self.chooseButton.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
 #endif // QT_CONFIG(shortcut)
+#if QT_CONFIG(tooltip)
+        self.nameEdit.setToolTip(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u540d\u79f0", None))
+#endif // QT_CONFIG(tooltip)
         self.nameEdit.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u540d\u79f0", None))
         self.pathLabel.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u8def\u5f84\uff1a", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u9884\u5904\u7406", None))
-        self.cutButton.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u88c1\u526a", None))
-        self.resetButton.setText(QCoreApplication.translate("MainWindow", u"\u590d\u4f4d\u539f\u56fe", None))
+#if QT_CONFIG(tooltip)
+        self.cutButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u6253\u5f00\u56fe\u7247\u88c1\u526a\u5668", None))
+#endif // QT_CONFIG(tooltip)
+        self.cutButton.setText("")
+#if QT_CONFIG(tooltip)
+        self.imageTextEdit.setToolTip(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u4fe1\u606f", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.resetButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u6062\u590d\u539f\u56fe", None))
+#endif // QT_CONFIG(tooltip)
+        self.resetButton.setText("")
+#if QT_CONFIG(tooltip)
+        self.saveButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u9884\u5904\u7406\u56fe\u7247", None))
+#endif // QT_CONFIG(tooltip)
         self.saveButton.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u56fe\u7247", None))
+#if QT_CONFIG(tooltip)
+        self.saveNameEdit.setToolTip(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u540d\u79f0", None))
+#endif // QT_CONFIG(tooltip)
+        self.saveNameEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6\u540d", None))
+#if QT_CONFIG(tooltip)
+        self.savePathLineEdit_2.setToolTip(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u8def\u5f84", None))
+#endif // QT_CONFIG(tooltip)
+        self.savePathLineEdit_2.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u8def\u5f84", None))
+        self.savePathLineEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u8def\u5f84", None))
+        self.getDirectoryButton_2.setText("")
         self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"\u82b1\u6735\u56fe\u50cf\u8bc6\u522b", None))
+#if QT_CONFIG(tooltip)
+        self.predictButton.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u5f00\u59cb<span style=\" font-weight:700;\">AI</span>\u8bc6\u522b</p><p>(\u9996\u6b21\u8bc6\u522b\u53ef\u80fd\u82b1\u8d39\u8f83\u957f\u65f6\u95f4)</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.predictButton.setText(QCoreApplication.translate("MainWindow", u"\u8bc6\u522b", None))
         self.resultLabel.setText("")
         self.label_3.setText("")
@@ -900,10 +956,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u7247\u540d\u79f0", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u82b1\u6735\u9884\u6d4b\u7ed3\u679c", None));
-        ___qtablewidgetitem3 = self.tableWidget.verticalHeaderItem(0)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u65b0\u5efa\u884c", None));
-        ___qtablewidgetitem4 = self.tableWidget.verticalHeaderItem(1)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"test2", None));
 #if QT_CONFIG(whatsthis)
         self.tableWidget.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
@@ -913,19 +965,30 @@ class Ui_MainWindow(object):
         self.clearTableButton.setText("")
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u9884\u6d4b", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u8def\u5f84\uff1a", None))
+#if QT_CONFIG(tooltip)
+        self.savePathLineEdit.setToolTip(QCoreApplication.translate("MainWindow", u"\u8f93\u5165\u4fdd\u5b58\u8def\u5f84", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.getDirectoryButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u4fdd\u5b58\u8def\u5f84", None))
+#endif // QT_CONFIG(tooltip)
         self.getDirectoryButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.batchRenameRadioButton.setText(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u91cd\u547d\u540d", None))
+#if QT_CONFIG(tooltip)
+        self.batchExportButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4ee5\u6587\u4ef6\u5939\u65b9\u5f0f\u6279\u91cf\u5bfc\u51fa", None))
+#endif // QT_CONFIG(tooltip)
         self.batchExportButton.setText(QCoreApplication.translate("MainWindow", u"\u9884\u6d4b\u7ed3\u679c\u5bfc\u51fa", None))
         self.batchPredictButton.setText(QCoreApplication.translate("MainWindow", u"\u82b1\u6735\u6279\u91cf\u9884\u6d4b", None))
         self.batchImportLabel.setText("")
 #if QT_CONFIG(tooltip)
-        self.batchChooseButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4e00\u952e\u6e05\u7a7a", None))
+        self.batchChooseButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u5bfc\u5165", None))
 #endif // QT_CONFIG(tooltip)
         self.batchChooseButton.setText("")
 #if QT_CONFIG(tooltip)
-        self.statisticsButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u4e00\u952e\u6e05\u7a7a", None))
+        self.statisticsTextEdit.setToolTip(QCoreApplication.translate("MainWindow", u"\u9884\u6d4b\u4fe1\u606f\u5c55\u793a", None))
 #endif // QT_CONFIG(tooltip)
-        self.statisticsButton.setText("")
+#if QT_CONFIG(tooltip)
+        self.statisticsButton.setToolTip(QCoreApplication.translate("MainWindow", u"\u67f1\u72b6\u5806\u53e0\u56fe\u7edf\u8ba1\u4fe1\u606f", None))
+#endif // QT_CONFIG(tooltip)
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab2), QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u9884\u6d4b", None))
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6(&F)", None))
         self.menu_2.setTitle(QCoreApplication.translate("MainWindow", u"\u5e2e\u52a9(&H)", None))

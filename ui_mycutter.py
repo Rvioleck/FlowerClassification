@@ -9,15 +9,14 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-                            QMetaObject, QObject, QPoint, QRect,
-                            QSize, QTime, QUrl, Qt)
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-                           QFont, QFontDatabase, QGradient, QIcon,
-                           QImage, QKeySequence, QLinearGradient, QPainter,
-                           QPalette, QPixmap, QRadialGradient, QTransform)
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDial, QDialog, QGraphicsView,
-                               QPushButton, QSizePolicy, QToolButton, QWidget)
-
+    QPushButton, QSizePolicy, QToolButton, QWidget)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -29,92 +28,80 @@ class Ui_Dialog(object):
         self.graphicsView.setGeometry(QRect(0, 0, 1021, 691))
         self.putButton_cut = QPushButton(Dialog)
         self.putButton_cut.setObjectName(u"putButton_cut")
-        self.putButton_cut.setGeometry(QRect(740, 710, 91, 31))
-        self.putButton_cut.setStyleSheet(u"QPushButton\n"
-                                         "{\n"
-                                         "    color:white;\n"
-                                         "    background-color:rgb(14 , 150 , 254);\n"
-                                         "    border-radius:5px;\n"
-                                         "}\n"
-                                         " \n"
-                                         "QPushButton:hover\n"
-                                         "{\n"
-                                         "    color:white;\n"
-                                         "    background-color:rgb(44 , 137 , 255);\n"
-                                         "}\n"
-                                         " \n"
-                                         "QPushButton:pressed\n"
-                                         "{\n"
-                                         "    color:white;\n"
-                                         "    background-color:rgb(14 , 135 , 228);\n"
-                                         "    padding-left:3px;\n"
-                                         "    padding-top:3px;\n"
-                                         "}\n"
-                                         "")
+        self.putButton_cut.setGeometry(QRect(790, 707, 41, 41))
+        icon = QIcon()
+        icon.addFile(u"images/\u7f16\u8f91\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.putButton_cut.setIcon(icon)
+        self.putButton_cut.setIconSize(QSize(32, 32))
         self.putButton_cut.setCheckable(True)
+        self.putButton_cut.setFlat(True)
         self.putButton_save = QPushButton(Dialog)
         self.putButton_save.setObjectName(u"putButton_save")
         self.putButton_save.setEnabled(False)
         self.putButton_save.setGeometry(QRect(880, 710, 91, 31))
         self.putButton_save.setStyleSheet(u"QPushButton\n"
-                                          "{\n"
-                                          "    color:white;\n"
-                                          "    background-color:rgb(14 , 150 , 254);\n"
-                                          "    border-radius:5px;\n"
-                                          "}\n"
-                                          " \n"
-                                          "QPushButton:hover\n"
-                                          "{\n"
-                                          "    color:white;\n"
-                                          "    background-color:rgb(44 , 137 , 255);\n"
-                                          "}\n"
-                                          " \n"
-                                          "QPushButton:pressed\n"
-                                          "{\n"
-                                          "    color:white;\n"
-                                          "    background-color:rgb(14 , 135 , 228);\n"
-                                          "    padding-left:3px;\n"
-                                          "    padding-top:3px;\n"
-                                          "}\n"
-                                          "")
+"                    {\n"
+"                    color:white;\n"
+"                    background-color:rgb(14 , 150 , 254);\n"
+"                    border-radius:5px;\n"
+"                    }\n"
+"\n"
+"                    QPushButton:hover\n"
+"                    {\n"
+"                    color:white;\n"
+"                    background-color:rgb(44 , 137 , 255);\n"
+"                    }\n"
+"\n"
+"                    QPushButton:pressed\n"
+"                    {\n"
+"                    color:white;\n"
+"                    background-color:rgb(14 , 135 , 228);\n"
+"                    padding-left:3px;\n"
+"                    padding-top:3px;\n"
+"                    }\n"
+"                ")
         self.rightRotateToolButton = QToolButton(Dialog)
+        self.rightRotateToolButton.setText("顺时针旋转")
         self.rightRotateToolButton.setObjectName(u"rightRotateToolButton")
         self.rightRotateToolButton.setGeometry(QRect(50, 700, 71, 61))
-        icon = QIcon()
-        icon.addFile(u"images/\u987a\u65f6\u9488.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.rightRotateToolButton.setIcon(icon)
+        icon1 = QIcon()
+        icon1.addFile(u"images/\u53f3\u65cb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.rightRotateToolButton.setIcon(icon1)
         self.rightRotateToolButton.setIconSize(QSize(36, 36))
         self.rightRotateToolButton.setCheckable(False)
         self.rightRotateToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.rightRotateToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.rightRotateToolButton.setAutoRaise(True)
         self.leftRotateToolButton = QToolButton(Dialog)
+        self.leftRotateToolButton.setText("逆时针旋转")
         self.leftRotateToolButton.setObjectName(u"leftRotateToolButton")
         self.leftRotateToolButton.setGeometry(QRect(180, 700, 71, 61))
-        icon1 = QIcon()
-        icon1.addFile(u"images/\u9006\u65f6\u9488.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.leftRotateToolButton.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u"images/\u5de6\u65cb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.leftRotateToolButton.setIcon(icon2)
         self.leftRotateToolButton.setIconSize(QSize(36, 36))
         self.leftRotateToolButton.setCheckable(False)
         self.leftRotateToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.leftRotateToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.leftRotateToolButton.setAutoRaise(True)
         self.horizontalFlipToolButton = QToolButton(Dialog)
+        self.horizontalFlipToolButton.setText("水平翻转")
         self.horizontalFlipToolButton.setObjectName(u"horizontalFlipToolButton")
         self.horizontalFlipToolButton.setGeometry(QRect(400, 700, 71, 61))
-        icon2 = QIcon()
-        icon2.addFile(u"images/\u6c34\u5e73\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.horizontalFlipToolButton.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"images/\u6c34\u5e73\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.horizontalFlipToolButton.setIcon(icon3)
         self.horizontalFlipToolButton.setIconSize(QSize(36, 36))
         self.horizontalFlipToolButton.setPopupMode(QToolButton.DelayedPopup)
         self.horizontalFlipToolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.horizontalFlipToolButton.setAutoRaise(True)
         self.verticalFlipToolButton = QToolButton(Dialog)
+        self.verticalFlipToolButton.setText("垂直翻转")
         self.verticalFlipToolButton.setObjectName(u"verticalFlipToolButton")
         self.verticalFlipToolButton.setGeometry(QRect(310, 700, 71, 61))
-        icon3 = QIcon()
-        icon3.addFile(u"images/\u7ad6\u76f4\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.verticalFlipToolButton.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"images/\u5782\u76f4\u7ffb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.verticalFlipToolButton.setIcon(icon4)
         self.verticalFlipToolButton.setIconSize(QSize(36, 36))
         self.verticalFlipToolButton.setCheckable(False)
         self.verticalFlipToolButton.setPopupMode(QToolButton.DelayedPopup)
@@ -134,16 +121,26 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
 
         QMetaObject.connectSlotsByName(Dialog)
-
     # setupUi
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
-        self.putButton_cut.setText(QCoreApplication.translate("Dialog", u"\u56fe\u7247\u88c1\u526a", None))
+#if QT_CONFIG(tooltip)
+        self.putButton_cut.setToolTip(QCoreApplication.translate("Dialog", u"\u88c1\u526a", None))
+#endif // QT_CONFIG(tooltip)
         self.putButton_save.setText(QCoreApplication.translate("Dialog", u"\u786e\u8ba4", None))
-        self.rightRotateToolButton.setText(
-            QCoreApplication.translate("Dialog", u"\u987a\u65f6\u9488\u65cb\u8f6c", None))
+#if QT_CONFIG(tooltip)
+        self.rightRotateToolButton.setToolTip(QCoreApplication.translate("Dialog", u"\u987a\u65f6\u9488\u65cb\u8f6c90\u00b0", None))
+#endif // QT_CONFIG(tooltip)
+        self.rightRotateToolButton.setText(QCoreApplication.translate("Dialog", u"\u987a\u65f6\u9488\u65cb\u8f6c", None))
+#if QT_CONFIG(tooltip)
+        self.leftRotateToolButton.setToolTip(QCoreApplication.translate("Dialog", u"\u9006\u65f6\u9488\u65cb\u8f6c90\u00b0", None))
+#endif // QT_CONFIG(tooltip)
         self.leftRotateToolButton.setText(QCoreApplication.translate("Dialog", u"\u9006\u65f6\u9488\u65cb\u8f6c", None))
         self.horizontalFlipToolButton.setText(QCoreApplication.translate("Dialog", u"\u6c34\u5e73\u7ffb\u8f6c", None))
         self.verticalFlipToolButton.setText(QCoreApplication.translate("Dialog", u"\u7ad6\u76f4\u7ffb\u8f6c", None))
+#if QT_CONFIG(tooltip)
+        self.rotationDial.setToolTip(QCoreApplication.translate("Dialog", u"\u653e\u5927\u5668", None))
+#endif // QT_CONFIG(tooltip)
     # retranslateUi
+

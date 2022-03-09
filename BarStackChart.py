@@ -86,7 +86,7 @@ class BarWidget(QChartView):
     def __init__(self, *args, **kwargs):
         self.flowers = ["叶子花", "康乃馨", "雏  菊", "蒲公英", "栀子花", "木槿花", "绣球花",
                         "鸢尾花", "丁香花", "百合花", "荷  花", "牵牛花", "桃  花", "牡丹花",
-                        "蝴蝶兰", "梅  花", "玫瑰花", "樱花", "向日葵", "郁金香"]
+                        "蝴蝶兰", "梅  花", "玫瑰花", "樱  花", "向日葵", "郁金香"]
         self.flower_words = ["bougainvillea", "carnation", "daisy", "dandelion", "gardenia", "hibiscus", "hydrangea",
                              "iris", "lilac", "lily", "lotus", "morningglory", "peachflower", "peony", "phalaenopsis",
                              "plumblossom", "rose", "sakura", "sunflower", "tulip"]
@@ -105,6 +105,9 @@ class BarWidget(QChartView):
         else:
             self.data[directory] = {}
             self.data[directory][res] = 1
+
+    def clearData(self):
+        self.data = {}
 
     def mouseMoveEvent(self, event):
         super(BarWidget, self).mouseMoveEvent(event)

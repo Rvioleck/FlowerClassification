@@ -126,7 +126,7 @@ def load_model(model):
     model_name = model.__class__.__name__
     checkpoint_save_path = "./checkpoint/flower_" + model_name + ".ckpt"
     if os.path.exists(checkpoint_save_path + '.index'):
-        print('-------------load the model-----------------')
+        print(f'-------------load the {model_name}-----------------')
         model.load_weights(checkpoint_save_path)
         return True
     else:
@@ -134,10 +134,7 @@ def load_model(model):
         return False
 
 
-def model_predict(model, pixmap: QPixmap):
-    flowers = ["azalea", "bougainvillea", "carnation", "daisy", "dandelion", "gardenia", "hibiscus",
-               "hydrangea", "iris", "lilac", "lily", "lotus", "morningglory", "narcissus",
-               "peachflower", "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
+def get_input_x(pixmap: QPixmap):
     img = ImageQt.fromqpixmap(pixmap)  # QPixmap -> Image
     # img = Image.open(image_path)
     img = img.convert("RGB")
@@ -145,6 +142,10 @@ def model_predict(model, pixmap: QPixmap):
     img_arr = np.array(img)
     img_arr = img_arr / 255.0
     x = np.reshape(img_arr, (1, 224, 224, 3))
+    return x
+
+
+def model_predict(model, x):
     result = model.predict(x)
     index = int(tf.argmax(result, axis=1).numpy())
-    return list(result.flatten()), flowers[index], index
+    return list(result.flatten()), index
