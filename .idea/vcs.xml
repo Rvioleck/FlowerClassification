@@ -3,5 +3,8 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SimplePalette" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/opencv-pyqt5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pyqt5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../pyqt5-imageprocessing" vcs="Git" />
   </component>
 </project>
