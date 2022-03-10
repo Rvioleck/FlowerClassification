@@ -1,7 +1,7 @@
 import os
 
 from PySide6.QtCore import QPointF, Qt, QRectF, QSizeF
-from PySide6.QtGui import QPainter, QColor, QImage, QPixmap
+from PySide6.QtGui import QPainter, QColor, QImage, QPixmap, QIcon
 from PySide6.QtWidgets import QApplication, QGraphicsView, QGraphicsPixmapItem, QGraphicsScene
 
 
@@ -14,6 +14,10 @@ class ImageViewer(QGraphicsView):
         super(ImageViewer, self).__init__(*args, **kwargs)
         self.setCursor(Qt.OpenHandCursor)
         self.setObjectName("图片预览")
+        window_icon = QIcon()
+        window_icon.addFile(u"images/花朵 (2).png")
+        self.setWindowTitle("图片预览")
+        self.setWindowIcon(window_icon)
         self.setBackground(background)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)

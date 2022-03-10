@@ -232,7 +232,7 @@ class Ui_MainWindow(object):
 "                        }\n"
 "                    ")
         icon8 = QIcon()
-        icon8.addFile(u"images/\u6570\u636e\u96c6\u9884\u5904\u7406_\u56fe\u7247\u88c1\u526a.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon8.addFile(u"images/\u88c1\u526a\u65cb\u8f6c.png", QSize(), QIcon.Normal, QIcon.Off)
         self.cutButton.setIcon(icon8)
         self.cutButton.setIconSize(QSize(24, 24))
         self.imageTextEdit = QTextEdit(self.groupBox_4)
@@ -329,6 +329,7 @@ class Ui_MainWindow(object):
         self.getDirectoryButton_2 = QToolButton(self.groupBox_4)
         self.getDirectoryButton_2.setObjectName(u"getDirectoryButton_2")
         self.getDirectoryButton_2.setGeometry(QRect(311, 106, 24, 22))
+        self.getDirectoryButton_2.setCursor(QCursor(Qt.PointingHandCursor))
         icon11 = QIcon()
         icon11.addFile(u"images/\u9009\u62e9.png", QSize(), QIcon.Normal, QIcon.Off)
         self.getDirectoryButton_2.setIcon(icon11)
@@ -475,7 +476,7 @@ class Ui_MainWindow(object):
         __qtablewidgetitem2.setIcon(icon14);
         self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(0, 0, 431, 471))
+        self.tableWidget.setGeometry(QRect(0, 0, 431, 461))
         self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableWidget.setStyleSheet(u"background-color:rgb(234,250,255);\n"
 "gridline-color: rgb(85, 85, 0);\n"
@@ -501,7 +502,7 @@ class Ui_MainWindow(object):
         self.tableWidget.verticalHeader().setProperty("showSortIndicator", True)
         self.clearTableButton = QPushButton(self.tab2)
         self.clearTableButton.setObjectName(u"clearTableButton")
-        self.clearTableButton.setGeometry(QRect(404, 472, 30, 30))
+        self.clearTableButton.setGeometry(QRect(404, 465, 30, 30))
         sizePolicy1.setHeightForWidth(self.clearTableButton.sizePolicy().hasHeightForWidth())
         self.clearTableButton.setSizePolicy(sizePolicy1)
         self.clearTableButton.setMinimumSize(QSize(30, 30))
@@ -574,6 +575,7 @@ class Ui_MainWindow(object):
         self.batchExportButton.setSizePolicy(sizePolicy2)
         self.batchExportButton.setMinimumSize(QSize(80, 25))
         self.batchExportButton.setMaximumSize(QSize(80, 25))
+        self.batchExportButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.batchExportButton.setLayoutDirection(Qt.LeftToRight)
         self.batchExportButton.setAutoFillBackground(False)
         self.batchExportButton.setStyleSheet(u"/*\u6309\u94ae\u666e\u901a\u6001*/\n"
@@ -671,7 +673,7 @@ class Ui_MainWindow(object):
         self.batchImportLabel.setFont(font9)
         self.batchChooseButton = QPushButton(self.tab2)
         self.batchChooseButton.setObjectName(u"batchChooseButton")
-        self.batchChooseButton.setGeometry(QRect(369, 472, 30, 30))
+        self.batchChooseButton.setGeometry(QRect(370, 465, 30, 30))
         sizePolicy1.setHeightForWidth(self.batchChooseButton.sizePolicy().hasHeightForWidth())
         self.batchChooseButton.setSizePolicy(sizePolicy1)
         self.batchChooseButton.setMinimumSize(QSize(30, 30))
@@ -699,11 +701,12 @@ class Ui_MainWindow(object):
         self.statisticsTextEdit.setReadOnly(True)
         self.statisticsButton = QPushButton(self.tab2)
         self.statisticsButton.setObjectName(u"statisticsButton")
-        self.statisticsButton.setGeometry(QRect(840, 460, 30, 30))
+        self.statisticsButton.setGeometry(QRect(823, 460, 30, 30))
         sizePolicy1.setHeightForWidth(self.statisticsButton.sizePolicy().hasHeightForWidth())
         self.statisticsButton.setSizePolicy(sizePolicy1)
         self.statisticsButton.setMinimumSize(QSize(30, 30))
         self.statisticsButton.setMaximumSize(QSize(30, 30))
+        self.statisticsButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.statisticsButton.setStyleSheet(u"QPushButton:hover\n"
 "                 {\n"
 "                 background-color: rgb(224, 255, 254);\n"
@@ -779,7 +782,6 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_M.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
-        self.menu.addAction(self.actionNew)
         self.menu.addAction(self.actionOpen)
         self.menu.addSeparator()
         self.menu.addAction(self.actionClose)
@@ -796,7 +798,6 @@ class Ui_MainWindow(object):
         self.menu_M.addAction(self.vggAction)
         self.menu_M.addSeparator()
         self.menu_M.addAction(self.actionCNN)
-        self.toolBar.addAction(self.actionNew)
         self.toolBar.addAction(self.actionOpen)
         self.toolBar.addAction(self.actionSave)
         self.toolBar.addSeparator()

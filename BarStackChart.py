@@ -6,7 +6,7 @@ import sys
 
 from PySide6.QtCharts import QChartView, QChart, QBarCategoryAxis, QBarSet, QBarSeries
 from PySide6.QtCore import Qt, QRectF, QPointF, QPoint
-from PySide6.QtGui import QPainter, QPen
+from PySide6.QtGui import QPainter, QPen, QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QLabel, QVBoxLayout, QGraphicsProxyWidget, \
     QGraphicsLineItem
 
@@ -93,6 +93,10 @@ class BarWidget(QChartView):
         super(BarWidget, self).__init__(*args, **kwargs)
         self.resize(800, 600)
         self.setRenderHint(QPainter.Antialiasing)  # 抗锯齿
+        self.setWindowTitle("各文件夹花朵图像预测结果——柱状堆叠图")
+        icon = QIcon()
+        icon.addFile(u"images/堆叠柱状图.png")
+        self.setWindowIcon(icon)
         self.data = {}
         self.initChart()
 
@@ -111,7 +115,7 @@ class BarWidget(QChartView):
 
     def mouseMoveEvent(self, event):
         super(BarWidget, self).mouseMoveEvent(event)
-        pos = event.pos()
+        pos = event.position()
         # 把鼠标位置所在点转换为对应的xy值
         x = self._chart.mapToValue(pos).x()
         y = self._chart.mapToValue(pos).y()
@@ -202,13 +206,11 @@ class BarWidget(QChartView):
         bar.setPen(pen)
 
     def initChart(self):
-        self._chart = QChart(title="柱状图堆叠")
+        self._chart = QChart(title="柱状图堆叠详细结果")
         self._chart.setAcceptHoverEvents(True)
         # Series动画
         self._chart.setAnimationOptions(QChart.SeriesAnimations)
-        # self.categories = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
         self.categories = list(self.data.keys())
-        # names = ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"]
         names = self.flowers
         series = QBarSeries(self._chart)
         for i, name in enumerate(names):

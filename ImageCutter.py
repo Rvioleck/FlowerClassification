@@ -14,6 +14,9 @@ class ImageCutter(QDialog):
         self.resize(1024, 768)
         self.image = image
         self.init_ui()
+        window_icon = QIcon()
+        window_icon.addFile(u"images/花朵(1).png")
+        self.setWindowIcon(window_icon)
         # self.setupUi(self)
         # 视图背景颜色
         self.setWindowTitle("图片裁剪")
@@ -127,6 +130,7 @@ class ImageCutter(QDialog):
                                           "    padding-top:3px;\n"
                                           "}\n"
                                           "")
+
     def pushButton_cut_clicked(self):
         if self.graphicsView.image_item.is_start_cut:
             self.graphicsView.image_item.is_start_cut = False

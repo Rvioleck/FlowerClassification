@@ -186,7 +186,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def getDirectory(self):
         # 选取文件夹
         self.directory = QFileDialog.getExistingDirectory(self, "选取文件夹",
-                                                               "D:\\AI_LEARNING_PDF\\deep learning\\flower_images")
+                                                          "D:\\AI_LEARNING_PDF\\deep learning\\flower_images")
         self.savePathLineEdit_2.setText(self.directory)
 
     def getBatchImage(self):
@@ -233,7 +233,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self._drawBarStackChart_setCustomizedToolTip(i, res)
 
     def batchClassifyFinished(self):
-        # 禁用部分按钮
+        # 恢复部分按钮
         self.actionClassify.setEnabled(True)
         self.predictButton.setEnabled(True)
         self.batchPredictButton.setEnabled(True)

@@ -594,6 +594,9 @@ padding: 3px</string>
          <height>22</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -872,7 +875,7 @@ border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
         <x>0</x>
         <y>0</y>
         <width>431</width>
-        <height>471</height>
+        <height>461</height>
        </rect>
       </property>
       <property name="contextMenuPolicy">
@@ -987,7 +990,7 @@ border:1px solid rgb(0, 85, 0);
       <property name="geometry">
        <rect>
         <x>404</x>
-        <y>472</y>
+        <y>465</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1156,6 +1159,9 @@ padding: 3px</string>
               <width>80</width>
               <height>25</height>
              </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="toolTip">
              <string>以文件夹方式批量导出</string>
@@ -1327,8 +1333,8 @@ padding: 3px</string>
      <widget class="QPushButton" name="batchChooseButton">
       <property name="geometry">
        <rect>
-        <x>369</x>
-        <y>472</y>
+        <x>370</x>
+        <y>465</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1406,7 +1412,7 @@ padding: 3px</string>
      <widget class="QPushButton" name="statisticsButton">
       <property name="geometry">
        <rect>
-        <x>840</x>
+        <x>823</x>
         <y>460</y>
         <width>30</width>
         <height>30</height>
@@ -1429,6 +1435,9 @@ padding: 3px</string>
         <width>30</width>
         <height>30</height>
        </size>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string>柱状堆叠图统计信息</string>
@@ -1522,7 +1531,6 @@ border-radius: 4px;
     <property name="toolTipsVisible">
      <bool>true</bool>
     </property>
-    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
@@ -1587,7 +1595,6 @@ padding: 3px
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="separator"/>
