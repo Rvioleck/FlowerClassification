@@ -118,7 +118,7 @@ def history_show(model_name):
 
 
 def load_model(model):
-    # 对传入的模型的历史数据作图，并且进行预测
+    # 配置优化器，加载模型信息
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
                   metrics=['sparse_categorical_accuracy'])
@@ -135,6 +135,7 @@ def load_model(model):
 
 
 def get_input_x(pixmap: QPixmap):
+    # 由QPixmap转为numpy数组进行前向传播
     img = ImageQt.fromqpixmap(pixmap)  # QPixmap -> Image
     # img = Image.open(image_path)
     img = img.convert("RGB")

@@ -1,5 +1,5 @@
 from PySide6.QtCore import QRectF, Qt, Signal
-from PySide6.QtGui import QColor, QPixmap, QPen, QPainter, QTransform
+from PySide6.QtGui import QColor, QPixmap, QPen, QTransform
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene, QGraphicsItem
 
 
@@ -11,8 +11,8 @@ class GraphicsView(QGraphicsView):
     def __init__(self, picture, parent=None):
         super(GraphicsView, self).__init__(parent)
 
-        self.img_signal.connect(self.update_img)
-        self.img_rotation_signal.connect(self.rotate_img)
+        self.img_signal[int].connect(self.update_img)
+        self.img_rotation_signal[int].connect(self.rotate_img)
         # 设置放大缩小时跟随鼠标
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
@@ -64,16 +64,15 @@ class GraphicsView(QGraphicsView):
             zoomFactor = zoomInFactor
         else:
             zoomFactor = zoomOutFactor
-
         self.scale(zoomFactor, zoomFactor)
 
     def mouseReleaseEvent(self, event):
         '''鼠标释放事件'''
         # print(self.image_item.is_finish_cut, self.image_item.is_start_cut)
         if self.image_item.is_finish_cut:
-            self.save_signal.emit(True)
+            self.save_signal[bool].emit(True)
         else:
-            self.save_signal.emit(False)
+            self.save_signal[bool].emit(False)
 
 
 class GraphicsPixmapItem(QGraphicsPixmapItem):

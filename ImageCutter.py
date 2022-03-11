@@ -11,15 +11,14 @@ class ImageCutter(QDialog):
 
     def __init__(self, image):
         super(ImageCutter, self).__init__()
-        self.resize(1024, 768)
         self.image = image
         self.init_ui()
-        window_icon = QIcon()
-        window_icon.addFile(u"images/花朵(1).png")
-        self.setWindowIcon(window_icon)
         # self.setupUi(self)
         # 视图背景颜色
         self.setWindowTitle("图片裁剪")
+        self.initConnectSlot()
+
+    def initConnectSlot(self):
         self.graphicsView.save_signal.connect(self.savePushButton.setEnabled)
         self.cutPushButton.clicked.connect(self.pushButton_cut_clicked)
         self.savePushButton.clicked.connect(self.pushButton_save_clicked)
@@ -29,20 +28,29 @@ class ImageCutter(QDialog):
         self.verticalFlipToolButton.clicked.connect(self.verticalFlipToolButton_clicked)
         self.rotationDial.valueChanged.connect(self.rotationDial_valueChanged)
 
+        # self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
+        # self.pix = QBitmap("images/mask.png")
+        # self.setMask(self.pix)
+
     def init_ui(self):
+        self.resize(1024, 768)
+        window_icon = QIcon()
+        window_icon.addFile(u"images/花朵(1).png")
+        self.setWindowIcon(window_icon)
+
         self.cutPushButton = QPushButton(self)
         self.cutPushButton.setObjectName(u"putButton_cut")
         self.cutPushButton.setGeometry(QRect(790, 707, 41, 41))
-        icon = QIcon()
-        icon.addFile(u"images/\u7f16\u8f91\u56fe\u7247.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.cutPushButton.setIcon(icon)
-        self.cutPushButton.setIconSize(QSize(32, 32))
+        self.cutPushButton.setStyleSheet(u"QPushButton{image: url(images/图片剪切.png);}\n"
+                                         u"QPushButton:hover{image: url(images/图片剪切.png);}\n"
+                                         u"QPushButton:pressed{image: url(images/剪切.png); padding: 3px}")
+        self.cutPushButton.setIconSize(QSize(24, 24))
         self.cutPushButton.setCheckable(True)
         self.cutPushButton.setFlat(True)
         self.savePushButton = QPushButton(self)
         self.savePushButton.setText("确定")
         self.savePushButton.setObjectName(u"putButton_save")
-        self.savePushButton.setEnabled(False)
+        # self.savePushButton.setEnabled(False)
         self.savePushButton.setGeometry(QRect(880, 710, 91, 31))
 
         self.graphicsView = GraphicsView(self.image, self)
@@ -150,7 +158,7 @@ class ImageCutter(QDialog):
                 max(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y()))
             rect = QRect(start_point.toPoint(), end_point.toPoint())
             cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
-            self.save_signal.emit(cropped_pixmap)
+            self.save_signal[bool].emit(cropped_pixmap)
             QMessageBox.information(self, "完成", "裁剪完成！", QMessageBox.Ok)
         except AttributeError as e:
             print(e)
@@ -177,6 +185,6 @@ if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)
-    form = ImageCutter("test.png")
+    form = ImageCutter("./images/image_test/flowers (1).jpg")
     form.show()
     app.exec()

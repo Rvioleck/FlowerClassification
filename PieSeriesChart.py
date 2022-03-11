@@ -3,7 +3,7 @@ import sys
 from PySide6.QtCharts import QChartView, QChart, QPieSeries, QPieSlice
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPainter, QPen, QColor, QFont, QBrush, QCursor
-from PySide6.QtWidgets import QApplication, QToolTip
+from PySide6.QtWidgets import QApplication
 
 
 class PieWidget(QChartView):
@@ -30,22 +30,18 @@ class PieWidget(QChartView):
         self.portion = kwargs.pop('portion', None)
         self.setCursor(QCursor(Qt.ArrowCursor))
         self.setVisible(False)
-        # self.initChart()
 
     def setPortion(self, portion):
         self.portion = portion
+        self.maxPosition = self.__getMaxPositionIndex(self.portion.copy())
 
     def addPortion(self, portion):
         for i in range(0, len(self.flowers)):
             self.portion[i] += portion[i]
+        self.maxPosition = self.__getMaxPositionIndex(self.portion.copy())
 
     def initChart(self, model_name=""):
         chart = QChart()
-        # font = QFont()
-        # font.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
-        # font.setPointSize(14)
-        # font.setBold(True)
-        # chart.setFont(font)
         chart.setBackgroundBrush(QBrush(QColor(234, 241, 219)))
         chart.addSeries(self.getSeries())
         chart.createDefaultAxes()
@@ -98,9 +94,8 @@ class PieWidget(QChartView):
         whole = sum(self.portion)
         if whole == 0:
             return "未开始预测"
-        QToolTip.setFont(QFont("oldEnglish", 10))
         toolTip = "<p style='white-space:pre'>"  # 富文本标签
-        for i in range(0, len(self.portion)):
+        for i in self.maxPosition:
             img_path = u"images/flowers/{}.png".format(self.flower_words[i])
             if i == index:
                 toolTip += '<img src={} height="24" width="24"><b><font color={}>{}:{:.4%}</font></b>\n'.format(
@@ -110,6 +105,18 @@ class PieWidget(QChartView):
                     img_path, self.__rgb2html(self.colors[i]), self.flowers[i], self.portion[i] / whole)
         toolTip += "</p>"  # 富文本结束标签
         return toolTip
+
+    @staticmethod
+    def __getMaxPositionIndex(array: list):
+        size = len(array)
+        res = [0] * size
+        for i in range(0, size):
+            max_value = max(array)
+            max_index = array.index(max_value)
+            res[i] = max_index
+            array[max_index] = 0
+        print(res)
+        return res
 
     @staticmethod
     def __rgb2html(color):
@@ -152,6 +159,7 @@ class PieWidget(QChartView):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     pieWidget = PieWidget(portion=[2, 3, 5, 5, 8])
+    pieWidget.initChart()
     pieWidget.setRenderHint(QPainter.Antialiasing)
     pieWidget.show()
     sys.exit(app.exec())

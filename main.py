@@ -180,13 +180,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def getBatchDirectory(self):
         # 选取文件夹
         self.batchDirectory = QFileDialog.getExistingDirectory(self, "选取文件夹",
-                                                               "D:\\AI_LEARNING_PDF\\deep learning\\flower_images")
+                                                               "./images/image_test")
         self.savePathLineEdit.setText(self.batchDirectory)
 
     def getDirectory(self):
         # 选取文件夹
         self.directory = QFileDialog.getExistingDirectory(self, "选取文件夹",
-                                                          "D:\\AI_LEARNING_PDF\\deep learning\\flower_images")
+                                                          "./images/image_test")
         self.savePathLineEdit_2.setText(self.directory)
 
     def getBatchImage(self):
@@ -197,7 +197,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         try:
             # 获取选择图片
             files, _ = QFileDialog.getOpenFileNames(self, "Open files",
-                                                    "D:\\AI_LEARNING_PDF\\deep learning\\flower_images",
+                                                    "./images/image_test",
                                                     "Image Files (*.jpg *.png *.jpeg *.gif)")
             row_count = self.tableWidget.rowCount()  # 统计原本数量
             for i, file in enumerate(files):
@@ -448,7 +448,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         try:
             # 获取文件地址
             file, _ = QFileDialog.getOpenFileName(self, "Open file",
-                                                  "D:\\AI_LEARNING_PDF\\deep learning\\flower_images",
+                                                  "./images/image_test",
                                                   "Image Files (*.jpg *.png)")
             if file:
                 self.flower_path = file  # 获取文件地址
@@ -611,7 +611,7 @@ class AIModelOperationThread(QThread):
         print("AI Thread has finished batchClassifying")
 
     def __deepClassify(self):
-        model_weight = {"EfficientNetB0": 0.888, "EfficientNetB4": 0.902, "EfficientNetB7": 0.907,
+        model_weight = {"EfficientNetB0": 0.912, "EfficientNetB4": 0.905, "EfficientNetB7": 0.907,
                         "MobileNetV2": 0.825, "DenseNet121": 0.874, "InceptionV3": 0.751, "VGG19": 0.714}
         # models = [EfficientNetB0(), EfficientNetB4(), EfficientNetB7(),
         #           MobileNetV2(), DenseNet121(), InceptionV3(), VGG19()]
