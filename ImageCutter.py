@@ -158,7 +158,7 @@ class ImageCutter(QDialog):
                 max(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y()))
             rect = QRect(start_point.toPoint(), end_point.toPoint())
             cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
-            self.save_signal[bool].emit(cropped_pixmap)
+            self.save_signal.emit(cropped_pixmap)
             QMessageBox.information(self, "完成", "裁剪完成！", QMessageBox.Ok)
         except AttributeError as e:
             print(e)

@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>610</height>
+    <height>670</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>900</width>
-    <height>600</height>
+    <height>670</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>900</width>
-    <height>610</height>
+    <height>670</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
@@ -57,7 +57,7 @@ border-radius:5px;
       <x>0</x>
       <y>0</y>
       <width>901</width>
-      <height>531</height>
+      <height>591</height>
      </rect>
     </property>
     <property name="font">
@@ -247,11 +247,11 @@ border-radius: 5px;
 border: 1px outset rgb(199, 216, 255);
 padding: 3px</string>
        </property>
-       <property name="text">
-        <string>图片名称</string>
-       </property>
        <property name="readOnly">
         <bool>true</bool>
+       </property>
+       <property name="placeholderText">
+        <string>图片名称</string>
        </property>
       </widget>
       <widget class="QLabel" name="pathLabel">
@@ -320,7 +320,7 @@ padding: 3px</string>
         <x>20</x>
         <y>355</y>
         <width>341</width>
-        <height>141</height>
+        <height>201</height>
        </rect>
       </property>
       <property name="font">
@@ -338,64 +338,13 @@ padding: 3px</string>
       <property name="flat">
        <bool>true</bool>
       </property>
-      <widget class="QPushButton" name="cutButton">
-       <property name="geometry">
-        <rect>
-         <x>188</x>
-         <y>33</y>
-         <width>31</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>打开图片裁剪器</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton
-                        {
-                        background-color:transparent;
-                        border:2px solid rgb(59,154,156);
-                        border-radius:5px;
-                        color:black
-                        }
-                        QPushButton:hover
-                        {
-                        background-color:rgb(234,250,255);
-                        border:2px solid rgb(7,130,245);
-                        border-radius:5px;
-                        color:black;
-                        }
-                        QPushButton:hover:pressed
-                        {
-                        border:2px solid #5F92B2;
-                        border-radius:5px;
-                        color:black;
-                        padding-right:3px;
-                        padding-top:3px;
-                        }
-                    </string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>images/裁剪旋转.png</normaloff>images/裁剪旋转.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
-      </widget>
       <widget class="QTextEdit" name="imageTextEdit">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>20</y>
+         <y>26</y>
          <width>171</width>
-         <height>111</height>
+         <height>121</height>
         </rect>
        </property>
        <property name="toolTip">
@@ -410,64 +359,16 @@ padding: 3px</string>
        <property name="readOnly">
         <bool>true</bool>
        </property>
-      </widget>
-      <widget class="QPushButton" name="resetButton">
-       <property name="geometry">
-        <rect>
-         <x>188</x>
-         <y>88</y>
-         <width>31</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>恢复原图</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton
-                        {
-                        background-color:transparent;
-                        border:2px solid rgb(59,154,156);
-                        border-radius:5px;
-                        color:black
-                        }
-                        QPushButton:hover
-                        {
-                        background-color:rgb(234,250,255);
-                        border:2px solid rgb(7,130,245);
-                        border-radius:5px;
-                        color:black;
-                        }
-                        QPushButton:hover:pressed
-                        {
-                        border:2px solid #5F92B2;
-                        border-radius:5px;
-                        color:black;
-                        padding-right:3px;
-                        padding-top:3px;
-                        }
-                    </string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>images/复位.png</normaloff>images/复位.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>21</width>
-         <height>21</height>
-        </size>
+       <property name="placeholderText">
+        <string>图片信息</string>
        </property>
       </widget>
       <widget class="QPushButton" name="saveButton">
        <property name="geometry">
         <rect>
-         <x>236</x>
-         <y>28</y>
-         <width>100</width>
+         <x>210</x>
+         <y>30</y>
+         <width>121</width>
          <height>31</height>
         </rect>
        </property>
@@ -516,9 +417,9 @@ padding: 3px</string>
       <widget class="QLineEdit" name="saveNameEdit">
        <property name="geometry">
         <rect>
-         <x>239</x>
-         <y>71</y>
-         <width>91</width>
+         <x>210</x>
+         <y>70</y>
+         <width>121</width>
          <height>25</height>
         </rect>
        </property>
@@ -544,10 +445,10 @@ padding: 3px</string>
       <widget class="QLineEdit" name="savePathLineEdit_2">
        <property name="geometry">
         <rect>
-         <x>238</x>
-         <y>105</y>
-         <width>71</width>
-         <height>25</height>
+         <x>210</x>
+         <y>110</y>
+         <width>121</width>
+         <height>81</height>
         </rect>
        </property>
        <property name="cursor">
@@ -563,7 +464,10 @@ border: 1px outset rgb(199, 216, 255);
 padding: 3px</string>
        </property>
        <property name="text">
-        <string>保存路径</string>
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -571,14 +475,17 @@ padding: 3px</string>
        <property name="placeholderText">
         <string>保存路径</string>
        </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="Line" name="line">
        <property name="geometry">
         <rect>
-         <x>216</x>
+         <x>190</x>
          <y>20</y>
-         <width>20</width>
-         <height>110</height>
+         <width>10</width>
+         <height>170</height>
         </rect>
        </property>
        <property name="orientation">
@@ -588,8 +495,8 @@ padding: 3px</string>
       <widget class="QToolButton" name="getDirectoryButton_2">
        <property name="geometry">
         <rect>
-         <x>311</x>
-         <y>106</y>
+         <x>304</x>
+         <y>166</y>
          <width>24</width>
          <height>22</height>
         </rect>
@@ -597,12 +504,15 @@ padding: 3px</string>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
+       <property name="toolTip">
+        <string>选择文件夹</string>
+       </property>
        <property name="text">
         <string/>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/选择.png</normaloff>images/选择.png</iconset>
+         <normaloff>images/文件夹.png</normaloff>images/文件夹.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -614,6 +524,108 @@ padding: 3px</string>
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QPushButton" name="cutButton">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>160</y>
+         <width>81</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>打开图片裁剪器</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+                        {
+                        background-color:transparent;
+                        border:2px solid rgb(59,154,156);
+                        border-radius:5px;
+                        color:black
+                        }
+                        QPushButton:hover
+                        {
+                        background-color:rgb(234,250,255);
+                        border:2px solid rgb(7,130,245);
+                        border-radius:5px;
+                        color:black;
+                        }
+                        QPushButton:hover:pressed
+                        {
+                        border:2px solid #5F92B2;
+                        border-radius:5px;
+                        color:black;
+                        padding-right:3px;
+                        padding-top:3px;
+                        }
+                    </string>
+       </property>
+       <property name="text">
+        <string>裁剪旋转</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/裁剪旋转.png</normaloff>images/裁剪旋转.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="resetButton">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>160</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>恢复原图</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+                        {
+                        background-color:transparent;
+                        border:2px solid rgb(59,154,156);
+                        border-radius:5px;
+                        color:black
+                        }
+                        QPushButton:hover
+                        {
+                        background-color:rgb(234,250,255);
+                        border:2px solid rgb(7,130,245);
+                        border-radius:5px;
+                        color:black;
+                        }
+                        QPushButton:hover:pressed
+                        {
+                        border:2px solid #5F92B2;
+                        border-radius:5px;
+                        color:black;
+                        padding-right:3px;
+                        padding-top:3px;
+                        }
+                    </string>
+       </property>
+       <property name="text">
+        <string>图片复原</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/复位.png</normaloff>images/复位.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>21</width>
+         <height>21</height>
+        </size>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_5">
       <property name="geometry">
@@ -621,7 +633,7 @@ padding: 3px</string>
         <x>380</x>
         <y>10</y>
         <width>491</width>
-        <height>481</height>
+        <height>541</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -832,14 +844,33 @@ padding: 3px</string>
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>132</x>
-         <y>145</y>
-         <width>261</width>
-         <height>251</height>
+         <x>20</x>
+         <y>80</y>
+         <width>441</width>
+         <height>441</height>
         </rect>
        </property>
        <property name="pixmap">
         <pixmap>images/rongzi.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="Line" name="line_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>70</y>
+         <width>451</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </widget>
@@ -849,11 +880,43 @@ padding: 3px</string>
         <x>355</x>
         <y>28</y>
         <width>20</width>
-        <height>461</height>
+        <height>521</height>
        </rect>
       </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="clearButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>331</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="toolTip">
+       <string>清空导入</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../main/images/clear-l.png</normaloff>../../main/images/clear-l.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="autoRaise">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -875,7 +938,7 @@ border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
         <x>0</x>
         <y>0</y>
         <width>431</width>
-        <height>461</height>
+        <height>521</height>
        </rect>
       </property>
       <property name="contextMenuPolicy">
@@ -990,7 +1053,7 @@ border:1px solid rgb(0, 85, 0);
       <property name="geometry">
        <rect>
         <x>404</x>
-        <y>465</y>
+        <y>527</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1315,7 +1378,7 @@ padding: 3px</string>
       <property name="geometry">
        <rect>
         <x>9</x>
-        <y>477</y>
+        <y>531</y>
         <width>351</width>
         <height>21</height>
        </rect>
@@ -1334,7 +1397,7 @@ padding: 3px</string>
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>465</y>
+        <y>527</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1393,7 +1456,7 @@ padding: 3px</string>
         <x>450</x>
         <y>150</y>
         <width>421</width>
-        <height>341</height>
+        <height>401</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -1412,8 +1475,8 @@ padding: 3px</string>
      <widget class="QPushButton" name="statisticsButton">
       <property name="geometry">
        <rect>
-        <x>823</x>
-        <y>460</y>
+        <x>820</x>
+        <y>520</y>
         <width>30</width>
         <height>30</height>
        </rect>

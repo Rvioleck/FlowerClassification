@@ -48,7 +48,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.initUI()  # 额外GUI初始化
 
     def initMainWindowMask(self):
-        self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
+        self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
         self.pix = QBitmap("images/mask.png")
         self.setMask(self.pix)
 
@@ -99,6 +99,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.batchChooseButton.clicked.connect(self.getBatchImage)
         self.predictButton.clicked.connect(self.classifyImage)
         self.clearTableButton.clicked.connect(self.clearTableContent)
+        self.clearButton.clicked.connect(self.clearImportContent)
         self.batchPredictButton.clicked.connect(self.classifyBatchImages)
         self.getDirectoryButton.clicked.connect(self.getBatchDirectory)
         self.getDirectoryButton_2.clicked.connect(self.getDirectory)
@@ -135,7 +136,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 初始化堆叠柱状图和扇形图
         self.barChartWidget = BarWidget()
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
-        self.pieChartWidget.setGeometry(QRect(20, 60, 451, 411))
+        self.pieChartWidget.setGeometry(QRect(20, 80, 441, 441))
 
     def loadModel(self, model):
         # AI模型初始化(Model)
@@ -188,6 +189,21 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.directory = QFileDialog.getExistingDirectory(self, "选取文件夹",
                                                           "./images/image_test")
         self.savePathLineEdit_2.setText(self.directory)
+
+    def clearImportContent(self):
+        self.resultLabel.setText("未导入图片")
+        self.resultLabel_2.setPixmap(QPixmap())
+        self.flower_path = ""
+        self.flower_name = ""
+        self.flower_path = ""
+        self.flower_image = None
+        self.flower_pixmap = None
+        self.x = None
+        self.pathLabel.setText("")  # 显示文件夹地址
+        self.nameEdit.setText("")  # 显示文件名
+        self.imageLabel.setPixmap(QPixmap(u"./images/上传图片.png"))  # 显示花朵图片
+        self.imageTextEdit.setText("")
+        self.pieChartWidget.setVisible(False)
 
     def getBatchImage(self):
         # AI线程启动参数预加载
@@ -317,6 +333,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             os.startfile(path)
 
     def saveImage(self):
+        if self.flower_pixmap is None:
+            return
         image_name = self.flower_name
         if self.saveNameEdit.text() is not None:
             image_name = self.saveNameEdit.text()
@@ -337,6 +355,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             os.startfile(save_path)
 
     def cutImage(self):
+        if self.flower_pixmap is None:
+            return
         self.image_cutter = ImageCutter(image=self.flower_pixmap)
         self.image_cutter.save_signal.connect(self.passImage)
         self.image_cutter.show()
@@ -499,6 +519,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         进行图片预测
         调用饼图绘制并加载详细信息
         """
+        if self.flower_pixmap is None:
+            return
         print("AI Thread is running: classify")
         self.AIThread.setFiles(self.flower_pixmap)
         self.AIThread.setOperation("classify")
@@ -612,20 +634,12 @@ class AIModelOperationThread(QThread):
 
     def __deepClassify(self):
         model_weight = {"EfficientNetB0": 0.912, "EfficientNetB4": 0.905, "EfficientNetB7": 0.907,
-                        "MobileNetV2": 0.825, "DenseNet121": 0.874, "InceptionV3": 0.751, "VGG19": 0.714}
-        # models = [EfficientNetB0(), EfficientNetB4(), EfficientNetB7(),
-        #           MobileNetV2(), DenseNet121(), InceptionV3(), VGG19()]
-        # weights = [0.888, 0.902, 0.907, 0.825, 0.874, 0.751, 0.714]
+                        "MobileNetV2": 0.848, "DenseNet121": 0.874, "InceptionV3": 0.751, "VGG19": 0.714}
         whole_portion = [0] * len(self.flower_words)
         cur_model_name = self.ai_model.__class__.__name__
         x = get_input_x(self.files)
         portion, index = model_predict(self.ai_model, x)
-        for i, per in enumerate(portion):
-            self.deep_classify_progress[None].emit()
-            whole_portion[i] += per * model_weight[cur_model_name]
-        res = self.flower_words[whole_portion.index(max(whole_portion))]
-        standard_portion = [(i / sum(whole_portion)) for i in whole_portion]
-        self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
+        self.__calPortion(portion, whole_portion, model_weight, cur_model_name)
         for model_name, weight in model_weight.items():
             if model_name == cur_model_name:
                 continue
@@ -634,14 +648,17 @@ class AIModelOperationThread(QThread):
             if not load_success:
                 continue
             portion, index = model_predict(model, x)
-            for i, per in enumerate(portion):
-                self.deep_classify_progress[None].emit()
-                whole_portion[i] += per * model_weight[model_name]
-            res = self.flower_words[whole_portion.index(max(whole_portion))]
-            standard_portion = [(i / sum(whole_portion)) for i in whole_portion]
-            self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
+            self.__calPortion(portion, whole_portion, model_weight, model_name)
         self.deep_classify_finish[None].emit()
         print("AI Thread has finished deepClassifying")
+
+    def __calPortion(self, portion, whole_portion, model_weight, model_name):
+        for i, per in enumerate(portion):
+            self.deep_classify_progress[None].emit()
+            whole_portion[i] += per * model_weight[model_name]
+        res = self.flower_words[whole_portion.index(max(whole_portion))]
+        standard_portion = [(i / sum(whole_portion)) for i in whole_portion]
+        self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
 
     def __load(self):
         # AI线程进行模型初始化操作

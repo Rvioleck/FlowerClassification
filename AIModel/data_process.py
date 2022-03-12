@@ -3,7 +3,7 @@ import pickle
 
 import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow as tf
+from tensorflow import argmax, keras
 from PIL import Image, ImageQt
 from PySide6.QtGui import QPixmap
 
@@ -120,7 +120,7 @@ def history_show(model_name):
 def load_model(model):
     # 配置优化器，加载模型信息
     model.compile(optimizer='adam',
-                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
+                  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),
                   metrics=['sparse_categorical_accuracy'])
 
     model_name = model.__class__.__name__
@@ -148,5 +148,5 @@ def get_input_x(pixmap: QPixmap):
 
 def model_predict(model, x):
     result = model.predict(x)
-    index = int(tf.argmax(result, axis=1).numpy())
+    index = int(argmax(result, axis=1).numpy())
     return list(result.flatten()), index

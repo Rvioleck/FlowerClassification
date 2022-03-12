@@ -30,6 +30,7 @@ class PieWidget(QChartView):
         self.portion = kwargs.pop('portion', None)
         self.setCursor(QCursor(Qt.ArrowCursor))
         self.setVisible(False)
+        self.resize(441, 411)
 
     def setPortion(self, portion):
         self.portion = portion

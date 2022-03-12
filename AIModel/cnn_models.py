@@ -1,13 +1,13 @@
 import efficientnet.tfkeras as efn
-import tensorflow as tf
 from keras import Model
 from keras.layers import Dropout, Dense, BatchNormalization
+from tensorflow import keras
 
 
 class VGG19(Model):
     def __init__(self):
         super(VGG19, self).__init__()
-        self.net = tf.keras.applications.VGG19(
+        self.net = keras.applications.VGG19(
             weights=None,
             # weights="./checkpoint/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5",
             include_top=False,
@@ -31,7 +31,7 @@ class VGG19(Model):
 class InceptionV3(Model):
     def __init__(self):
         super(InceptionV3, self).__init__()
-        self.net = tf.keras.applications.InceptionV3(
+        self.net = keras.applications.InceptionV3(
             weights=None,
             # weights="./checkpoint/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5",
             include_top=False,
@@ -55,7 +55,7 @@ class InceptionV3(Model):
 class DenseNet121(Model):
     def __init__(self):
         super(DenseNet121, self).__init__()
-        self.net = tf.keras.applications.DenseNet121(
+        self.net = keras.applications.DenseNet121(
             weights=None,
             # weights="./checkpoint/densenet121_weights_tf_dim_ordering_tf_kernels_notop.h5",
             include_top=False,
@@ -79,7 +79,7 @@ class DenseNet121(Model):
 class MobileNetV2(Model):
     def __init__(self):
         super(MobileNetV2, self).__init__()
-        self.net = tf.keras.applications.MobileNetV2(
+        self.net = keras.applications.MobileNetV2(
             input_shape=(224, 224, 3),
             weights=None,
             # weights="./checkpoint/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_224_no_top.h5",
