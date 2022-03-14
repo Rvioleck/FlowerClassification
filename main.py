@@ -56,12 +56,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def initAIThread(self):
         self.AIThread = AIModelOperationThread()
-        self.AIThread.load_signal[Model].connect(self.loadModel)  # 加载模型
-        self.AIThread.preload_signal[Model].connect(self.preLoadModel)
-        self.AIThread.load_failed_signal[None].connect(self.loadFailed)
-        self.AIThread.classify_res_signal[list, str, bool].connect(self.setClassifyRes)
-        self.AIThread.batch_classify_res_signal[int, str].connect(self.setBatchClassifyRes)
-        self.AIThread.batch_classify_finish_signal[None].connect(self.batchClassifyFinished)
+        self.AIThread.load_signal[Model].connect(self.__loadModel)  # 加载模型
+        self.AIThread.load_failed_signal[None].connect(self.__loadFailed)
+        self.AIThread.preload_signal[Model].connect(self.__preLoadModel)
+        self.AIThread.classify_res_signal[list, str, bool].connect(self.__setClassifyRes)
+        self.AIThread.batch_classify_res_signal[int, str].connect(self.__setBatchClassifyRes)
+        self.AIThread.batch_classify_finish_signal[None].connect(self.__batchClassifyFinished)
         self.AIThread.start()
 
     def mousePressEvent(self, event):
@@ -107,7 +107,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.cutButton.clicked.connect(self.cutImage)
         self.resetButton.clicked.connect(self.resetImage)
         self.saveButton.clicked.connect(self.saveImage)
-        self.statisticsButton.clicked.connect(self.showResultStatistics)
+        self.statisticsButton.clicked.connect(self.__showResultStatistics)
         # 事件过滤器
         self.imageLabel.installEventFilter(self)
         # 绑定工具栏触发信号
@@ -169,9 +169,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.pieChartWidget.setGeometry(QRect(20, 80, 441, 441))
         self.pieChartWidget.setVisible(True)
 
-    def loadModel(self, model):
+    def __preLoadModel(self, model):
+        # AI模型预加载
+        self.ai_model = model
+
+    def __loadModel(self, model):
         # AI模型初始化(Model)
         self.ai_model = model
+        # 恢复部分按钮
+        self.menu_M.setEnabled(True)
+        self.actionClassify.setEnabled(True)
+        self.predictButton.setEnabled(True)
+        self.batchPredictButton.setEnabled(True)
         model_name = self.ai_model.__class__.__name__
         QMessageBox.information(self, "成功",
                                 "成功导入模型" + model_name,
@@ -179,12 +188,39 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.statusBar().showMessage("模型：" + model_name)
         self.predictButton.setToolTip(f"使用{model_name}模型进行预测")
 
-    def preLoadModel(self, model):
-        # AI模型预加载
-        self.ai_model = model
-
-    def loadFailed(self):
+    def __loadFailed(self):
         QMessageBox.warning(self, "错误", "未导入该模型！", QMessageBox.Ok)
+        self.menu_M.setEnabled(True)
+        self.actionClassify.setEnabled(True)
+        self.predictButton.setEnabled(True)
+        self.batchPredictButton.setEnabled(True)
+
+    def __setBatchClassifyRes(self, i, res):
+        # 收到AI线程批量预测中的每次信号
+        icon_path = "images/flowers/{}.png".format(res)
+        # 完善tablewidget第三列结果和图标
+        self.tableWidget.setItem(i, 2, QTableWidgetItem(QIcon(icon_path), res))
+        # 添加柱状堆叠图的数据——文件夹: 预测结果
+        self.barChartWidget.addData(self.tableWidget.item(i, 0).text(), res)
+        self.barChartWidget.initChart()
+        text = ""
+        for directory, content in self.barChartWidget.data.items():  # 将预测结果按格式输出
+            text += "<br /><b><font color=red>{}</font></b>统计如下:<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(directory)
+            for flower_word, count in content.items():
+                text += "{}共计<b>{}</b>张<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(
+                    self.flowers[self.flower_words.index(flower_word)],
+                    count)
+        self.statisticsTextEdit.setText(text)
+
+    def __batchClassifyFinished(self):
+        # 恢复部分按钮
+        self.menu_M.setEnabled(True)
+        self.actionClassify.setEnabled(True)
+        self.predictButton.setEnabled(True)
+        self.batchPredictButton.setEnabled(True)
+        self.batchExportButton.setEnabled(True)
+        self.batchChooseButton.setEnabled(True)
+        self.clearTableButton.setEnabled(True)
 
     def chooseModel(self, model_action):
         if model_action == self.actionCNN:
@@ -208,6 +244,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         print("AI Thread is running: load")
         self.AIThread.setOperation("load")
         self.AIThread.start()
+        self.statusBar().showMessage("模型正在加载中.. ..")
+        # 禁用部分按钮
+        self.menu_M.setEnabled(False)
+        self.actionClassify.setEnabled(False)
+        self.predictButton.setEnabled(False)
+        self.batchPredictButton.setEnabled(False)
 
     def getBatchDirectory(self):
         # 选取文件夹
@@ -272,26 +314,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.start()
         self.statisticsTextEdit.setText("")
         # 禁用部分按钮
+        self.menu_M.setEnabled(False)
         self.actionClassify.setEnabled(False)
         self.predictButton.setEnabled(False)
         self.batchPredictButton.setEnabled(False)
         self.batchExportButton.setEnabled(False)
         self.batchChooseButton.setEnabled(False)
         self.clearTableButton.setEnabled(False)
-
-    def setBatchClassifyRes(self, i, res):
-        icon_path = "images/flowers/{}.png".format(res)
-        self.tableWidget.setItem(i, 2, QTableWidgetItem(QIcon(icon_path), res))
-        self._drawBarStackChart_setCustomizedToolTip(i, res)
-
-    def batchClassifyFinished(self):
-        # 恢复部分按钮
-        self.actionClassify.setEnabled(True)
-        self.predictButton.setEnabled(True)
-        self.batchPredictButton.setEnabled(True)
-        self.batchExportButton.setEnabled(True)
-        self.batchChooseButton.setEnabled(True)
-        self.clearTableButton.setEnabled(True)
 
     def clearTableContent(self):
         res = QMessageBox.information(self, "确认", "是否清除已导入图片",
@@ -475,6 +504,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.setOperation("deepClassify")
         self.AIThread.start()
         # 禁用部分按钮
+        self.menu_M.setEnabled(False)
         self.actionClassify.setEnabled(False)
         self.predictButton.setEnabled(False)
         self.batchPredictButton.setEnabled(False)
@@ -493,6 +523,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.progressBar.deleteLater()
         QMessageBox.information(self, "成功", "完成图像的深度预测！", QMessageBox.Ok)
         # 恢复按钮
+        self.menu_M.setEnabled(True)
         self.actionClassify.setEnabled(True)
         self.predictButton.setEnabled(True)
         self.batchPredictButton.setEnabled(True)
@@ -596,19 +627,24 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.setOperation("classify")
         self.AIThread.start()
         # 禁用部分按钮
+        self.menu_M.setEnabled(False)
         self.actionClassify.setEnabled(False)
         self.predictButton.setEnabled(False)
         self.batchPredictButton.setEnabled(False)
 
-    def setClassifyRes(self, portion, res, tag=False):
+    def __setClassifyRes(self, portion, res, tag=False):
         index = self.flower_words.index(res)
         name = self.flowers[index]
         prompt = "{}的预测结果：<b><font color=red>{}</font></b>".format(self.flower_name, name)
         self.resultLabel.setText(prompt)
         self.resultLabel_2.setPixmap(QPixmap("images/flowers/{}.png".format(res)))
-        self._drawPieChart_setDetail(portion, tag=tag)
+        # tag: 标记是否为最大加权网络
+        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
+        self.pieChartWidget.setPortion(portion)
+        self.pieChartWidget.initChart(model_name=model_name)
         # 禁用部分按钮
         if not tag:  # 非深度预测时一次预测时结束进行按钮释放
+            self.menu_M.setEnabled(True)
             self.actionClassify.setEnabled(True)
             self.predictButton.setEnabled(True)
             self.batchPredictButton.setEnabled(True)
@@ -620,33 +656,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         model_name = self.ai_model.__class__.__name__
         history_show(model_name)
 
-    def _drawPieChart_setDetail(self, portion, tag=False):
-        """
-        portion: 各个种类概率
-        tag: 标记是否为最大加权网络
-        根据此次统计结果作扇形图并添加detailToolButton按钮
-        """
-        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
-        self.pieChartWidget.setPortion(portion)
-        self.pieChartWidget.initChart(model_name=model_name)
-
-    def _drawBarStackChart_setCustomizedToolTip(self, index, res):
-        self.barChartWidget.addData(self.tableWidget.item(index, 0).text(), res)
-        self.barChartWidget.initChart()
-        text = self.__getStatisticsText(self.barChartWidget.data)
-        self.statisticsTextEdit.setText(text)
-
-    def __getStatisticsText(self, data_dict):
-        text = ""
-        for directory, content in data_dict.items():
-            text += "<br /><b><font color=red>{}</font></b>统计如下:<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(directory)
-            for flower_word, count in content.items():
-                text += "{}共计<b>{}</b>张<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(
-                    self.flowers[self.flower_words.index(flower_word)],
-                    count)
-        return text
-
-    def showResultStatistics(self):
+    def __showResultStatistics(self):
         self.barChartWidget.show()
 
 
@@ -670,7 +680,7 @@ class AIModelOperationThread(QThread):
         super(AIModelOperationThread, self).__init__(parent)
         print("AIThread Initial")
         self.operation = "load"
-        self.ai_model = DenseNet121()
+        self.ai_model = EfficientNetB0()
 
     def run(self) -> None:
         if self.operation == "load":  # 线程进行模型加载

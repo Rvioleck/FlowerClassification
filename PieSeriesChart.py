@@ -143,7 +143,7 @@ class PieWidget(QChartView):
             font.setPointSize(12)
             font.setBold(True)
             slice.setLabelFont(font)
-            slice.setLabelArmLengthFactor(0.2)  # 设置扇区臂长占比
+            slice.setLabelArmLengthFactor(0.15)  # 设置扇区臂长占比
         # 特殊处理最大扇区
         self.maxSlice = self.series.slices()[index]
         self.maxSlice.setExploded(True)  # 突出显示，设置颜色

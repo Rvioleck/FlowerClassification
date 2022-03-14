@@ -173,6 +173,13 @@
          <height>25</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>9</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="cursor">
         <cursorShape>IBeamCursor</cursorShape>
        </property>
@@ -248,6 +255,13 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>9</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
         <string>路径：</string>
        </property>
@@ -319,6 +333,13 @@
          <height>121</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>9</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="cursor" stdset="0">
         <cursorShape>IBeamCursor</cursorShape>
        </property>
@@ -373,6 +394,13 @@
          <width>121</width>
          <height>25</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>9</pointsize>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="cursor">
         <cursorShape>IBeamCursor</cursorShape>
@@ -506,6 +534,13 @@
          <width>121</width>
          <height>81</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>8</pointsize>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="cursor" stdset="0">
         <cursorShape>ArrowCursor</cursorShape>
@@ -646,6 +681,13 @@
             <width>600</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>9</pointsize>
+            <bold>false</bold>
+           </font>
           </property>
           <property name="text">
            <string/>

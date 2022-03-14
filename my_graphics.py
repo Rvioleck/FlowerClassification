@@ -1,4 +1,4 @@
-from PySide6.QtCore import QRectF, Qt, Signal
+from PySide6.QtCore import QRectF, Qt, Signal, QPointF
 from PySide6.QtGui import QColor, QPixmap, QPen, QTransform
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene, QGraphicsItem
 from tensorflow import image as img
@@ -8,16 +8,14 @@ class GraphicsView(QGraphicsView):
     save_signal = Signal(bool)
     img_signal = Signal(int)
     img_rotation_signal = Signal(int)
-    img_brightness_signal = Signal(float)
-    img_contrast_signal = Signal(int)
+    img_attribute_signal = Signal(float, int, float, int)
 
     def __init__(self, picture, parent=None):
         super(GraphicsView, self).__init__(parent)
 
         self.img_signal[int].connect(self.update_img)
         self.img_rotation_signal[int].connect(self.rotate_img)
-        self.img_brightness_signal[float].connect(self.update_img_brightness)
-        self.img_contrast_signal[int].connect(self.update_img_contrast)
+        self.img_attribute_signal[float, int, float, int].connect(self.updte_img_attribute)
         # 设置放大缩小时跟随鼠标
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
@@ -62,6 +60,18 @@ class GraphicsView(QGraphicsView):
         print(dial_value)
         self.image_item.setScale(dial_value / 50)
 
+    def updte_img_attribute(self, brightness, contrast, hue, saturation):
+        image = ImageQt.fromqpixmap(self.pixmap)
+        if brightness != 0:
+            image = Image.fromarray(img.adjust_brightness(image, brightness).numpy())  # 调整亮度
+        if contrast != 0:
+            image = Image.fromarray(img.adjust_contrast(image, contrast).numpy())  # 调整对比度
+        if hue != 0:
+            image = Image.fromarray(img.adjust_hue(image, hue).numpy())  # 调整色相
+        if saturation != 0:
+            image = Image.fromarray(img.adjust_saturation(image, saturation).numpy())  # 调整饱和度
+        self.image_item.setPixmap(ImageQt.toqpixmap(image))
+
     def update_img_brightness(self, rate):
         if rate == 0:
             self.image_item.setPixmap(self.pixmap)
@@ -99,13 +109,17 @@ class GraphicsView(QGraphicsView):
 class GraphicsPixmapItem(QGraphicsPixmapItem):
     save_signal = Signal(bool)
 
-    def __init__(self, picture, parent=None):
+    def __init__(self, pixmap, parent=None):
         super(GraphicsPixmapItem, self).__init__(parent)
 
-        self.setPixmap(picture)
+        self.setPixmap(pixmap)
         self.is_start_cut = False
         self.current_point = None
         self.is_finish_cut = False
+        x, y = self.boundingRect().x(), self.boundingRect().y()
+        w, h = self.boundingRect().width(), self.boundingRect().height()
+        self.start_point = QPointF(x, y)
+        self.end_point = QPointF(x + w, y + h)
 
     def mouseMoveEvent(self, event):
         '''鼠标移动事件'''

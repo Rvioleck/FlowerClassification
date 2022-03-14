@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt, QRect, Signal, QPointF
+from PySide6.QtCore import Qt, QRect, Signal, QPointF, QEvent
 from PySide6.QtGui import QColor, QPixmap, QIcon
 from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
 
@@ -28,7 +28,7 @@ class ImageCutter(QDialog, Ui_Dialog):
 
         self.graphicsView = GraphicsView(self.image, self)
         self.graphicsView.setBackgroundBrush(QColor(235, 255, 244))
-        self.graphicsView.setGeometry(QRect(0, 0, 1021, 691))
+        self.graphicsView.setGeometry(QRect(0, 0, 1101, 691))
         self.graphicsView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.graphicsView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
@@ -41,11 +41,29 @@ class ImageCutter(QDialog, Ui_Dialog):
         self.horizontalFlipToolButton.clicked.connect(self.horizontalFlipToolButton_clicked)
         self.verticalFlipToolButton.clicked.connect(self.verticalFlipToolButton_clicked)
         self.rotationDial.valueChanged.connect(self.rotationDial_valueChanged)
-        self.horizontalSliderBrightness.valueChanged.connect(self.horizontalSliderBrightness_valueChanged)
-        self.horizontalSliderContrast.valueChanged.connect(self.horizontalSliderContrast_valueChanged)
-        # self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
-        # self.pix = QBitmap("images/mask.png")
-        # self.setMask(self.pix)
+        self.horizontalSliderBrightness.valueChanged.connect(self.horizontalSlider_valueChanged)
+        self.horizontalSliderContrast.valueChanged.connect(self.horizontalSlider_valueChanged)
+        self.horizontalSliderHues.valueChanged.connect(self.horizontalSlider_valueChanged)
+        self.horizontalSliderSaturation.valueChanged.connect(self.horizontalSlider_valueChanged)
+        self.brightness_label.installEventFilter(self)
+        self.contrast_label.installEventFilter(self)
+        self.hue_label.installEventFilter(self)
+        self.saturation_label.installEventFilter(self)
+
+    def eventFilter(self, watched, event) -> bool:
+        if watched == self.brightness_label:
+            if event.type() == QEvent.MouseButtonDblClick:
+                self.horizontalSliderBrightness.setValue(0)
+        if watched == self.contrast_label:
+            if event.type() == QEvent.MouseButtonDblClick:
+                self.horizontalSliderContrast.setValue(0)
+        if watched == self.hue_label:
+            if event.type() == QEvent.MouseButtonDblClick:
+                self.horizontalSliderHues.setValue(0)
+        if watched == self.saturation_label:
+            if event.type() == QEvent.MouseButtonDblClick:
+                self.horizontalSliderSaturation.setValue(0)
+        return QDialog.eventFilter(self, watched, event)
 
     def pushButton_cut_clicked(self):
         if self.graphicsView.image_item.is_start_cut:
@@ -67,10 +85,9 @@ class ImageCutter(QDialog, Ui_Dialog):
             rect = QRect(start_point.toPoint(), end_point.toPoint())
             cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
             self.save_signal.emit(cropped_pixmap)
-            QMessageBox.information(self, "完成", "裁剪完成！", QMessageBox.Ok)
+            QMessageBox.information(self, "完成", "图片处理完成！", QMessageBox.Ok)
         except AttributeError as e:
-            print(e)
-            print("进行裁剪操作未裁剪")
+            print("未进行裁剪操作")
         self.close()
 
     def rightRotateToolButton_clicked(self):
@@ -88,13 +105,12 @@ class ImageCutter(QDialog, Ui_Dialog):
     def rotationDial_valueChanged(self):
         self.graphicsView.img_rotation_signal.emit(self.rotationDial.value())
 
-    def horizontalSliderBrightness_valueChanged(self):
-        self.graphicsView.img_brightness_signal.emit(self.horizontalSliderBrightness.value()/200)
-        self.horizontalSliderContrast.setValue(0)
-
-    def horizontalSliderContrast_valueChanged(self):
-        self.graphicsView.img_contrast_signal.emit(self.horizontalSliderContrast.value())
-        self.horizontalSliderBrightness.setValue(0)
+    def horizontalSlider_valueChanged(self):
+        brightness = self.horizontalSliderBrightness.value()
+        contrast = self.horizontalSliderContrast.value()
+        hue = self.horizontalSliderHues.value()
+        saturation = self.horizontalSliderSaturation.value()
+        self.graphicsView.img_attribute_signal.emit(brightness/200, contrast, hue/200, saturation)
 
 
 if __name__ == '__main__':
