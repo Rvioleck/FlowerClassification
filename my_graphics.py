@@ -1,18 +1,23 @@
 from PySide6.QtCore import QRectF, Qt, Signal
 from PySide6.QtGui import QColor, QPixmap, QPen, QTransform
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene, QGraphicsItem
-
+from tensorflow import image as img
+from PIL import ImageQt, Image
 
 class GraphicsView(QGraphicsView):
     save_signal = Signal(bool)
     img_signal = Signal(int)
     img_rotation_signal = Signal(int)
+    img_brightness_signal = Signal(float)
+    img_contrast_signal = Signal(int)
 
     def __init__(self, picture, parent=None):
         super(GraphicsView, self).__init__(parent)
 
         self.img_signal[int].connect(self.update_img)
         self.img_rotation_signal[int].connect(self.rotate_img)
+        self.img_brightness_signal[float].connect(self.update_img_brightness)
+        self.img_contrast_signal[int].connect(self.update_img_contrast)
         # 设置放大缩小时跟随鼠标
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
@@ -21,6 +26,7 @@ class GraphicsView(QGraphicsView):
         self.setScene(self.scene)
         self.picture = QPixmap(picture)
         self.image_item = GraphicsPixmapItem(self.picture)
+        self.pixmap = self.image_item.pixmap()
         self.image_item.setFlag(QGraphicsItem.ItemIsMovable)
         self.scene.addItem(self.image_item)
 
@@ -30,30 +36,45 @@ class GraphicsView(QGraphicsView):
         self.scale(0.2, 0.2)
 
     def update_img(self, tag):
+        image = self.image_item.pixmap().toImage()
         if tag == 0:
-            image = self.image_item.pixmap().toImage()
             trans = QTransform()
             trans.rotate(90)
             new_image = image.transformed(trans, Qt.SmoothTransformation)
             self.image_item.setPixmap(QPixmap.fromImage(new_image))
+            self.pixmap = self.image_item.pixmap()
         elif tag == 1:
-            image = self.image_item.pixmap().toImage()
             trans = QTransform()
             trans.rotate(270)
             new_image = image.transformed(trans, Qt.SmoothTransformation)
             self.image_item.setPixmap(QPixmap.fromImage(new_image))
+            self.pixmap = self.image_item.pixmap()
         elif tag == 2:
-            image = self.image_item.pixmap().toImage()
             new_image = image.mirrored(True, False)
             self.image_item.setPixmap(QPixmap.fromImage(new_image))
+            self.pixmap = self.image_item.pixmap()
         elif tag == 3:
-            image = self.image_item.pixmap().toImage()
             new_image = image.mirrored(False, True)
             self.image_item.setPixmap(QPixmap.fromImage(new_image))
+            self.pixmap = self.image_item.pixmap()
 
     def rotate_img(self, dial_value):
         print(dial_value)
         self.image_item.setScale(dial_value / 50)
+
+    def update_img_brightness(self, rate):
+        if rate == 0:
+            self.image_item.setPixmap(self.pixmap)
+        image = ImageQt.fromqpixmap(self.pixmap)
+        new_image = Image.fromarray(img.adjust_brightness(image, rate).numpy())
+        self.image_item.setPixmap(ImageQt.toqpixmap(new_image))
+
+    def update_img_contrast(self, rate):
+        if rate == 0:
+            self.image_item.setPixmap(self.pixmap)
+        image = ImageQt.fromqpixmap(self.pixmap)
+        new_image = Image.fromarray(img.adjust_contrast(image, rate).numpy())
+        self.image_item.setPixmap(ImageQt.toqpixmap(new_image))
 
     def wheelEvent(self, event):
         '''滚轮事件'''

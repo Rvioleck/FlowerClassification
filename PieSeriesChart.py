@@ -43,7 +43,7 @@ class PieWidget(QChartView):
 
     def initChart(self, model_name=""):
         chart = QChart()
-        chart.setBackgroundBrush(QBrush(QColor(234, 241, 219)))
+        chart.setBackgroundBrush(QBrush(QColor(247, 246, 246)))
         chart.addSeries(self.getSeries())
         chart.createDefaultAxes()
         # 设置动画效果
@@ -140,7 +140,7 @@ class PieWidget(QChartView):
             # slice.setLabelColor(QColor(self.colors[i][0], self.colors[i][1], self.colors[i][2]))  # 设置扇区标签颜色
             font = QFont()
             font.setFamilies([u"\u534e\u6587\u7ec6\u9ed1"])
-            font.setPointSize(13)
+            font.setPointSize(12)
             font.setBold(True)
             slice.setLabelFont(font)
             slice.setLabelArmLengthFactor(0.2)  # 设置扇区臂长占比

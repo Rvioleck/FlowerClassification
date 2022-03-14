@@ -2,9 +2,10 @@ import shutil
 import sys
 
 from PIL import ImageGrab
-from PySide6.QtCore import QEvent, QPoint, QThread, Signal, QRect
+from PySide6.QtCore import QEvent, QPoint, QRect, QThread, Signal
 from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap
-from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QApplication, QTableWidgetItem, QMenu, QProgressBar
+from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QTableWidgetItem, QMenu, \
+    QProgressBar, QApplication
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
@@ -34,10 +35,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super(MyMainWindow, self).__init__()
-        # 主窗口蒙版初始化
-        self.initMainWindowMask()
         # AI线程初始化
         self.initAIThread()
+        # 主窗口蒙版初始化
+        self.initMainWindowMask()
         # 全局变量初始化
         self.flower_path = ""
         self.flower_image = None
@@ -46,6 +47,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)  # GUI界面初始化(Viewer)
         self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initUI()  # 额外GUI初始化
+        self.initStyleSheet()  # 初始化样式表
 
     def initMainWindowMask(self):
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
@@ -69,9 +71,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             event.accept()
             self.setCursor(QCursor(Qt.OpenHandCursor))
         elif event.button() == Qt.RightButton:
-            answer = QMessageBox.information(self, "确认", "退出程序", QMessageBox.Yes | QMessageBox.No)
-            if answer == QMessageBox.Yes:
-                self.close()
+            self.close()
         else:
             self.lower()
 
@@ -124,6 +124,24 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         QShortcut(QKeySequence(self.tr("Ctrl+V")), self, self._pasteImage)
 
     def initUI(self):
+        # 菜单栏QAction充当占位符
+        self.standerAction = QAction()
+        space = "  " * 87
+        self.standerAction.setText(space)
+        self.standerAction.setEnabled(False)
+        self.menubar.addAction(self.standerAction)
+        # 菜单栏，最小化QAction
+        self.lowerAction = QAction(self)
+        self.lowerAction.setText("-")
+        self.lowerAction.setIcon(QIcon(u"./images/最小化.png"))
+        self.lowerAction.triggered.connect(self.lower)
+        self.menubar.addAction(self.lowerAction)
+        # 菜单栏，退出QAction
+        self.closeAction = QAction(self)
+        self.closeAction.setText("×")
+        self.closeAction.setIcon(QIcon(u"./images/关闭.png"))
+        self.closeAction.triggered.connect(self.close)
+        self.menubar.addAction(self.closeAction)
         # 定义tableWidget的右键菜单栏
         self.twPopMenu = QMenu()  # tableWidget右键菜单
         self.delAction = QAction(QIcon("./images/删除.png"), "删除")  # tableWidget删除行为
@@ -135,8 +153,21 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.resultLabel.setText("未导入图片")
         # 初始化堆叠柱状图和扇形图
         self.barChartWidget = BarWidget()
+        self.barChartWidget.setStyleSheet(self.styleSheet())
+        self.initPieChart()
+
+    def initStyleSheet(self):
+        style = readQssFile(u"./stylesheet/Ubuntu.qss")
+        self.setStyleSheet(style)
+
+    def initPieChart(self):
+        try:
+            self.pieChartWidget.deleteLater()
+        except AttributeError as e:
+            print(e)
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
         self.pieChartWidget.setGeometry(QRect(20, 80, 441, 441))
+        self.pieChartWidget.setVisible(True)
 
     def loadModel(self, model):
         # AI模型初始化(Model)
@@ -188,7 +219,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 选取文件夹
         self.directory = QFileDialog.getExistingDirectory(self, "选取文件夹",
                                                           "./images/image_test")
-        self.savePathLineEdit_2.setText(self.directory)
+        self.savePathTextEdit.setText(self.directory)
 
     def clearImportContent(self):
         self.resultLabel.setText("未导入图片")
@@ -201,9 +232,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.x = None
         self.pathLabel.setText("")  # 显示文件夹地址
         self.nameEdit.setText("")  # 显示文件名
-        self.imageLabel.setPixmap(QPixmap(u"./images/上传图片.png"))  # 显示花朵图片
+        self.imageLabel.setPixmap(QPixmap(u"./images/打开图片.png"))  # 显示花朵图片
         self.imageTextEdit.setText("")
-        self.pieChartWidget.setVisible(False)
+        self.pieChartWidget.deleteLater()
+        self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
+        self.pieChartWidget.setGeometry(QRect(20, 80, 441, 441))
+        self.pieChartWidget.setVisible(True)
 
     def getBatchImage(self):
         # AI线程启动参数预加载
@@ -229,6 +263,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.warning(self, "警告", "请选择一个有效路径", QMessageBox.Ok)
 
     def classifyBatchImages(self):
+        # 每次进行预测时清空之前的预测结果
+        self.barChartWidget.clearData()
         # AI线程启动批量预测
         print("AI Thread is running: classify")
         self.AIThread.setFiles(self.files)
@@ -267,7 +303,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.files.clear()
             self.batchImportLabel.setText("已加载图片张数：{}".format(len(self.files)))
             self.statisticsTextEdit.setText("")
-            self.barChartWidget.clearData()
 
     def popMenu(self, point: QPoint):
         try:
@@ -343,6 +378,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         except AttributeError:
             QMessageBox.information(self, "错误", "请先选择保存路径")
             return
+        if not os.path.exists(save_path):
+            QMessageBox.information(self, "错误", "请选择正确的文件夹地址")
+            return
         save_path = save_path + "/" + image_name  # 拼接保存路径：文件夹+文件原始名称
         try:
             self.flower_image.save(save_path)
@@ -358,6 +396,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         if self.flower_pixmap is None:
             return
         self.image_cutter = ImageCutter(image=self.flower_pixmap)
+        self.image_cutter.setStyleSheet(self.styleSheet())
         self.image_cutter.save_signal.connect(self.passImage)
         self.image_cutter.show()
 
@@ -374,20 +413,38 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def viewImage(self, row):
         self.image_viewer = ImageViewer(image=self.files[row], background=QColor(235, 255, 244))
+        self.image_viewer.setStyleSheet(self.styleSheet())
         self.image_viewer.show()
 
     def menuOperation(self, action):
         if action == self.actionNew:
             print("new")
-        elif action == self.actionOpen:
-            self._getImage()
         elif action == self.actionClose:
             app.exit()
 
     def menuOperation2(self, action):
         if action == self.actionAbout:
             self.aboutWindow = AboutWindow()
+            self.aboutWindow.setStyleSheet(self.styleSheet())
             self.aboutWindow.show()
+        if action == self.actionMyStyle:
+            self.setStyleSheet(readQssFile(u"./stylesheet/style.qss"))
+        if action == self.actionUbuntuStyle:
+            self.setStyleSheet(readQssFile(u"./stylesheet/Ubuntu.qss"))
+        if action == self.actionAMOLED:
+            self.setStyleSheet(readQssFile(u"./stylesheet/AMOLED.qss"))
+        if action == self.actionAqua:
+            self.setStyleSheet(readQssFile(u"./stylesheet/Aqua.qss"))
+        if action == self.actionConsoleStyle:
+            self.setStyleSheet(readQssFile(u"./stylesheet/ConsoleStyle.qss"))
+        if action == self.actionElegantDark:
+            self.setStyleSheet(readQssFile(u"./stylesheet/ElegantDark.qss"))
+        if action == self.actionMacOS:
+            self.setStyleSheet(readQssFile(u"./stylesheet/MacOS.qss"))
+        if action == self.actionManjaroMix:
+            self.setStyleSheet(readQssFile(u"./stylesheet/ManjaroMix.qss"))
+        if action == self.actionMaterialDark:
+            self.setStyleSheet(readQssFile(u"./stylesheet/MaterialDark.qss"))
 
     def toolBarOperation(self, action):
         if action == self.actionClassify:
@@ -396,6 +453,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             if answer == QMessageBox.Yes:
                 # 绑定actionClassify
                 self.__deepClassify()
+        if action == self.actionOpen:
+            tab = self.tabWidget.currentWidget()
+            if tab == self.tab1:
+                self._getImage()
+            elif tab == self.tab2:
+                self.getBatchImage()
+        if action == self.actionSave:
+            tab = self.tabWidget.currentWidget()
+            if tab == self.tab1:
+                self.saveImage()
+            elif tab == self.tab2:
+                self.exportBatchImages()
 
     def __deepClassify(self):
         # 进行深度预测
@@ -459,6 +528,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.flower_image.mode))
         self.pathLabel.setText("")
         self.nameEdit.setText("剪贴板临时文件")
+        self.initPieChart()
 
     def _getImage(self):
         """
@@ -487,7 +557,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                         self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
                         self.flower_image.mode))
                 self.resultLabel_2.setPixmap(QPixmap())
-                self.pieChartWidget.setVisible(True)
+                self.initPieChart()
         except FileNotFoundError:
             QMessageBox.warning(self, "警告", "请选择一个有效路径", QMessageBox.Ok)
 
@@ -553,7 +623,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def _drawPieChart_setDetail(self, portion, tag=False):
         """
         portion: 各个种类概率
-        index: 最大概率索引值
+        tag: 标记是否为最大加权网络
         根据此次统计结果作扇形图并添加detailToolButton按钮
         """
         model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
@@ -684,6 +754,11 @@ class AIModelOperationThread(QThread):
 
     def setFiles(self, files):
         self.files = files
+
+
+def readQssFile(qssFileName):
+    with open(qssFileName, 'r', encoding='UTF-8') as file:
+        return file.read()
 
 
 if __name__ == '__main__':

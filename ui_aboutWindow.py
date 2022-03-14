@@ -22,9 +22,9 @@ class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
         if not AboutWindow.objectName():
             AboutWindow.setObjectName(u"AboutWindow")
-        AboutWindow.resize(554, 339)
-        AboutWindow.setMinimumSize(QSize(554, 339))
-        AboutWindow.setMaximumSize(QSize(554, 339))
+        AboutWindow.resize(554, 400)
+        AboutWindow.setMinimumSize(QSize(554, 400))
+        AboutWindow.setMaximumSize(QSize(554, 400))
         icon = QIcon()
         icon.addFile(u"images/\u82b1\u6735.png", QSize(), QIcon.Normal, QIcon.Off)
         AboutWindow.setWindowIcon(icon)
@@ -779,6 +779,10 @@ class Ui_AboutWindow(object):
         font1.setPointSize(16)
         font1.setBold(True)
         self.label_70.setFont(font1)
+        self.label_13 = QLabel(self.centralwidget)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setGeometry(QRect(40, 340, 471, 31))
+        self.label_13.setOpenExternalLinks(True)
         AboutWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AboutWindow)
@@ -874,5 +878,6 @@ class Ui_AboutWindow(object):
         self.label_69.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(240, 96, 140)", None))
 #endif // QT_CONFIG(tooltip)
         self.label_70.setText(QCoreApplication.translate("AboutWindow", u"\u672c\u8f6f\u4ef6\u53ef\u4ee5\u8fdb\u884c\u4ee5\u4e0b21\u7c7b\u82b1\u6735\u56fe\u50cf\u5206\u7c7b", None))
+        self.label_13.setText(QCoreApplication.translate("AboutWindow", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">\u672c\u9879\u76ee\u5b8c\u5168\u5f00\u6e90\uff0c\u9879\u76ee\u5e93\u5730\u5740\uff1a</span><a href=\"www.github.com/rvioleck/FlowersClassification\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">www.github.com/rvioleck/FlowersClassification</span></a></p></body></html>", None))
     # retranslateUi
 

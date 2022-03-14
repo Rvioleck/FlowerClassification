@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/flowersClassifcation.iml" filepath="$PROJECT_DIR$/.idea/flowersClassifcation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../opencv-pyqt5/.idea/opencv-pyqt5.iml" filepath="$PROJECT_DIR$/../opencv-pyqt5/.idea/opencv-pyqt5.iml" />
       <module fileurl="file://$PROJECT_DIR$/../pyqt5-imageprocessing/.idea/pyqt5-imageprocessing.iml" filepath="$PROJECT_DIR$/../pyqt5-imageprocessing/.idea/pyqt5-imageprocessing.iml" />
     </modules>
   </component>
