@@ -1013,8 +1013,15 @@
         <x>450</x>
         <y>10</y>
         <width>421</width>
-        <height>131</height>
+        <height>151</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="title">
        <string>批量预测</string>
@@ -1023,7 +1030,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
+         <y>68</y>
          <width>401</width>
          <height>72</height>
         </rect>
@@ -1166,8 +1173,8 @@
       <widget class="QPushButton" name="batchPredictButton">
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>20</y>
+         <x>10</x>
+         <y>29</y>
          <width>110</width>
          <height>25</height>
         </rect>
@@ -1286,9 +1293,9 @@
       <property name="geometry">
        <rect>
         <x>450</x>
-        <y>150</y>
+        <y>170</y>
         <width>421</width>
-        <height>401</height>
+        <height>381</height>
        </rect>
       </property>
       <property name="toolTip">
