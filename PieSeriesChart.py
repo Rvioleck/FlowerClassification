@@ -72,10 +72,10 @@ class PieWidget(QChartView):
                 per.setLabelVisible(False)  #
                 per.setPen(QPen(Qt.white, 1))
         if slice is self.maxSlice:
-            slice.setExplodeDistanceFactor(0.15)
+            slice.setExplodeDistanceFactor(0.2)
             slice.setPen(QPen(Qt.darkBlue, 2))
         else:
-            slice.setExplodeDistanceFactor(0.1)
+            slice.setExplodeDistanceFactor(0.2)
             slice.setExploded(True)  # 突出显示，设置颜色
             slice.setLabelVisible(True)  #
             slice.setPen(QPen(Qt.darkBlue, 2))
@@ -143,16 +143,15 @@ class PieWidget(QChartView):
             font.setPointSize(12)
             font.setBold(True)
             slice.setLabelFont(font)
-            slice.setLabelArmLengthFactor(0.15)  # 设置扇区臂长占比
+            slice.setLabelArmLengthFactor(0.2)  # 设置扇区臂长占比
         # 特殊处理最大扇区
         self.maxSlice = self.series.slices()[index]
         self.maxSlice.setExploded(True)  # 突出显示，设置颜色
         self.maxSlice.setLabelVisible(True)  #
-        self.maxSlice.setExplodeDistanceFactor(0.15)
+        self.maxSlice.setExplodeDistanceFactor(0.2)
         self.maxSlice.setPen(QPen(Qt.darkBlue, 2))
         # 设置扇形图组件内占比
-
-        self.series.setPieSize(0.6)
+        self.series.setPieSize(0.5)
         self.series.hovered[QPieSlice, bool].connect(self.hoveredEvent)
         return self.series
 

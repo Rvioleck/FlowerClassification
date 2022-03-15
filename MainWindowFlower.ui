@@ -71,7 +71,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="movable">
      <bool>true</bool>
@@ -369,6 +369,9 @@
          <bold>false</bold>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="toolTip">
         <string>保存预处理图片</string>
        </property>
@@ -476,6 +479,9 @@
          <bold>false</bold>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="toolTip">
         <string>打开图片裁剪器</string>
        </property>
@@ -508,6 +514,9 @@
          <pointsize>9</pointsize>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string>恢复原图</string>
@@ -634,6 +643,9 @@
             <pointsize>9</pointsize>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;开始&lt;span style=&quot; font-weight:700;&quot;&gt;AI&lt;/span&gt;识别&lt;/p&gt;&lt;p&gt;(首次识别可能花费较长时间)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -987,6 +999,9 @@
         <height>30</height>
        </size>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
        <string>一键清空</string>
       </property>
@@ -1054,6 +1069,9 @@
           </item>
           <item>
            <widget class="QToolButton" name="getDirectoryButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="toolTip">
              <string>选择保存路径</string>
             </property>
@@ -1204,6 +1222,9 @@
          <bold>false</bold>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>花朵批量预测</string>
        </property>
@@ -1268,6 +1289,9 @@
         <width>30</width>
         <height>30</height>
        </size>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string>批量导入</string>
@@ -1424,6 +1448,10 @@
     <widget class="QMenu" name="menu_3">
      <property name="title">
       <string>主题风格</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>images/主题.png</normaloff>images/主题.png</iconset>
      </property>
      <addaction name="actionUbuntuStyle"/>
      <addaction name="actionAMOLED"/>

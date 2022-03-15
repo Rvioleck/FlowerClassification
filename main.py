@@ -62,6 +62,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.classify_res_signal[list, str, bool].connect(self.__setClassifyRes)
         self.AIThread.batch_classify_res_signal[int, str].connect(self.__setBatchClassifyRes)
         self.AIThread.batch_classify_finish_signal[None].connect(self.__batchClassifyFinished)
+        self.AIThread.deep_classify_finish[None].connect(self.__deepClassifyFinished)
         self.AIThread.start()
 
     def mousePressEvent(self, event):
@@ -507,9 +508,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self._exportBatchImages()
 
     def __deepClassify(self):
+        # 深度预测--进度条
+        self.progressBar1 = QProgressBar(self.layoutWidget)
+        self.progressBar1.setMaximum(147)
+        self.horizontalLayout_3.addWidget(self.progressBar1)
+        self.progressBar1.setValue(2)
         # 进行深度预测
-        self.AIThread.deep_classify_finish[None].connect(self.__deepClassifyFinished)
-        self.AIThread.deep_classify_progress[None].connect(self.__progressBarValueIncrease)
         print("AI Thread is running: deepClassify")
         self.AIThread.setFiles(self.flower_pixmap)
         self.AIThread.setOperation("deepClassify")
@@ -520,16 +524,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.predictButton.setEnabled(False)
         self.batchPredictButton.setEnabled(False)
 
-        # 深度预测--进度条
-        self.progressBar1 = QProgressBar(self.layoutWidget)
-        self.progressBar1.setMaximum(147)
-        self.horizontalLayout_3.addWidget(self.progressBar1)
-        self.step = 2
-        self.progressBar1.setValue(self.step)
-
     def __deepClassifyFinished(self):
-        self.step = 2
-        self.progressBar1.setValue(self.progressBar1.maximum())
+        self.progressBar1.setValue(147)
         self.horizontalLayout_3.removeWidget(self.progressBar1)
         self.progressBar1.deleteLater()
         QMessageBox.information(self, "成功", "完成图像的深度预测！", QMessageBox.Ok)
@@ -538,10 +534,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.actionClassify.setEnabled(True)
         self.predictButton.setEnabled(True)
         self.batchPredictButton.setEnabled(True)
-
-    def __progressBarValueIncrease(self):
-        self.step += 1
-        self.progressBar1.setValue(self.step)
 
     def _pasteImage(self):
         """
@@ -653,6 +645,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
         self.pieChartWidget.setPortion(portion)
         self.pieChartWidget.initChart(model_name=model_name)
+        if tag:
+            self.progressBar1.setValue(self.progressBar1.value() + 21)
         # 禁用部分按钮
         if not tag:  # 非深度预测时一次预测时结束进行按钮释放
             self.menu_M.setEnabled(True)
@@ -676,7 +670,6 @@ class AIModelOperationThread(QThread):
     # 传递结果列表portion, 结果值res, 是否为深度测评tag
     classify_res_signal = Signal(list, str, bool)
     deep_classify_finish = Signal()
-    deep_classify_progress = Signal()
 
     flower_words = MyMainWindow.flower_words
 
@@ -738,8 +731,8 @@ class AIModelOperationThread(QThread):
 
     def __calPortion(self, portion, whole_portion, model_weight, model_name):
         for i, per in enumerate(portion):
-            self.deep_classify_progress[None].emit()
             whole_portion[i] += per * model_weight[model_name]
+            print("发射信号")
         res = self.flower_words[whole_portion.index(max(whole_portion))]
         standard_portion = [(i / sum(whole_portion)) for i in whole_portion]
         self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
