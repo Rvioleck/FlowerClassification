@@ -1,8 +1,8 @@
 from PySide6.QtCore import Qt, QRect, Signal, QPointF, QEvent
 from PySide6.QtGui import QColor, QPixmap, QIcon
-from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
+from PySide6.QtWidgets import QApplication, QDialog
 
-from my_graphics import GraphicsView
+from my_graphics_view import GraphicsView
 from ui_my_cutter import Ui_Dialog
 
 
@@ -83,10 +83,10 @@ class ImageCutter(QDialog, Ui_Dialog):
                 max(self.graphicsView.image_item.start_point.y(), self.graphicsView.image_item.end_point.y()))
             rect = QRect(start_point.toPoint(), end_point.toPoint())
             cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
-            self.save_signal.emit(cropped_pixmap)
+            self.save_signal[QPixmap].emit(cropped_pixmap)
             # QMessageBox.information(self, "完成", "图片处理完成！", QMessageBox.Ok)
         except AttributeError as e:
-            print("未进行裁剪操作")
+            print(e)
         self.close()
 
     def rightRotateToolButton_clicked(self):
@@ -109,7 +109,7 @@ class ImageCutter(QDialog, Ui_Dialog):
         contrast = self.horizontalSliderContrast.value()
         hue = self.horizontalSliderHues.value()
         saturation = self.horizontalSliderSaturation.value()
-        self.graphicsView.img_attribute_signal.emit(brightness/200, contrast, hue/200, saturation)
+        self.graphicsView.img_attribute_signal.emit(brightness / 200, contrast, hue / 200, saturation)
 
 
 if __name__ == '__main__':

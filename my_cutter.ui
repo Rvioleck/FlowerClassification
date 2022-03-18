@@ -163,7 +163,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>images/水平翻转.png</normaloff>images/水平翻转.png</iconset>
+     <normaloff>images/垂直翻转.png</normaloff>images/垂直翻转.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -198,7 +198,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>images/垂直翻转.png</normaloff>images/垂直翻转.png</iconset>
+     <normaloff>images/水平翻转.png</normaloff>images/水平翻转.png</iconset>
    </property>
    <property name="iconSize">
     <size>

@@ -4,17 +4,17 @@ import sys
 
 from PIL import ImageGrab
 from PySide6.QtCore import QEvent, QPoint, QRect, QThread, Signal
-from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap, QDropEvent
+from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QTableWidgetItem, QMenu, \
-    QProgressBar, QApplication
+    QProgressBar, QApplication, QGraphicsDropShadowEffect
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
-from AboutWindow import AboutWindow
-from BarStackChart import BarWidget
-from ImageCutter import ImageCutter
-from ImageViewer import ImageViewer
-from PieSeriesChart import PieWidget
+from help_window import HelpWindow
+from barStack_chart import BarWidget
+from image_cutter import ImageCutter
+from image_viewer import ImageViewer
+from pieSeries_chart import PieWidget
 from ui_MainWindowFlower import Ui_MainWindow
 
 
@@ -90,51 +90,22 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         if watched == self.imageLabel:
             if event.type() == QEvent.MouseButtonDblClick:
                 self._getImage()
+        if watched == self.pathLabel:
+            if event.type() == QEvent.MouseButtonDblClick:
+                url = self.pathLabel.text()
+                if url == "":
+                    return QMainWindow.eventFilter(self, watched, event)
+                os.startfile(url)
         # 对于其余情况返回默认处理方法
         return QMainWindow.eventFilter(self, watched, event)
 
-    def dropEvent(self, event: QDropEvent) -> None:
-        self.imageLabel.setPixmap(event.mimeData().imageData())
-        event.acceptProposedAction()
-
-    def initConnectSlot(self):
-        # 绑定按钮点击信号
-        self.chooseButton.clicked.connect(self._getImage)
-        self.batchChooseButton.clicked.connect(self._getBatchImage)
-        self.predictButton.clicked.connect(self.__classifyImage)
-        self.clearTableButton.clicked.connect(self.__clearTableContent)
-        self.clearButton.clicked.connect(self.clearImportContent)
-        self.batchPredictButton.clicked.connect(self.__classifyBatchImages)
-        self.getDirectoryButton.clicked.connect(self.getBatchDirectory)
-        self.getDirectoryButton_2.clicked.connect(self.getDirectory)
-        self.batchExportButton.clicked.connect(self._exportBatchImages)
-        self.cutButton.clicked.connect(self.__cutImage)
-        self.resetButton.clicked.connect(self.__resetImage)
-        self.saveButton.clicked.connect(self._saveImage)
-        self.statisticsButton.clicked.connect(self.__showResultStatistics)
-        # 事件过滤器
-        self.imageLabel.installEventFilter(self)
-        self.imageLabel.pixmap_signal[bool, str, QPixmap].connect(self.__dropImage)
-        # 绑定工具栏触发信号
-        self.menu_M.triggered[QAction].connect(self.chooseModel)
-        # 绑定菜单栏触发信号
-        self.menu.triggered[QAction].connect(self.__menuOperation)
-        self.menu_2.triggered[QAction].connect(self.__menuOperation2)
-        self.toolBar.actionTriggered[QAction].connect(self.__toolBarOperation)
-        # 绑定表格组件点击信号
-        self.tableWidget.cellDoubleClicked.connect(self.__viewImage)
-        # 绑定表格组件右键菜单信号
-        self.tableWidget.customContextMenuRequested.connect(self.__popMenu)
-        # 应用程序全局热键
-        QShortcut(QKeySequence(self.tr("Ctrl+V")), self, self._pasteImage)
-
     def initUI(self):
         # 菜单栏QAction充当占位符
-        self.standerAction = QAction()
+        self.holderAction = QAction(self)
         space = "  " * 87
-        self.standerAction.setText(space)
-        self.standerAction.setEnabled(False)
-        self.menubar.addAction(self.standerAction)
+        self.holderAction.setText(space)
+        self.holderAction.setEnabled(False)
+        self.menubar.addAction(self.holderAction)
         # 菜单栏，最小化QAction
         self.lowerAction = QAction(self)
         self.lowerAction.setText("-")
@@ -160,16 +131,70 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget = BarWidget()
         self.barChartWidget.setStyleSheet(self.styleSheet())
         self.initPieChart()
+        # 组件阴影
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(3, 3)  # 偏移
+        effect_shadow.setBlurRadius(20)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.imageTextEdit.setGraphicsEffect(effect_shadow)
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(3, 3)  # 偏移
+        effect_shadow.setBlurRadius(20)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.statisticsTextEdit.setGraphicsEffect(effect_shadow)
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(3, 3)  # 偏移
+        effect_shadow.setBlurRadius(20)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.savePathTextEdit.setGraphicsEffect(effect_shadow)
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(3, 3)  # 偏移
+        effect_shadow.setBlurRadius(5)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.convertModeCheckBox.setGraphicsEffect(effect_shadow)
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(3, 3)  # 偏移
+        effect_shadow.setBlurRadius(5)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.batchRenameCheckBox.setGraphicsEffect(effect_shadow)
+
+    def initConnectSlot(self):
+        # 绑定按钮点击信号
+        self.chooseButton.clicked.connect(self._getImage)
+        self.batchChooseButton.clicked.connect(self._getBatchImage)
+        self.predictButton.clicked.connect(self.__classifyImage)
+        self.clearTableButton.clicked.connect(self.__clearTableContent)
+        self.clearButton.clicked.connect(self.clearImportContent)
+        self.batchPredictButton.clicked.connect(self.__classifyBatchImages)
+        self.getDirectoryButton.clicked.connect(self.getBatchDirectory)
+        self.getDirectoryButton_2.clicked.connect(self.getDirectory)
+        self.batchExportButton.clicked.connect(self._exportBatchImages)
+        self.cutButton.clicked.connect(self.__cutImage)
+        self.resetButton.clicked.connect(self.__resetImage)
+        self.saveButton.clicked.connect(self._saveImage)
+        self.statisticsButton.clicked.connect(self.__showBarChartView)
+        # 事件过滤器
+        self.imageLabel.installEventFilter(self)
+        self.imageLabel.pixmap_signal[bool, str, QPixmap].connect(self.__dropImage)
+        self.pathLabel.installEventFilter(self)
+        # 绑定工具栏触发信号
+        self.menu_M.triggered[QAction].connect(self.chooseModel)
+        # 绑定菜单栏触发信号
+        self.menu.triggered[QAction].connect(self.__menuOperation)
+        self.menu_2.triggered[QAction].connect(self.__menuOperation2)
+        self.toolBar.actionTriggered[QAction].connect(self.__toolBarOperation)
+        # 绑定表格组件点击信号
+        self.tableWidget.cellDoubleClicked.connect(self.__viewImage)
+        # 绑定表格组件右键菜单信号
+        self.tableWidget.customContextMenuRequested.connect(self.__popMenu)
+        # 应用程序全局热键
+        QShortcut(QKeySequence(self.tr("Ctrl+V")), self, self._pasteImage)
 
     def initStyleSheet(self):
         style = readQssFile(u"./stylesheet/Ubuntu.qss")
         self.setStyleSheet(style)
 
     def initPieChart(self):
-        # try:
-        #     self.pieChartWidget.deleteLater()
-        # except AttributeError as e:
-        #     print(e)
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
         self.pieChartWidget.setGeometry(QRect(22, 105, 471, 431))
         self.pieChartWidget.setVisible(True)
@@ -178,9 +203,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # AI模型预加载
         self.ai_model = model
 
-    def __loadModel(self, model):
+    def __loadModel(self, model: Model):
         # AI模型初始化(Model)
         self.ai_model = model
+        action_name = model.__class__.__name__
+        action_name = action_name[0].lower() + action_name[1:] + "Action"
+        eval(f"self.{action_name}.setChecked(True)")  # 菜单栏勾选选中模型
         # 恢复部分按钮
         self.menu_M.setEnabled(True)
         self.actionClassify.setEnabled(True)
@@ -237,20 +265,36 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             return
         if model_action == self.denseNet121Action:
             self.AIThread.setModel(DenseNet121())
-        elif model_action == self.efficientNetB0Action:
+        else:
+            self.denseNet121Action.setChecked(False)
+        if model_action == self.efficientNetB0Action:
             self.AIThread.setModel(EfficientNetB0())
-        elif model_action == self.efficientNetB2Action:
+        else:
+            self.efficientNetB0Action.setChecked(False)
+        if model_action == self.efficientNetB2Action:
             self.AIThread.setModel(EfficientNetB2())
-        elif model_action == self.efficientNetB4Action:
+        else:
+            self.efficientNetB2Action.setChecked(False)
+        if model_action == self.efficientNetB4Action:
             self.AIThread.setModel(EfficientNetB4())
-        elif model_action == self.efficientNetB7Action:
+        else:
+            self.efficientNetB4Action.setChecked(False)
+        if model_action == self.efficientNetB7Action:
             self.AIThread.setModel(EfficientNetB7())
-        elif model_action == self.inceptionAction:
+        else:
+            self.efficientNetB7Action.setChecked(False)
+        if model_action == self.inceptionV3Action:
             self.AIThread.setModel(InceptionV3())
-        elif model_action == self.vggAction:
+        else:
+            self.inceptionV3Action.setChecked(False)
+        if model_action == self.vGG19Action:
             self.AIThread.setModel(VGG19())
-        elif model_action == self.mobileNetAction:
+        else:
+            self.vGG19Action.setChecked(False)
+        if model_action == self.mobileNetV2Action:
             self.AIThread.setModel(MobileNetV2())
+        else:
+            self.mobileNetV2Action.setChecked(False)
         # AI线程启动模型加载
         print("AI Thread is running: load")
         self.AIThread.setOperation("load")
@@ -275,15 +319,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.savePathTextEdit.setText(self.directory)
 
     def clearImportContent(self):
-        self.resultLabel_2.setPixmap(QPixmap())
-        self.flower_path = ""
-        self.flower_name = ""
-        self.flower_path = ""
+        self.resultLabel_2.setPixmap(QPixmap())  # 清空预测结果图标
+        self.resultLabel_3.setText("")
+        self.flower_path = ""  # 清空图片路径
+        self.flower_name = ""  # 清空图片名
         self.flower_image = None
-        self.flower_pixmap = QPixmap(u"./images/打开图片.png")
+        self.flower_pixmap = None
         self.resultLabel.setText("未导入图片")
         self.resultLabel_2.setPixmap(QPixmap())
         self.pathLabel.setText("")  # 显示文件夹地址
+        self.pathLabel.setToolTip("")
         self.nameEdit.setText("")  # 显示文件名
         self.imageLabel.setPixmap(QPixmap(u"./images/打开图片.png"))  # 显示花朵图片
         self.imageTextEdit.setText("")
@@ -476,15 +521,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.image_cutter.show()
 
     def __passImage(self, pixmap):
-        self.imageLabel.setPixmap(pixmap)
         self.flower_pixmap = pixmap
-        self.x = get_input_x(pixmap)
         self.flower_image = ImageQt.fromqpixmap(pixmap)
-        self.imageTextEdit.setText(
-            "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
-            "<p>图片格式：<b><font color=red>{}</font></b></p>"
-            "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
-                self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format, self.flower_image.mode))
+        self.update()
 
     def __viewImage(self, row):
         self.image_viewer = ImageViewer(image=self.files[row], background=QColor(235, 255, 244))
@@ -492,16 +531,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.image_viewer.show()
 
     def __menuOperation(self, action):
-        if action == self.actionNew:
-            print("new")
-        elif action == self.actionClose:
+        if action == self.actionClose:
             app.exit()
 
     def __menuOperation2(self, action):
         if action == self.actionAbout:
-            self.aboutWindow = AboutWindow()
-            self.aboutWindow.setStyleSheet(self.styleSheet())
-            self.aboutWindow.show()
+            self.helpWindow = HelpWindow()
+            self.helpWindow.setStyleSheet(self.styleSheet())
+            self.helpWindow.show()
         if action == self.actionMyStyle:
             self.setStyleSheet(readQssFile(u"./stylesheet/style.qss"))
         if action == self.actionUbuntuStyle:
@@ -583,20 +620,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             print(e)
             print("当前剪切板项非图片")
             return
-        # self.flower_image = self.flower_pixmap.toImage()  # QPixmap -> QImage
+        self.directory_path = ""
         self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)
-        self.x = get_input_x(self.flower_pixmap)
-        self.flower_name = "剪贴板临时文件.jpg"
-        self.imageLabel.setPixmap(self.flower_pixmap)
-        self.imageTextEdit.setText(
-            "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
-            "<p>图片格式：<b><font color=red>{}</font></b></p>"
-            "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
-                self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
-                self.flower_image.mode))
-        self.pathLabel.setText("")
-        self.nameEdit.setText("剪贴板临时文件")
-        self.initPieChart()
+        self.flower_name = "剪贴板临时文件"
+        self.update()
 
     def _getImage(self):
         """
@@ -623,15 +650,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         重新导入工作区的图片
         (不包括剪贴板临时图片)
         """
-        answer = QMessageBox.information(self, "注意", "是否重置原图",
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        if answer == QMessageBox.Yes:
+        # answer = QMessageBox.information(self, "注意", "是否重置原图",
+        #                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        # if answer == QMessageBox.Yes:
+        try:
             if os.path.exists(self.flower_path):  # 如果是本地url，则直接重新读取重置
                 self.flower_pixmap = QPixmap(self.flower_path)
             else:  # 如果不是本地url，则重置为drop时的pixmap
-                self.flower_pixmap = QPixmap(self.imageLabel.pixmap)  # 重置QPixmap格式的flower
+                self.flower_pixmap = QPixmap(self.imageLabel.my_pixmap)  # 重置QPixmap格式的flower
             self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)  # 更新Image格式的flower
             self.update()
+        except TypeError as e:
+            print("__resetImage")
+            print(e)
 
     def __classifyImage(self):
         """
@@ -652,11 +683,33 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.batchPredictButton.setEnabled(False)
 
     def __setClassifyRes(self, portion, res, tag=False):
-        index = self.flower_words.index(res)
-        name = self.flowers[index]
-        prompt = "{}的预测结果：<b><font color=red>{}</font></b>".format(self.flower_name, name)
-        self.resultLabel.setText(prompt)
+        def getMaxPortion(array, iteration):
+            # 获取前iteration个的(结果，占比，颜色)
+            top_res = []
+            top_per = []
+            top_color = []
+            for _ in range(0, iteration):
+                max_idx = array.index(max(array))
+                top_res.append(self.flowers[max_idx])
+                top_per.append(max(array))
+                top_color.append(rgb2html(self.colors[max_idx]))
+                array[max_idx] = 0
+            return top_res, top_per, top_color
+
+        idx = self.flower_words.index(res)
+        name = self.flowers[idx]
+        prompt1 = '{}的预测结果：<b><font size = "5" color={}>{}</font></b>'.format(self.flower_name,
+                                                                              rgb2html(self.colors[idx]), name)
+        self.resultLabel.setText(prompt1)
         self.resultLabel_2.setPixmap(QPixmap("images/flowers/{}.png".format(res)))
+        num = 3  # 显示概率最大的个数
+        res, per, color = getMaxPortion(portion.copy(), num)
+        prompt2 = "预测结果：<b>"
+        for i in range(0, num):
+            prompt2 += "<font color={}>{}:{:.4%}&nbsp;&nbsp;</font>".format(color[i], res[i], per[i])
+        prompt2 += "</b>"
+        self.resultLabel_3.setText(prompt2)
+        self.resultLabel_3.setToolTip("{}: {:.4%}".format(res[0], per[0]))
         # tag: 标记是否为最大加权网络
         model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
         self.pieChartWidget.setPortion(portion)
@@ -670,23 +723,45 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.predictButton.setEnabled(True)
             self.batchPredictButton.setEnabled(True)
 
-    def __showResultStatistics(self):
+    def __showBarChartView(self):
         self.barChartWidget.show()
 
     def update(self) -> None:
         print("update")
-        self.pathLabel.setText(self.directory_path)  # 显示文件夹地址
-        self.pathLabel.setToolTip(self.directory_path)
-        self.nameEdit.setText(self.flower_name)  # 显示文件名
-        self.imageLabel.setPixmap(self.flower_pixmap)  # 显示花朵图片
-        self.resultLabel.setText("{}的预测结果：".format(self.flower_name))  # 预加载处理结果
-        self.imageTextEdit.setText(  # 显示图片信息
-            "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
-            "<p>图片格式：<b><font color=red>{}</font></b></p>"
-            "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
-                self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
-                self.flower_image.mode))
-        self.resultLabel_2.setPixmap(QPixmap())
+        self.pathLabel.setText(self.directory_path)  # 更新显示文件夹地址
+        self.pathLabel.setToolTip("双击打开")  # 更新显示文件夹地址提示
+        self.nameEdit.setText(self.flower_name)  # 更新显示文件名
+        self.imageLabel.setPixmap(self.flower_pixmap)  # 更新显示花朵图片
+        self.resultLabel.setText("{}的预测结果：".format(self.flower_name))  # 更新预加载处理结果
+        mode = "<p>色彩模式：<b>"
+        for c in self.flower_image.mode:
+            if c == 'R':
+                mode += "<font color=red>R</font>"
+            elif c == 'G':
+                mode += "<font color=green>G</font>"
+            elif c == 'B':
+                mode += "<font color=blue>B</font>"
+            elif c == 'A' or c == "K":
+                mode += f"<font color=black>{c}</font>"
+            elif c == 'C':
+                mode += "<font color=aqua>C</font>"
+            elif c == 'M':
+                mode += "<font color=#8B008B>M</font>"
+            elif c == 'Y':
+                mode += "<font color=yellow>Y</font>"
+        mode += "</b></p>"
+        self.imageTextEdit.setText(  # 更新显示图片信息
+            "<p>图片名：<b><font color=black>{}</font></b></p>"
+            "<p>图片分辨率：<b><font color=black>{}×{}</font></b></p>"
+            "<p>图片格式：<b><font color=black>{}</font></b></p>"
+            "{}".format(
+                self.flower_name,
+                self.flower_image.size[0], self.flower_image.size[1],
+                self.flower_image.format,
+                mode))
+        self.resultLabel_2.setPixmap(QPixmap())  # 更新
+        self.resultLabel_3.setText("")
+        self.resultLabel_3.setToolTip("")
         self.initPieChart()
 
 
@@ -798,8 +873,20 @@ class AIModelOperationThread(QThread):
 
 
 def readQssFile(qss_file_name):
+    # 读入Qss
     with open(qss_file_name, 'r', encoding='UTF-8') as file:
         return file.read()
+
+
+def rgb2html(color):
+    # RGB颜色转HTML颜色
+    number = '#'
+    for i in color:
+        shu = hex(int(i))[2:]
+        if len(shu) < 2:
+            shu = '0' + shu
+        number += shu
+    return number
 
 
 if __name__ == '__main__':

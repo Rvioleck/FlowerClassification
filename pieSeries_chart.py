@@ -3,7 +3,7 @@ import sys
 from PySide6.QtCharts import QChartView, QChart, QPieSeries, QPieSlice
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPainter, QPen, QColor, QFont, QBrush, QCursor
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QGraphicsDropShadowEffect
 
 
 class PieWidget(QChartView):
@@ -31,6 +31,11 @@ class PieWidget(QChartView):
         self.setCursor(QCursor(Qt.ArrowCursor))
         self.setVisible(False)
         self.resize(441, 411)
+        self.effect_shadow = QGraphicsDropShadowEffect(self)
+        self.effect_shadow.setOffset(3, 3)  # 偏移
+        self.effect_shadow.setBlurRadius(10)  # 阴影半径
+        self.effect_shadow.setColor(Qt.gray)
+        self.setGraphicsEffect(self.effect_shadow)
 
     def setPortion(self, portion):
         self.portion = portion

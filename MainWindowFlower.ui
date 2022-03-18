@@ -78,7 +78,7 @@
     </property>
     <widget class="QWidget" name="tab1">
      <attribute name="title">
-      <string>图片操作</string>
+      <string>花朵预测</string>
      </attribute>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
@@ -197,9 +197,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>20</y>
+         <y>23</y>
          <width>261</width>
-         <height>41</height>
+         <height>34</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -222,13 +222,13 @@
        </property>
        <property name="font">
         <font>
-         <family>微软雅黑</family>
+         <family>微软雅黑 Light</family>
          <pointsize>8</pointsize>
          <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
+        <cursorShape>WhatsThisCursor</cursorShape>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
@@ -713,31 +713,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>3</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>3</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QLabel" name="resultLabel_2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -800,6 +775,26 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="resultLabel_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>65</y>
+         <width>471</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>10</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
        </property>
       </widget>
      </widget>
@@ -1332,7 +1327,7 @@
      <widget class="QPushButton" name="statisticsButton">
       <property name="geometry">
        <rect>
-        <x>820</x>
+        <x>832</x>
         <y>520</y>
         <width>30</width>
         <height>30</height>
@@ -1476,10 +1471,10 @@
     <addaction name="efficientNetB2Action"/>
     <addaction name="efficientNetB0Action"/>
     <addaction name="separator"/>
-    <addaction name="mobileNetAction"/>
+    <addaction name="mobileNetV2Action"/>
     <addaction name="denseNet121Action"/>
-    <addaction name="inceptionAction"/>
-    <addaction name="vggAction"/>
+    <addaction name="inceptionV3Action"/>
+    <addaction name="vGG19Action"/>
     <addaction name="separator"/>
     <addaction name="actionCNN"/>
    </widget>
@@ -1526,6 +1521,9 @@
    </property>
   </action>
   <action name="denseNet121Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>DenseNet121</string>
    </property>
@@ -1537,6 +1535,9 @@
    </property>
   </action>
   <action name="efficientNetB0Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>EfficientNetB0</string>
    </property>
@@ -1547,7 +1548,10 @@
     <string>Ctrl+Alt+0</string>
    </property>
   </action>
-  <action name="vggAction">
+  <action name="vGG19Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>VGG19</string>
    </property>
@@ -1558,7 +1562,10 @@
     <string>Ctrl+Alt+G</string>
    </property>
   </action>
-  <action name="inceptionAction">
+  <action name="inceptionV3Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>InceptionV3</string>
    </property>
@@ -1637,7 +1644,10 @@
     <string>模型统计</string>
    </property>
   </action>
-  <action name="mobileNetAction">
+  <action name="mobileNetV2Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>MobileNetV2</string>
    </property>
@@ -1649,6 +1659,9 @@
    </property>
   </action>
   <action name="efficientNetB4Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>EfficientNetB4</string>
    </property>
@@ -1660,6 +1673,9 @@
    </property>
   </action>
   <action name="efficientNetB7Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>EfficientNetB7</string>
    </property>
@@ -1760,6 +1776,9 @@
    </property>
   </action>
   <action name="efficientNetB2Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>EfficientNetB2</string>
    </property>

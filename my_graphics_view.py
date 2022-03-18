@@ -1,8 +1,9 @@
+from PIL import ImageQt, Image
 from PySide6.QtCore import QRectF, Qt, Signal, QPointF
 from PySide6.QtGui import QColor, QPixmap, QPen, QTransform
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene, QGraphicsItem
 from tensorflow import image as img
-from PIL import ImageQt, Image
+
 
 class GraphicsView(QGraphicsView):
     save_signal = Signal(bool)

@@ -16,7 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QMainWindow,
-    QSizePolicy, QVBoxLayout, QWidget)
+    QSizePolicy, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
@@ -883,8 +883,16 @@ class Ui_AboutWindow(object):
         self.label_70.setFont(font1)
         self.label_13 = QLabel(self.centralwidget)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setGeometry(QRect(30, 360, 471, 31))
+        self.label_13.setGeometry(QRect(21, 359, 471, 31))
         self.label_13.setOpenExternalLinks(True)
+        self.toolButton = QToolButton(self.centralwidget)
+        self.toolButton.setObjectName(u"toolButton")
+        self.toolButton.setGeometry(QRect(504, 357, 31, 31))
+        icon1 = QIcon()
+        icon1.addFile(u"images/\u4f7f\u7528\u8bf4\u660e.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton.setIcon(icon1)
+        self.toolButton.setIconSize(QSize(32, 32))
+        self.toolButton.setAutoRaise(True)
         AboutWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AboutWindow)
@@ -993,5 +1001,6 @@ class Ui_AboutWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.label_70.setText(QCoreApplication.translate("AboutWindow", u"\u672c\u8f6f\u4ef6\u53ef\u4ee5\u8fdb\u884c\u4ee5\u4e0b24\u7c7b\u82b1\u6735\u56fe\u50cf\u5206\u7c7b", None))
         self.label_13.setText(QCoreApplication.translate("AboutWindow", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">\u672c\u9879\u76ee\u5b8c\u5168\u5f00\u6e90\uff0c\u9879\u76ee\u5e93\u5730\u5740\uff1a</span><a href=\"https://github.com/Rvioleck/FlowerClassification\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/Rvioleck/FlowerClassification</span></a></p></body></html>", None))
+        self.toolButton.setText(QCoreApplication.translate("AboutWindow", u"...", None))
     # retranslateUi
 
