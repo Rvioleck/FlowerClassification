@@ -25,7 +25,6 @@ class ImageCutter(QDialog, Ui_Dialog):
         self.cutPushButton.setStyleSheet(u"QPushButton{image: url(images/图片剪切.png);}\n"
                                          u"QPushButton:hover{image: url(images/图片剪切.png);}\n"
                                          u"QPushButton:pressed{image: url(images/剪切.png); padding: 3px}")
-
         self.graphicsView = GraphicsView(self.image, self)
         self.graphicsView.setBackgroundBrush(QColor(235, 255, 244))
         self.graphicsView.setGeometry(QRect(0, 0, 1101, 691))
@@ -33,7 +32,7 @@ class ImageCutter(QDialog, Ui_Dialog):
         self.graphicsView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
     def initConnectSlot(self):
-        self.graphicsView.save_signal.connect(self.savePushButton.setEnabled)
+        # self.graphicsView.save_signal.connect(self.savePushButton.setEnabled)
         self.cutPushButton.clicked.connect(self.pushButton_cut_clicked)
         self.savePushButton.clicked.connect(self.pushButton_save_clicked)
         self.rightRotateToolButton.clicked.connect(self.rightRotateToolButton_clicked)
@@ -85,7 +84,7 @@ class ImageCutter(QDialog, Ui_Dialog):
             rect = QRect(start_point.toPoint(), end_point.toPoint())
             cropped_pixmap = self.graphicsView.image_item.pixmap().copy(rect)
             self.save_signal.emit(cropped_pixmap)
-            QMessageBox.information(self, "完成", "图片处理完成！", QMessageBox.Ok)
+            # QMessageBox.information(self, "完成", "图片处理完成！", QMessageBox.Ok)
         except AttributeError as e:
             print("未进行裁剪操作")
         self.close()
@@ -117,6 +116,6 @@ if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)
-    form = ImageCutter("./images/image_test/flowers (1).jpg")
+    form = ImageCutter("./images/image_test/flower (1).jpg")
     form.show()
     app.exec()

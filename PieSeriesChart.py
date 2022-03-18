@@ -7,20 +7,20 @@ from PySide6.QtWidgets import QApplication
 
 
 class PieWidget(QChartView):
-    flowers = ["杜鹃花", "叶子花", "康乃馨", "雏  菊", "蒲公英", "栀子花", "木槿花",
-               "绣球花", "鸢尾花", "丁香花", "百合花", "荷  花", "牵牛花", "水仙花",
-               "桃  花", "牡丹花", "蝴蝶兰", "玫瑰花", "樱  花", "向日葵", "郁金香"]
+    flowers = ["杜鹃花", "叶子花", "山茶花", "康乃馨", "菊  花", "雏  菊",
+               "蒲公英", "桂  花", "栀子花", "木槿花", "绣球花", "鸢尾花",
+               "丁香花", "百合花", "荷  花", "牵牛花", "水仙花", "桃  花",
+               "牡丹花", "蝴蝶兰", "玫瑰花", "樱  花", "向日葵", "郁金香"]
 
-    flower_words = ["azalea", "bougainvillea", "carnation", "daisy", "dandelion", "gardenia", "hibiscus",
-                    "hydrangea", "iris", "lilac", "lily", "lotus", "morningglory", "narcissus",
-                    "peachflower", "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
+    flower_words = ["azalea", "bougainvillea", "camellia", "carnation", "chrysanthemum", "daisy",
+           "dandelion", "fragrans", "gardenia", "hibiscus", "hydrangea", "iris",
+           "lilac", "lily", "lotus", "morningglory", "narcissus", "peachflower",
+           "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
 
-    colors = [(222, 60, 60), (255, 148, 217), (218, 187, 171), (241, 203, 6), (96, 67, 1), (187, 187, 187),
-              (227, 58, 91),
-              (169, 177, 232), (153, 69, 253), (216, 158, 221), (176, 197, 122), (106, 135, 89), (28, 77, 183),
-              (249, 245, 138),
-              (224, 189, 213), (210, 111, 173), (185, 73, 79), (120, 0, 20), (181, 97, 127), (205, 134, 18),
-              (240, 96, 140)]
+    colors = [(222, 60, 60), (255, 148, 217), (245,156,185), (218, 187, 171), (236, 181, 1), (241, 203, 6),
+              (96, 67, 1), (229, 223, 105), (187, 187, 187), (227, 58, 91), (169, 177, 232), (153, 69, 253),
+              (216, 158, 221), (176, 197, 122), (106, 135, 89), (28, 77, 183), (249, 245, 138), (224, 189, 213),
+              (210, 111, 173), (185, 73, 79), (120, 0, 20), (181, 97, 127), (205, 134, 18), (240, 96, 140)]
 
     def __init__(self, parent=None, *args, **kwargs):
         super(PieWidget, self).__init__(parent, *args, **kwargs)
@@ -151,7 +151,7 @@ class PieWidget(QChartView):
         self.maxSlice.setExplodeDistanceFactor(0.2)
         self.maxSlice.setPen(QPen(Qt.darkBlue, 2))
         # 设置扇形图组件内占比
-        self.series.setPieSize(0.5)
+        self.series.setPieSize(0.55)
         self.series.hovered[QPieSlice, bool].connect(self.hoveredEvent)
         return self.series
 

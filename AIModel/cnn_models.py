@@ -1,7 +1,7 @@
-import efficientnet.tfkeras as efn
-from keras import Model
-from keras.layers import Dropout, Dense, BatchNormalization
+import efficientnet.keras as efn
 from tensorflow import keras
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Dense
 
 
 class VGG19(Model):
@@ -9,22 +9,14 @@ class VGG19(Model):
         super(VGG19, self).__init__()
         self.net = keras.applications.VGG19(
             weights=None,
-            # weights="./checkpoint/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5",
             include_top=False,
             pooling="max"
         )
-        self.net.trainable = False
-        self.f1 = Dense(1024, activation="relu")
-        self.b1 = BatchNormalization()
-        self.d1 = Dropout(0.5)
-        self.f2 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        x = self.f1(x)
-        x = self.b1(x)
-        x = self.d1(x)
-        y = self.f2(x)
+        y = self.f(x)
         return y
 
 
@@ -33,22 +25,14 @@ class InceptionV3(Model):
         super(InceptionV3, self).__init__()
         self.net = keras.applications.InceptionV3(
             weights=None,
-            # weights="./checkpoint/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5",
             include_top=False,
             pooling="max"
         )
-        self.net.trainable = False
-        self.f1 = Dense(1024, activation="relu")
-        self.b1 = BatchNormalization()
-        self.d1 = Dropout(0.5)
-        self.f2 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        x = self.f1(x)
-        x = self.b1(x)
-        x = self.d1(x)
-        y = self.f2(x)
+        y = self.f(x)
         return y
 
 
@@ -57,22 +41,14 @@ class DenseNet121(Model):
         super(DenseNet121, self).__init__()
         self.net = keras.applications.DenseNet121(
             weights=None,
-            # weights="./checkpoint/densenet121_weights_tf_dim_ordering_tf_kernels_notop.h5",
             include_top=False,
             pooling="max"
         )
-        self.net.trainable = False
-        self.f1 = Dense(1024, activation="relu")
-        self.b1 = BatchNormalization()
-        self.d1 = Dropout(0.5)
-        self.f2 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        x = self.f1(x)
-        x = self.b1(x)
-        x = self.d1(x)
-        y = self.f2(x)
+        y = self.f(x)
         return y
 
 
@@ -82,16 +58,14 @@ class MobileNetV2(Model):
         self.net = keras.applications.MobileNetV2(
             input_shape=(224, 224, 3),
             weights=None,
-            # weights="./checkpoint/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_224_no_top.h5",
             include_top=False,
             pooling="avg"
         )
-        self.net.trainable = False
-        self.f1 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        y = self.f1(x)
+        y = self.f(x)
         return y
 
 
@@ -101,18 +75,31 @@ class EfficientNetB0(Model):
         self.net = efn.EfficientNetB0(
             input_shape=(224, 224, 3),
             weights=None,
-            # weights="./checkpoint/efficientnet-b0_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5",
             include_top=False,
             pooling="avg"
         )
-        self.net.trainable = True
-        for layers in self.net.layers[:-10]:
-            layers.trainable = False
-        self.f1 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        y = self.f1(x)
+        y = self.f(x)
+        return y
+
+
+class EfficientNetB2(Model):
+    def __init__(self):
+        super(EfficientNetB2, self).__init__()
+        self.net = efn.EfficientNetB2(
+            input_shape=(224, 224, 3),
+            weights=None,
+            include_top=False,
+            pooling="avg"
+        )
+        self.f = Dense(24, activation="softmax")
+
+    def call(self, x, **kwargs):
+        x = self.net(x)
+        y = self.f(x)
         return y
 
 
@@ -122,18 +109,14 @@ class EfficientNetB4(Model):
         self.net = efn.EfficientNetB4(
             input_shape=(224, 224, 3),
             weights=None,
-            # weights="./checkpoint/efficientnet-b4_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5",
             include_top=False,
             pooling="avg"
         )
-        self.net.trainable = True
-        for layers in self.net.layers[:-10]:
-            layers.trainable = False
-        self.f1 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        y = self.f1(x)
+        y = self.f(x)
         return y
 
 
@@ -143,16 +126,12 @@ class EfficientNetB7(Model):
         self.net = efn.EfficientNetB7(
             input_shape=(224, 224, 3),
             weights=None,
-            # weights="./checkpoint/efficientnet-b7_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5",
             include_top=False,
             pooling="avg"
         )
-        self.net.trainable = True
-        for layers in self.net.layers[:-10]:
-            layers.trainable = False
-        self.f1 = Dense(21, activation="softmax")
+        self.f = Dense(24, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         x = self.net(x)
-        y = self.f1(x)
+        y = self.f(x)
         return y

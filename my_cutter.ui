@@ -388,7 +388,7 @@
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="toolTip">
-    <string>对比度</string>
+    <string>饱和度</string>
    </property>
    <property name="minimum">
     <number>-5</number>
@@ -413,7 +413,7 @@
     </rect>
    </property>
    <property name="toolTip">
-    <string>对比度</string>
+    <string>饱和度</string>
    </property>
    <property name="text">
     <string/>

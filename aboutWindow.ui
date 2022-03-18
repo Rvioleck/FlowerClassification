@@ -41,7 +41,7 @@ background-color:rgb(235, 255, 244)
       <x>20</x>
       <y>60</y>
       <width>151</width>
-      <height>251</height>
+      <height>284</height>
      </rect>
     </property>
     <property name="font">
@@ -722,6 +722,100 @@ background-color:rgb(235, 255, 244)
        </item>
       </layout>
      </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>山茶花</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>RGB(227, 58, 91)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(245,156,185)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="layoutWidget_4">
@@ -730,7 +824,7 @@ background-color:rgb(235, 255, 244)
       <x>200</x>
       <y>60</y>
       <width>151</width>
-      <height>251</height>
+      <height>284</height>
      </rect>
     </property>
     <property name="font">
@@ -1384,6 +1478,100 @@ background-color:rgb(235, 255, 244)
        </item>
       </layout>
      </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>菊  花</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_71">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>RGB(227, 58, 91)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(236, 181, 1)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="layoutWidget_6">
@@ -1392,7 +1580,7 @@ background-color:rgb(235, 255, 244)
       <x>380</x>
       <y>60</y>
       <width>151</width>
-      <height>251</height>
+      <height>284</height>
      </rect>
     </property>
     <property name="font">
@@ -2064,6 +2252,100 @@ background-color:rgb(235, 255, 244)
        </item>
       </layout>
      </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_25">
+       <item>
+        <widget class="QLabel" name="label_72">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>桂  花</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_73">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_74">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>12</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>RGB(227, 58, 91)</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(229, 223, 105)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
    <widget class="QLabel" name="label_70">
@@ -2083,14 +2365,14 @@ background-color:rgb(235, 255, 244)
      </font>
     </property>
     <property name="text">
-     <string>本软件可以进行以下21类花朵图像分类</string>
+     <string>本软件可以进行以下24类花朵图像分类</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>340</y>
+      <x>30</x>
+      <y>360</y>
       <width>471</width>
       <height>31</height>
      </rect>

@@ -118,8 +118,10 @@ class GraphicsPixmapItem(QGraphicsPixmapItem):
         self.is_finish_cut = False
         x, y = self.boundingRect().x(), self.boundingRect().y()
         w, h = self.boundingRect().width(), self.boundingRect().height()
-        self.start_point = QPointF(x, y)
-        self.end_point = QPointF(x + w, y + h)
+        self.item_start = QPointF(x, y)
+        self.item_end = QPointF(x + w, y + h)
+        self.start_point = self.item_start
+        self.end_point = self.item_end
 
     def mouseMoveEvent(self, event):
         '''鼠标移动事件'''
@@ -148,13 +150,14 @@ class GraphicsPixmapItem(QGraphicsPixmapItem):
         try:
             if self.is_start_cut and not self.is_midbutton:
                 # print(self.start_point, self.current_point)
-                pen = QPen(Qt.DashLine)
-                pen.setColor(QColor(0, 150, 0, 70))
-                pen.setWidth(3)
-                painter.setPen(pen)
-                painter.setBrush(QColor(0, 0, 255, 70))
                 if not self.current_point:
                     return
+                # 绘制截图框
+                pen = QPen(Qt.DashLine)
+                pen.setColor(QColor(88, 155, 255, 240))
+                pen.setWidth(1)
+                painter.setPen(pen)
+                painter.setBrush(QColor(255, 255, 255, 100))
                 painter.drawRect(QRectF(self.start_point, self.current_point))
                 self.end_point = self.current_point
                 self.is_finish_cut = True

@@ -1,9 +1,10 @@
+import os.path
 import shutil
 import sys
 
 from PIL import ImageGrab
 from PySide6.QtCore import QEvent, QPoint, QRect, QThread, Signal
-from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap
+from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap, QDropEvent
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QTableWidgetItem, QMenu, \
     QProgressBar, QApplication
 
@@ -18,20 +19,22 @@ from ui_MainWindowFlower import Ui_MainWindow
 
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
-    flowers = ["杜鹃花", "叶子花", "康乃馨", "雏  菊", "蒲公英", "栀子花", "木槿花",
-               "绣球花", "鸢尾花", "丁香花", "百合花", "荷  花", "牵牛花", "水仙花",
-               "桃  花", "牡丹花", "蝴蝶兰", "玫瑰花", "樱  花", "向日葵", "郁金香"]
+    flowers = ["杜鹃花", "叶子花", "山茶花", "康乃馨", "菊  花", "雏  菊",
+               "蒲公英", "桂  花", "栀子花", "木槿花", "绣球花", "鸢尾花",
+               "丁香花", "百合花", "荷  花", "牵牛花", "水仙花", "桃  花",
+               "牡丹花", "蝴蝶兰", "玫瑰花", "樱  花", "向日葵", "郁金香"]
 
-    flower_words = ["azalea", "bougainvillea", "carnation", "daisy", "dandelion", "gardenia", "hibiscus",
-                    "hydrangea", "iris", "lilac", "lily", "lotus", "morningglory", "narcissus",
-                    "peachflower", "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
+    flower_words = ["azalea", "bougainvillea", "camellia", "carnation", "chrysanthemum", "daisy",
+                    "dandelion", "fragrans", "gardenia", "hibiscus", "hydrangea", "iris",
+                    "lilac", "lily", "lotus", "morningglory", "narcissus", "peachflower",
+                    "peony", "phalaenopsis", "rose", "sakura", "sunflower", "tulip"]
 
-    colors = [(222, 60, 60), (255, 148, 217), (218, 187, 171), (241, 203, 6), (96, 67, 1), (187, 187, 187),
-              (227, 58, 91),
-              (169, 177, 232), (153, 69, 253), (216, 158, 221), (176, 197, 122), (106, 135, 89), (28, 77, 183),
-              (249, 245, 138),
-              (224, 189, 213), (210, 111, 173), (185, 73, 79), (120, 0, 20), (181, 97, 127), (205, 134, 18),
-              (240, 96, 140)]
+    colors = [
+        (222, 60, 60), (255, 148, 217), (245, 156, 185), (218, 187, 171), (236, 181, 1), (241, 203, 6),
+        (96, 67, 1), (229, 223, 105), (187, 187, 187), (227, 58, 91), (169, 177, 232), (153, 69, 253),
+        (216, 158, 221), (176, 197, 122), (106, 135, 89), (28, 77, 183), (249, 245, 138), (224, 189, 213),
+        (210, 111, 173), (185, 73, 79), (120, 0, 20), (181, 97, 127), (205, 134, 18), (240, 96, 140)
+    ]
 
     def __init__(self):
         super(MyMainWindow, self).__init__()
@@ -45,8 +48,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.batchDirectory = ""  # 记录批量图片保存路径
         self.files = []  # 记录已选中的批量图片路径
         self.setupUi(self)  # GUI界面初始化(Viewer)
-        self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initUI()  # 额外GUI初始化
+        self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initStyleSheet()  # 初始化样式表
 
     def initMainWindowMask(self):
@@ -71,10 +74,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.m_DragPosition = event.globalPosition() - self.pos()
             event.accept()
             self.setCursor(QCursor(Qt.OpenHandCursor))
-        elif event.button() == Qt.RightButton:
-            self.close()
-        else:
-            self.lower()
 
     def mouseMoveEvent(self, event):
         if Qt.LeftButton and self.m_drag:
@@ -94,6 +93,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 对于其余情况返回默认处理方法
         return QMainWindow.eventFilter(self, watched, event)
 
+    def dropEvent(self, event: QDropEvent) -> None:
+        self.imageLabel.setPixmap(event.mimeData().imageData())
+        event.acceptProposedAction()
+
     def initConnectSlot(self):
         # 绑定按钮点击信号
         self.chooseButton.clicked.connect(self._getImage)
@@ -111,6 +114,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.statisticsButton.clicked.connect(self.__showResultStatistics)
         # 事件过滤器
         self.imageLabel.installEventFilter(self)
+        self.imageLabel.pixmap_signal[bool, str, QPixmap].connect(self.__dropImage)
         # 绑定工具栏触发信号
         self.menu_M.triggered[QAction].connect(self.chooseModel)
         # 绑定菜单栏触发信号
@@ -147,7 +151,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.twPopMenu = QMenu()  # tableWidget右键菜单
         self.delAction = QAction(QIcon("./images/删除.png"), "删除")  # tableWidget删除行为
         self.twPopMenu.addAction(self.delAction)  # 行为添加至菜单
-        self.delAction.triggered[bool].connect(self.__deleteRow)  # 绑定"删除行为"的槽
+        self.delAction.triggered.connect(self.__deleteRow)  # 绑定"删除行为"的槽
         # label预加载
         self.batchImportLabel.setText("已加载图片张数：0张")
         self.statusBar().showMessage("正在加载模型中...")
@@ -162,12 +166,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.setStyleSheet(style)
 
     def initPieChart(self):
-        try:
-            self.pieChartWidget.deleteLater()
-        except AttributeError as e:
-            print(e)
+        # try:
+        #     self.pieChartWidget.deleteLater()
+        # except AttributeError as e:
+        #     print(e)
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
-        self.pieChartWidget.setGeometry(QRect(20, 80, 441, 441))
+        self.pieChartWidget.setGeometry(QRect(22, 105, 471, 431))
         self.pieChartWidget.setVisible(True)
 
     def __preLoadModel(self, model):
@@ -200,7 +204,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 收到AI线程批量预测中的每次信号
         icon_path = "images/flowers/{}.png".format(res)
         # 完善tablewidget第三列结果和图标
-        self.tableWidget.setItem(i, 2, QTableWidgetItem(QIcon(icon_path), res))
+        self.tableWidget.setItem(i, 2, QTableWidgetItem(QIcon(icon_path), self.flowers[self.flower_words.index(res)]))
         # 添加柱状堆叠图的数据——文件夹: 预测结果
         self.barChartWidget.addData(self.tableWidget.item(i, 0).text(), res)
         self.barChartWidget.initChart()
@@ -235,6 +239,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.AIThread.setModel(DenseNet121())
         elif model_action == self.efficientNetB0Action:
             self.AIThread.setModel(EfficientNetB0())
+        elif model_action == self.efficientNetB2Action:
+            self.AIThread.setModel(EfficientNetB2())
         elif model_action == self.efficientNetB4Action:
             self.AIThread.setModel(EfficientNetB4())
         elif model_action == self.efficientNetB7Action:
@@ -269,22 +275,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.savePathTextEdit.setText(self.directory)
 
     def clearImportContent(self):
-        self.resultLabel.setText("未导入图片")
         self.resultLabel_2.setPixmap(QPixmap())
         self.flower_path = ""
         self.flower_name = ""
         self.flower_path = ""
         self.flower_image = None
-        self.flower_pixmap = None
-        self.x = None
+        self.flower_pixmap = QPixmap(u"./images/打开图片.png")
+        self.resultLabel.setText("未导入图片")
+        self.resultLabel_2.setPixmap(QPixmap())
         self.pathLabel.setText("")  # 显示文件夹地址
         self.nameEdit.setText("")  # 显示文件名
         self.imageLabel.setPixmap(QPixmap(u"./images/打开图片.png"))  # 显示花朵图片
         self.imageTextEdit.setText("")
-        self.pieChartWidget.deleteLater()
-        self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
-        self.pieChartWidget.setGeometry(QRect(20, 80, 441, 441))
-        self.pieChartWidget.setVisible(True)
+        self.initPieChart()
 
     def _getBatchImage(self):
         # AI线程启动参数预加载
@@ -306,7 +309,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.tableWidget.setItem(row_count + i, 2, QTableWidgetItem(""))
             self.files.extend(files)  # 累计已导入文件
             self.batchImportLabel.setText("已加载图片张数：{}".format(len(self.files)))
-        except:
+        except Exception as e:
+            print(e)
             QMessageBox.warning(self, "警告", "请选择一个有效路径", QMessageBox.Ok)
 
     def __classifyBatchImages(self):
@@ -385,7 +389,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             kind_prediction = self.tableWidget.item(i, 2).text()
             if kind_prediction == "":  # 无预测结果的项跳过
                 continue
-            if self.batchRenameRadioButton.isChecked():
+            if self.batchRenameCheckBox.isChecked():
                 # 开启批量重命名
                 file_type = file_name.split(".")[-1]
                 file_name = kind_prediction + "." + file_type
@@ -402,6 +406,17 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 des_path = "{} ({}).{}".format(prefix, i, postfix)
                 i += 1
             shutil.copy(src_path, des_path)  # 从源地址复制到目的地址
+            if self.convertModeCheckBox.isChecked():
+                img = Image.open(des_path)
+                img = img.convert("RGB")
+                os.remove(des_path)
+                des_path = des_path.split(".")[0] + ".jpg"
+                while os.path.isfile(des_path):
+                    # 判断是否有重名文件，避免覆盖
+                    prefix, postfix = save_path.split(".")
+                    des_path = "{} ({}).{}".format(prefix, i, postfix)
+                    i += 1
+                img.save(des_path)
         if not exported_flag:
             # 此次未经过导出
             QMessageBox.information(self, "注意", "请先进行图片预测", QMessageBox.Ok)
@@ -432,6 +447,25 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                          "文件路径为：{}".format(save_path), QMessageBox.Open | QMessageBox.Ok)
         if answer == QMessageBox.Open:
             os.startfile(save_path)
+
+    def __dropImage(self, tag: bool, url: str, pixmap: QPixmap):
+        """
+        tag: 标识是否为浏览器文件
+        url: 图片的url(本地地址和浏览器链接)
+        """
+        if pixmap.isNull():
+            print("请输入正确的图片url！")
+            return
+        self.flower_path = url  # 获取图片的url
+        self.flower_pixmap = pixmap  # 获取花朵图片
+        self.flower_image = ImageQt.fromqpixmap(pixmap)
+        if tag:
+            self.flower_name = "浏览器临时文件"  # 获取花朵文件名
+            url_path = url
+        else:
+            url_path, self.flower_name = os.path.split(url)
+        self.directory_path = url_path
+        self.update()
 
     def __cutImage(self):
         if self.flower_pixmap is None:
@@ -576,22 +610,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                                   "Image Files (*.jpg *.png)")
             if file:
                 self.flower_path = file  # 获取文件地址
-                directory_path, self.flower_name = os.path.split(file)  # 获取花朵文件名
+                self.directory_path, self.flower_name = os.path.split(file)  # 获取花朵文件名
                 self.flower_pixmap = QPixmap(file)  # 获取花朵图片
-                self.x = get_input_x(self.flower_pixmap)
-                self.pathLabel.setText(directory_path)  # 显示文件夹地址
-                self.nameEdit.setText(self.flower_name)  # 显示文件名
-                self.imageLabel.setPixmap(self.flower_pixmap)  # 显示花朵图片
-                self.resultLabel.setText("{}的预测结果：".format(self.flower_name))  # 预加载处理结果
                 self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)
-                self.imageTextEdit.setText(  # 显示图片信息
-                    "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
-                    "<p>图片格式：<b><font color=red>{}</font></b></p>"
-                    "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
-                        self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
-                        self.flower_image.mode))
-                self.resultLabel_2.setPixmap(QPixmap())
-                self.initPieChart()
+                self.update()
         except FileNotFoundError:
             QMessageBox.warning(self, "警告", "请选择一个有效路径", QMessageBox.Ok)
 
@@ -601,21 +623,15 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         重新导入工作区的图片
         (不包括剪贴板临时图片)
         """
-        if self.flower_path == "":  # 未导入图片则不进入函数
-            return
         answer = QMessageBox.information(self, "注意", "是否重置原图",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
         if answer == QMessageBox.Yes:
-            self.flower_pixmap = QPixmap(self.flower_path)  # 重置QPixmap格式的flower
-            self.x = get_input_x(self.flower_pixmap)
-            self.imageLabel.setPixmap(self.flower_pixmap)  # 重绘image label
+            if os.path.exists(self.flower_path):  # 如果是本地url，则直接重新读取重置
+                self.flower_pixmap = QPixmap(self.flower_path)
+            else:  # 如果不是本地url，则重置为drop时的pixmap
+                self.flower_pixmap = QPixmap(self.imageLabel.pixmap)  # 重置QPixmap格式的flower
             self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)  # 更新Image格式的flower
-            self.imageTextEdit.setText(
-                "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
-                "<p>图片格式：<b><font color=red>{}</font></b></p>"
-                "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
-                    self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
-                    self.flower_image.mode))
+            self.update()
 
     def __classifyImage(self):
         """
@@ -657,6 +673,22 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __showResultStatistics(self):
         self.barChartWidget.show()
 
+    def update(self) -> None:
+        print("update")
+        self.pathLabel.setText(self.directory_path)  # 显示文件夹地址
+        self.pathLabel.setToolTip(self.directory_path)
+        self.nameEdit.setText(self.flower_name)  # 显示文件名
+        self.imageLabel.setPixmap(self.flower_pixmap)  # 显示花朵图片
+        self.resultLabel.setText("{}的预测结果：".format(self.flower_name))  # 预加载处理结果
+        self.imageTextEdit.setText(  # 显示图片信息
+            "<p>图片分辨率：<b><font color=red>{}×{}</font></b></p>"
+            "<p>图片格式：<b><font color=red>{}</font></b></p>"
+            "<p>色彩模式：<b><font color=red>{}</font></b></p>".format(
+                self.flower_image.size[0], self.flower_image.size[1], self.flower_image.format,
+                self.flower_image.mode))
+        self.resultLabel_2.setPixmap(QPixmap())
+        self.initPieChart()
+
 
 class AIModelOperationThread(QThread):
     """
@@ -678,6 +710,7 @@ class AIModelOperationThread(QThread):
         print("AIThread Initial")
         self.operation = "load"
         self.ai_model = EfficientNetB0()
+        self.files = None
 
     def run(self) -> None:
         if self.operation == "load":  # 线程进行模型加载
@@ -710,8 +743,10 @@ class AIModelOperationThread(QThread):
         print("AI Thread has finished batchClassifying")
 
     def __deepClassify(self):
-        model_weight = {"EfficientNetB0": 0.912, "EfficientNetB4": 0.905, "EfficientNetB7": 0.907,
-                        "MobileNetV2": 0.848, "DenseNet121": 0.874, "InceptionV3": 0.751, "VGG19": 0.714}
+        model_weight = {
+            "EfficientNetB0": 0.956, "EfficientNetB2": 0.952, "EfficientNetB4": 0.947, "EfficientNetB7": 0.959,
+            "MobileNetV2": 0.927, "DenseNet121": 0.909, "InceptionV3": 0.898, "VGG19": 0.707
+        }
         whole_portion = [0] * len(self.flower_words)
         cur_model_name = self.ai_model.__class__.__name__
         x = get_input_x(self.files)
@@ -732,7 +767,6 @@ class AIModelOperationThread(QThread):
     def __calPortion(self, portion, whole_portion, model_weight, model_name):
         for i, per in enumerate(portion):
             whole_portion[i] += per * model_weight[model_name]
-            print("发射信号")
         res = self.flower_words[whole_portion.index(max(whole_portion))]
         standard_portion = [(i / sum(whole_portion)) for i in whole_portion]
         self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
@@ -763,8 +797,8 @@ class AIModelOperationThread(QThread):
         self.files = files
 
 
-def readQssFile(qssFileName):
-    with open(qssFileName, 'r', encoding='UTF-8') as file:
+def readQssFile(qss_file_name):
+    with open(qss_file_name, 'r', encoding='UTF-8') as file:
         return file.read()
 
 

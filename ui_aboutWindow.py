@@ -35,7 +35,7 @@ class Ui_AboutWindow(object):
 "}")
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(20, 60, 151, 251))
+        self.layoutWidget.setGeometry(QRect(20, 60, 151, 284))
         font = QFont()
         font.setFamilies([u"\u9ed1\u4f53"])
         font.setPointSize(12)
@@ -285,9 +285,43 @@ class Ui_AboutWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.label_14 = QLabel(self.layoutWidget)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setMinimumSize(QSize(50, 28))
+        self.label_14.setMaximumSize(QSize(50, 28))
+        self.label_14.setFont(font)
+        self.label_14.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_6.addWidget(self.label_14)
+
+        self.label_15 = QLabel(self.layoutWidget)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setMinimumSize(QSize(0, 28))
+        self.label_15.setMaximumSize(QSize(30, 28))
+        self.label_15.setFont(font)
+        self.label_15.setScaledContents(True)
+        self.label_15.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_6.addWidget(self.label_15)
+
+        self.label_16 = QLabel(self.layoutWidget)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setMinimumSize(QSize(0, 28))
+        self.label_16.setMaximumSize(QSize(30, 28))
+        self.label_16.setFont(font)
+        self.label_16.setStyleSheet(u"background-color:rgb(245,156,185)")
+        self.label_16.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_6.addWidget(self.label_16)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_6)
+
         self.layoutWidget_4 = QWidget(self.centralwidget)
         self.layoutWidget_4.setObjectName(u"layoutWidget_4")
-        self.layoutWidget_4.setGeometry(QRect(200, 60, 151, 251))
+        self.layoutWidget_4.setGeometry(QRect(200, 60, 151, 284))
         self.layoutWidget_4.setFont(font)
         self.verticalLayout_2 = QVBoxLayout(self.layoutWidget_4)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -525,9 +559,43 @@ class Ui_AboutWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_17)
 
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.label_17 = QLabel(self.layoutWidget_4)
+        self.label_17.setObjectName(u"label_17")
+        self.label_17.setMinimumSize(QSize(50, 28))
+        self.label_17.setMaximumSize(QSize(50, 28))
+        self.label_17.setFont(font)
+        self.label_17.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_7.addWidget(self.label_17)
+
+        self.label_18 = QLabel(self.layoutWidget_4)
+        self.label_18.setObjectName(u"label_18")
+        self.label_18.setMinimumSize(QSize(0, 28))
+        self.label_18.setMaximumSize(QSize(30, 28))
+        self.label_18.setFont(font)
+        self.label_18.setScaledContents(True)
+        self.label_18.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_7.addWidget(self.label_18)
+
+        self.label_71 = QLabel(self.layoutWidget_4)
+        self.label_71.setObjectName(u"label_71")
+        self.label_71.setMinimumSize(QSize(0, 28))
+        self.label_71.setMaximumSize(QSize(30, 28))
+        self.label_71.setFont(font)
+        self.label_71.setStyleSheet(u"background-color:rgb(236, 181, 1)")
+        self.label_71.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_7.addWidget(self.label_71)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_7)
+
         self.layoutWidget_6 = QWidget(self.centralwidget)
         self.layoutWidget_6.setObjectName(u"layoutWidget_6")
-        self.layoutWidget_6.setGeometry(QRect(380, 60, 151, 251))
+        self.layoutWidget_6.setGeometry(QRect(380, 60, 151, 284))
         self.layoutWidget_6.setFont(font)
         self.verticalLayout_3 = QVBoxLayout(self.layoutWidget_6)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
@@ -771,6 +839,40 @@ class Ui_AboutWindow(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_24)
 
+        self.horizontalLayout_25 = QHBoxLayout()
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.label_72 = QLabel(self.layoutWidget_6)
+        self.label_72.setObjectName(u"label_72")
+        self.label_72.setMinimumSize(QSize(50, 28))
+        self.label_72.setMaximumSize(QSize(50, 28))
+        self.label_72.setFont(font)
+        self.label_72.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_25.addWidget(self.label_72)
+
+        self.label_73 = QLabel(self.layoutWidget_6)
+        self.label_73.setObjectName(u"label_73")
+        self.label_73.setMinimumSize(QSize(0, 28))
+        self.label_73.setMaximumSize(QSize(30, 28))
+        self.label_73.setFont(font)
+        self.label_73.setScaledContents(True)
+        self.label_73.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_25.addWidget(self.label_73)
+
+        self.label_74 = QLabel(self.layoutWidget_6)
+        self.label_74.setObjectName(u"label_74")
+        self.label_74.setMinimumSize(QSize(0, 28))
+        self.label_74.setMaximumSize(QSize(30, 28))
+        self.label_74.setFont(font)
+        self.label_74.setStyleSheet(u"background-color:rgb(229, 223, 105)")
+        self.label_74.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_25.addWidget(self.label_74)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_25)
+
         self.label_70 = QLabel(self.centralwidget)
         self.label_70.setObjectName(u"label_70")
         self.label_70.setGeometry(QRect(90, 20, 371, 31))
@@ -781,7 +883,7 @@ class Ui_AboutWindow(object):
         self.label_70.setFont(font1)
         self.label_13 = QLabel(self.centralwidget)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setGeometry(QRect(40, 340, 471, 31))
+        self.label_13.setGeometry(QRect(30, 360, 471, 31))
         self.label_13.setOpenExternalLinks(True)
         AboutWindow.setCentralWidget(self.centralwidget)
 
@@ -821,6 +923,10 @@ class Ui_AboutWindow(object):
 #if QT_CONFIG(tooltip)
         self.label_6.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(227, 58, 91)", None))
 #endif // QT_CONFIG(tooltip)
+        self.label_14.setText(QCoreApplication.translate("AboutWindow", u"\u5c71\u8336\u82b1", None))
+#if QT_CONFIG(tooltip)
+        self.label_16.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(227, 58, 91)", None))
+#endif // QT_CONFIG(tooltip)
         self.label_25.setText(QCoreApplication.translate("AboutWindow", u"\u7ee3\u7403\u82b1", None))
 #if QT_CONFIG(tooltip)
         self.label_27.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(169, 177, 232)", None))
@@ -848,6 +954,10 @@ class Ui_AboutWindow(object):
         self.label_46.setText(QCoreApplication.translate("AboutWindow", u"\u6c34\u4ed9\u82b1", None))
 #if QT_CONFIG(tooltip)
         self.label_48.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(249, 245, 138)", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_17.setText(QCoreApplication.translate("AboutWindow", u"\u83ca  \u82b1", None))
+#if QT_CONFIG(tooltip)
+        self.label_71.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(227, 58, 91)", None))
 #endif // QT_CONFIG(tooltip)
         self.label_49.setText(QCoreApplication.translate("AboutWindow", u"\u6843  \u82b1", None))
 #if QT_CONFIG(tooltip)
@@ -877,7 +987,11 @@ class Ui_AboutWindow(object):
 #if QT_CONFIG(tooltip)
         self.label_69.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(240, 96, 140)", None))
 #endif // QT_CONFIG(tooltip)
-        self.label_70.setText(QCoreApplication.translate("AboutWindow", u"\u672c\u8f6f\u4ef6\u53ef\u4ee5\u8fdb\u884c\u4ee5\u4e0b21\u7c7b\u82b1\u6735\u56fe\u50cf\u5206\u7c7b", None))
-        self.label_13.setText(QCoreApplication.translate("AboutWindow", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">\u672c\u9879\u76ee\u5b8c\u5168\u5f00\u6e90\uff0c\u9879\u76ee\u5e93\u5730\u5740\uff1a</span><a href=\"www.github.com/rvioleck/FlowersClassification\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">www.github.com/rvioleck/FlowersClassification</span></a></p></body></html>", None))
+        self.label_72.setText(QCoreApplication.translate("AboutWindow", u"\u6842  \u82b1", None))
+#if QT_CONFIG(tooltip)
+        self.label_74.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(227, 58, 91)", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_70.setText(QCoreApplication.translate("AboutWindow", u"\u672c\u8f6f\u4ef6\u53ef\u4ee5\u8fdb\u884c\u4ee5\u4e0b24\u7c7b\u82b1\u6735\u56fe\u50cf\u5206\u7c7b", None))
+        self.label_13.setText(QCoreApplication.translate("AboutWindow", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">\u672c\u9879\u76ee\u5b8c\u5168\u5f00\u6e90\uff0c\u9879\u76ee\u5e93\u5730\u5740\uff1a</span><a href=\"https://github.com/Rvioleck/FlowerClassification\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/Rvioleck/FlowerClassification</span></a></p></body></html>", None))
     # retranslateUi
 

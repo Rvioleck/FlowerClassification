@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>910</width>
+    <width>930</width>
     <height>670</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>910</width>
+    <width>930</width>
     <height>670</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>910</width>
+    <width>930</width>
     <height>670</height>
    </size>
   </property>
@@ -56,7 +56,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>901</width>
+      <width>931</width>
       <height>591</height>
      </rect>
     </property>
@@ -71,7 +71,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="movable">
      <bool>true</bool>
@@ -105,7 +105,7 @@
       <property name="flat">
        <bool>true</bool>
       </property>
-      <widget class="QLabel" name="imageLabel">
+      <widget class="ImageLabel" name="imageLabel">
        <property name="geometry">
         <rect>
          <x>50</x>
@@ -113,12 +113,6 @@
          <width>224</width>
          <height>224</height>
         </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
@@ -141,6 +135,9 @@
        </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;双击选择文件&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Ctrl-V &lt;/span&gt;粘贴剪切板图片&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -227,11 +224,11 @@
         <font>
          <family>微软雅黑</family>
          <pointsize>8</pointsize>
-         <bold>false</bold>
+         <bold>true</bold>
         </font>
        </property>
-       <property name="text">
-        <string/>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
@@ -243,6 +240,9 @@
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
        <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="openExternalLinks">
         <bool>true</bool>
        </property>
       </widget>
@@ -581,7 +581,7 @@
        <rect>
         <x>380</x>
         <y>10</y>
-        <width>491</width>
+        <width>501</width>
         <height>541</height>
        </rect>
       </property>
@@ -612,7 +612,7 @@
         <rect>
          <x>20</x>
          <y>26</y>
-         <width>451</width>
+         <width>471</width>
          <height>32</height>
         </rect>
        </property>
@@ -786,10 +786,10 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>80</y>
-         <width>441</width>
-         <height>441</height>
+         <x>22</x>
+         <y>105</y>
+         <width>471</width>
+         <height>431</height>
         </rect>
        </property>
        <property name="pixmap">
@@ -800,19 +800,6 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="Line" name="line_3">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>70</y>
-         <width>451</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </widget>
@@ -857,6 +844,9 @@
         <height>40</height>
        </size>
       </property>
+      <property name="shortcut">
+       <string>Backspace</string>
+      </property>
       <property name="autoRaise">
        <bool>true</bool>
       </property>
@@ -884,6 +874,9 @@
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
       </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectRows</enum>
       </property>
@@ -895,9 +888,6 @@
       </property>
       <property name="showGrid">
        <bool>true</bool>
-      </property>
-      <property name="gridStyle">
-       <enum>Qt::SolidLine</enum>
       </property>
       <property name="sortingEnabled">
        <bool>true</bool>
@@ -913,9 +903,6 @@
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderCascadingSectionResizes">
-       <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderDefaultSectionSize">
        <number>30</number>
@@ -1027,7 +1014,7 @@
        <rect>
         <x>450</x>
         <y>10</y>
-        <width>421</width>
+        <width>451</width>
         <height>151</height>
        </rect>
       </property>
@@ -1041,12 +1028,18 @@
       <property name="title">
        <string>批量预测</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>68</y>
-         <width>401</width>
+         <y>72</y>
+         <width>431</width>
          <height>72</height>
         </rect>
        </property>
@@ -1098,26 +1091,33 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="batchRenameRadioButton">
+           <widget class="QCheckBox" name="convertModeCheckBox">
             <property name="font">
              <font>
               <family>微软雅黑</family>
               <pointsize>9</pointsize>
               <bold>false</bold>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;将图片转换为&lt;span style=&quot; font-weight:700; color:#ff0000;&quot;&gt;R&lt;/span&gt;&lt;span style=&quot; font-weight:700; color:#00ff00;&quot;&gt;G&lt;/span&gt;&lt;span style=&quot; font-weight:700; color:#0000ff;&quot;&gt;B&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;色彩模式&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>批量转换色彩模式</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="batchRenameCheckBox">
+            <property name="font">
+             <font>
+              <family>微软雅黑</family>
+              <pointsize>9</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>以预测的分类结果命名：sunflower.jpg</string>
             </property>
             <property name="text">
              <string>批量重命名</string>
@@ -1318,7 +1318,7 @@
        <rect>
         <x>450</x>
         <y>170</y>
-        <width>421</width>
+        <width>441</width>
         <height>381</height>
        </rect>
       </property>
@@ -1391,7 +1391,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>910</width>
+     <width>930</width>
      <height>30</height>
     </rect>
    </property>
@@ -1473,6 +1473,7 @@
     </property>
     <addaction name="efficientNetB7Action"/>
     <addaction name="efficientNetB4Action"/>
+    <addaction name="efficientNetB2Action"/>
     <addaction name="efficientNetB0Action"/>
     <addaction name="separator"/>
     <addaction name="mobileNetAction"/>
@@ -1498,7 +1499,7 @@
     <string>toolBar</string>
    </property>
    <property name="allowedAreas">
-    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
+    <set>Qt::AllToolBarAreas</set>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -1758,7 +1759,67 @@
     <string>MaterialDark</string>
    </property>
   </action>
+  <action name="efficientNetB2Action">
+   <property name="text">
+    <string>EfficientNetB2</string>
+   </property>
+   <property name="toolTip">
+    <string>EfficientNetB2</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+2</string>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ImageLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">ImageLabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>chooseButton</tabstop>
+  <tabstop>clearButton</tabstop>
+  <tabstop>cutButton</tabstop>
+  <tabstop>resetButton</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>saveNameEdit</tabstop>
+  <tabstop>getDirectoryButton_2</tabstop>
+  <tabstop>predictButton</tabstop>
+  <tabstop>imageTextEdit</tabstop>
+  <tabstop>savePathTextEdit</tabstop>
+  <tabstop>nameEdit</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>batchChooseButton</tabstop>
+  <tabstop>clearTableButton</tabstop>
+  <tabstop>batchPredictButton</tabstop>
+  <tabstop>getDirectoryButton</tabstop>
+  <tabstop>convertModeCheckBox</tabstop>
+  <tabstop>batchRenameCheckBox</tabstop>
+  <tabstop>batchExportButton</tabstop>
+  <tabstop>statisticsButton</tabstop>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>statisticsTextEdit</tabstop>
+  <tabstop>savePathLineEdit</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>savePathLineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>batchExportButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>657</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>718</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -3,7 +3,8 @@ import pickle
 
 import matplotlib.pyplot as plt
 import numpy as np
-from tensorflow import argmax, keras
+from tensorflow import argmax
+from tensorflow.python.keras import losses
 from PIL import Image, ImageQt
 from PySide6.QtGui import QPixmap
 
@@ -120,7 +121,7 @@ def history_show(model_name):
 def load_model(model):
     # 配置优化器，加载模型信息
     model.compile(optimizer='adam',
-                  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),
+                  loss=losses.SparseCategoricalCrossentropy(from_logits=False),
                   metrics=['sparse_categorical_accuracy'])
 
     model_name = model.__class__.__name__
