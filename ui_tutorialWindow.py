@@ -249,7 +249,7 @@ class Ui_TutorialWindow(object):
         self.label_32.setWordWrap(True)
         self.toolButton = QToolButton(self.centralwidget)
         self.toolButton.setObjectName(u"toolButton")
-        self.toolButton.setGeometry(QRect(500, 350, 31, 31))
+        self.toolButton.setGeometry(QRect(505, 353, 31, 31))
         icon1 = QIcon()
         icon1.addFile(u"images/\u4f7f\u7528\u8bf4\u660e.png", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton.setIcon(icon1)
@@ -264,6 +264,9 @@ class Ui_TutorialWindow(object):
 
     def retranslateUi(self, TutorialWindow):
         TutorialWindow.setWindowTitle(QCoreApplication.translate("TutorialWindow", u"\u5173\u4e8e\u672c\u8f6f\u4ef6", None))
+#if QT_CONFIG(tooltip)
+        TutorialWindow.setToolTip(QCoreApplication.translate("TutorialWindow", u"\u53f3\u952e\u5173\u95ed\u7a97\u53e3", None))
+#endif // QT_CONFIG(tooltip)
         self.label_70.setText(QCoreApplication.translate("TutorialWindow", u"\u672c\u8f6f\u4ef6\u7684\u4f7f\u7528\u8bf4\u660e\u5982\u4e0b", None))
         self.groupBox.setTitle(QCoreApplication.translate("TutorialWindow", u"\u9009\u62e9\u56fe\u7247", None))
         self.label_12.setText(QCoreApplication.translate("TutorialWindow", u"\u6253\u5f00(O)\u6309\u94ae\uff1aalt + O", None))

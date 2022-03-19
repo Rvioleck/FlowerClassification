@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/checkpoint" />
       <excludeFolder url="file://$MODULE_DIR$/images" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (FlowerClassification)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (FlowersClassification) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="pyqt5-imageprocessing" />
     <orderEntry type="module" module-name="opencv-pyqt5" />

@@ -902,6 +902,9 @@ class Ui_AboutWindow(object):
 
     def retranslateUi(self, AboutWindow):
         AboutWindow.setWindowTitle(QCoreApplication.translate("AboutWindow", u"\u5173\u4e8e\u672c\u8f6f\u4ef6", None))
+#if QT_CONFIG(tooltip)
+        AboutWindow.setToolTip(QCoreApplication.translate("AboutWindow", u"\u53f3\u952e\u5173\u95ed\u7a97\u53e3", None))
+#endif // QT_CONFIG(tooltip)
         self.label_11.setText(QCoreApplication.translate("AboutWindow", u"\u675c\u9e43\u82b1", None))
 #if QT_CONFIG(tooltip)
         self.label_12.setToolTip(QCoreApplication.translate("AboutWindow", u"RGB(222, 60, 60)", None))

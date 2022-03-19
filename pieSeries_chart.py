@@ -121,7 +121,6 @@ class PieWidget(QChartView):
             max_index = array.index(max_value)
             res[i] = max_index
             array[max_index] = 0
-        print(res)
         return res
 
     @staticmethod

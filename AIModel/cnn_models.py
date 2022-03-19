@@ -1,7 +1,7 @@
 import efficientnet.keras as efn
 from tensorflow import keras
-from tensorflow.keras import Model
-from tensorflow.keras.layers import Dense
+from tensorflow.python.keras import Model
+from tensorflow.python.keras.layers import Dense
 
 
 class VGG19(Model):

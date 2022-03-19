@@ -1,3 +1,5 @@
+import os.path
+
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap, Qt
 from PySide6.QtWidgets import QLabel, QGraphicsDropShadowEffect
@@ -12,7 +14,7 @@ class ImageLabel(QLabel):
         self.setScaledContents(True)
         self.my_pixmap = None
         self.effect_shadow = QGraphicsDropShadowEffect(self)
-        self.effect_shadow.setOffset(8, 8)  # 偏移
+        self.effect_shadow.setOffset(5, 5)  # 偏移
         self.effect_shadow.setBlurRadius(15)  # 阴影半径
         self.effect_shadow.setColor(Qt.gray)
         self.setGraphicsEffect(self.effect_shadow)
@@ -33,6 +35,10 @@ class ImageLabel(QLabel):
         elif event.mimeData().hasUrls():
             text = event.mimeData().text()
             url = text.split("file:///")[-1]
+            if not os.path.exists(url):
+                url = text.split("file:/")[-1]
+            if not os.path.exists(url):
+                url = text.split("file:/")[-1].replace("%20", " ")
             self.my_pixmap = QPixmap(url)
             tag = False
         print(url)

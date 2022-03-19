@@ -6,12 +6,12 @@ from PIL import ImageGrab
 from PySide6.QtCore import QEvent, QPoint, QRect, QThread, Signal
 from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QTableWidgetItem, QMenu, \
-    QProgressBar, QApplication, QGraphicsDropShadowEffect
+    QProgressBar, QApplication, QGraphicsDropShadowEffect, QSystemTrayIcon
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
-from help_window import HelpWindow
 from barStack_chart import BarWidget
+from help_window import HelpWindow
 from image_cutter import ImageCutter
 from image_viewer import ImageViewer
 from pieSeries_chart import PieWidget
@@ -49,10 +49,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.files = []  # 记录已选中的批量图片路径
         self.setupUi(self)  # GUI界面初始化(Viewer)
         self.initUI()  # 额外GUI初始化
+        self.initGraphicsShadow()
         self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initStyleSheet()  # 初始化样式表
 
     def initMainWindowMask(self):
+        # 设置主窗口蒙版，形成圆角窗口
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
         self.pix = QBitmap("images/mask.png")
         self.setMask(self.pix)
@@ -68,21 +70,26 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.deep_classify_finish[None].connect(self.__deepClassifyFinished)
         self.AIThread.start()
 
+    # def contextMenuEvent(self, event):
+    #     main_menu = QMenu(self)
+    #     main_menu.addMenu(self.menu_M)
+    #     action = main_menu.exec(self.mapToGlobal(event.pos()))
+
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.m_drag = True
-            self.m_DragPosition = event.globalPosition() - self.pos()
-            event.accept()
-            self.setCursor(QCursor(Qt.OpenHandCursor))
+        self.pressX = event.position().x()  # 记录鼠标按下的时候的坐标
+        self.pressY = event.position().y()
+        self.setCursor(QCursor(Qt.OpenHandCursor))
 
     def mouseMoveEvent(self, event):
-        if Qt.LeftButton and self.m_drag:
-            # 当左键移动窗体修改偏移值
-            self.move(event.globalPosition().toPoint() - self.m_DragPosition.toPoint())
-            event.accept()
+        x = event.position().x()
+        y = event.position().y()  # 获取移动后的坐标
+        move_x = x - self.pressX
+        move_y = y - self.pressY  # 计算移动了多少
+        position_x = self.frameGeometry().x() + move_x
+        position_y = self.frameGeometry().y() + move_y  # 计算移动后主窗口在桌面的位置
+        self.move(position_x, position_y)  # 移动主窗口
 
     def mouseReleaseEvent(self, event):
-        self.m_drag = False
         self.setCursor(QCursor(Qt.ArrowCursor))
 
     def eventFilter(self, watched, event) -> bool:
@@ -100,17 +107,29 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         return QMainWindow.eventFilter(self, watched, event)
 
     def initUI(self):
+        # 系统托盘图标
+        tray_menu = QMenu(self)
+        tray_menu.addMenu(self.menu_M)
+        tray_menu.addAction(self.actionOpen)
+        tray_menu.addAction(self.actionClose)
+        self.tray_icon = QSystemTrayIcon(self)
+        self.tray_icon.setIcon(QIcon(u"./images/AI识别.ico"))
+        self.tray_icon.show()
+        self.tray_icon.setToolTip("花朵图像识别")
+        self.tray_icon.activated.connect(self.showNormal)
+        self.tray_icon.setContextMenu(tray_menu)
         # 菜单栏QAction充当占位符
         self.holderAction = QAction(self)
         space = "  " * 87
         self.holderAction.setText(space)
         self.holderAction.setEnabled(False)
+        self.holderAction.setChecked(True)
         self.menubar.addAction(self.holderAction)
         # 菜单栏，最小化QAction
         self.lowerAction = QAction(self)
         self.lowerAction.setText("-")
         self.lowerAction.setIcon(QIcon(u"./images/最小化.png"))
-        self.lowerAction.triggered.connect(self.lower)
+        self.lowerAction.triggered.connect(self.showMinimized)
         self.menubar.addAction(self.lowerAction)
         # 菜单栏，退出QAction
         self.closeAction = QAction(self)
@@ -131,32 +150,69 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget = BarWidget()
         self.barChartWidget.setStyleSheet(self.styleSheet())
         self.initPieChart()
-        # 组件阴影
-        effect_shadow = QGraphicsDropShadowEffect(self)
-        effect_shadow.setOffset(3, 3)  # 偏移
-        effect_shadow.setBlurRadius(20)  # 阴影半径
-        effect_shadow.setColor(Qt.gray)
-        self.imageTextEdit.setGraphicsEffect(effect_shadow)
-        effect_shadow = QGraphicsDropShadowEffect(self)
-        effect_shadow.setOffset(3, 3)  # 偏移
-        effect_shadow.setBlurRadius(20)  # 阴影半径
-        effect_shadow.setColor(Qt.gray)
-        self.statisticsTextEdit.setGraphicsEffect(effect_shadow)
-        effect_shadow = QGraphicsDropShadowEffect(self)
-        effect_shadow.setOffset(3, 3)  # 偏移
-        effect_shadow.setBlurRadius(20)  # 阴影半径
-        effect_shadow.setColor(Qt.gray)
-        self.savePathTextEdit.setGraphicsEffect(effect_shadow)
-        effect_shadow = QGraphicsDropShadowEffect(self)
-        effect_shadow.setOffset(3, 3)  # 偏移
-        effect_shadow.setBlurRadius(5)  # 阴影半径
-        effect_shadow.setColor(Qt.gray)
-        self.convertModeCheckBox.setGraphicsEffect(effect_shadow)
-        effect_shadow = QGraphicsDropShadowEffect(self)
-        effect_shadow.setOffset(3, 3)  # 偏移
-        effect_shadow.setBlurRadius(5)  # 阴影半径
-        effect_shadow.setColor(Qt.gray)
-        self.batchRenameCheckBox.setGraphicsEffect(effect_shadow)
+
+    def initGraphicsShadow(self):
+        print("initGraphicsShadow")
+        # GroupBox组件阴影
+        self.effect_shadow_group_box = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_group_box.setOffset(1, 1)  # 偏移
+        self.effect_shadow_group_box.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_group_box.setColor(Qt.gray)
+        self.groupBox.setGraphicsEffect(self.effect_shadow_group_box)
+        # TextEdit组件阴影
+        self.effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_text_edit.setOffset(3, 3)  # 偏移
+        self.effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_text_edit.setColor(Qt.gray)
+        self.imageTextEdit.setGraphicsEffect(self.effect_shadow_text_edit)
+        self.effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_text_edit.setOffset(3, 3)  # 偏移
+        self.effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_text_edit.setColor(Qt.gray)
+        self.statisticsTextEdit.setGraphicsEffect(self.effect_shadow_text_edit)
+        self.effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_text_edit.setOffset(3, 3)  # 偏移
+        self.effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_text_edit.setColor(Qt.gray)
+        self.savePathTextEdit.setGraphicsEffect(self.effect_shadow_text_edit)
+        # LineEdit组件阴影
+        self.effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_line_edit.setOffset(2, 2)  # 偏移
+        self.effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_line_edit.setColor(Qt.gray)
+        self.savePathLineEdit.setGraphicsEffect(self.effect_shadow_line_edit)
+        self.effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_line_edit.setOffset(2, 2)  # 偏移
+        self.effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_line_edit.setColor(Qt.gray)
+        self.nameEdit.setGraphicsEffect(self.effect_shadow_line_edit)
+        self.effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_line_edit.setOffset(2, 2)  # 偏移
+        self.effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_line_edit.setColor(Qt.gray)
+        self.saveNameEdit.setGraphicsEffect(self.effect_shadow_line_edit)
+        # CheckBox组件阴影
+        self.effect_shadow_check_box = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_check_box.setOffset(1, 1)  # 偏移
+        self.effect_shadow_check_box.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_check_box.setColor(Qt.gray)
+        self.convertModeCheckBox.setGraphicsEffect(self.effect_shadow_check_box)
+        self.effect_shadow_check_box = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_check_box.setOffset(1, 1)  # 偏移
+        self.effect_shadow_check_box.setBlurRadius(20)  # 阴影半径
+        self.effect_shadow_check_box.setColor(Qt.gray)
+        self.batchRenameCheckBox.setGraphicsEffect(self.effect_shadow_check_box)
+        # PushButton组件阴影
+        self.effect_shadow_push_button = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_push_button.setOffset(1, 1)  # 偏移
+        self.effect_shadow_push_button.setBlurRadius(10)  # 阴影半径
+        self.effect_shadow_push_button.setColor(Qt.gray)
+        self.predictButton.setGraphicsEffect(self.effect_shadow_push_button)
+        self.effect_shadow_push_button = QGraphicsDropShadowEffect(self)
+        self.effect_shadow_push_button.setOffset(1, 1)  # 偏移
+        self.effect_shadow_push_button.setBlurRadius(10)  # 阴影半径
+        self.effect_shadow_push_button.setColor(Qt.gray)
+        self.batchPredictButton.setGraphicsEffect(self.effect_shadow_push_button)
 
     def initConnectSlot(self):
         # 绑定按钮点击信号
@@ -173,6 +229,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.resetButton.clicked.connect(self.__resetImage)
         self.saveButton.clicked.connect(self._saveImage)
         self.statisticsButton.clicked.connect(self.__showBarChartView)
+        self.comboBox.currentTextChanged[str].connect(self.__changeComboBox)
+        self.comboBox_2.currentTextChanged[str].connect(self.__changeComboBox)
         # 事件过滤器
         self.imageLabel.installEventFilter(self)
         self.imageLabel.pixmap_signal[bool, str, QPixmap].connect(self.__dropImage)
@@ -192,11 +250,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def initStyleSheet(self):
         style = readQssFile(u"./stylesheet/Ubuntu.qss")
+        self.actionUbuntuStyle.setChecked(True)
         self.setStyleSheet(style)
 
     def initPieChart(self):
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
-        self.pieChartWidget.setGeometry(QRect(22, 105, 471, 431))
+        self.pieChartWidget.setGeometry(QRect(22, 75, 471, 461))
         self.pieChartWidget.setVisible(True)
 
     def __preLoadModel(self, model):
@@ -255,8 +314,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.batchExportButton.setEnabled(True)
         self.batchChooseButton.setEnabled(True)
         self.clearTableButton.setEnabled(True)
-        # 删除进度条2
-        self.progressBar2.deleteLater()
+        # 清空进度条
+        self.progressBar2.setValue(0)
 
     def chooseModel(self, model_action):
         if model_action == self.actionCNN:
@@ -320,7 +379,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def clearImportContent(self):
         self.resultLabel_2.setPixmap(QPixmap())  # 清空预测结果图标
-        self.resultLabel_3.setText("")
         self.flower_path = ""  # 清空图片路径
         self.flower_name = ""  # 清空图片名
         self.flower_image = None
@@ -336,14 +394,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def _getBatchImage(self):
         # AI线程启动参数预加载
-        print("AI Thread is running: preClassify")
-        self.AIThread.setOperation("preClassify")
-        self.AIThread.start()
+        # print("AI Thread is running: preClassify")
+        # self.AIThread.setOperation("preClassify")
+        # self.AIThread.start()
         try:
             # 获取选择图片
             files, _ = QFileDialog.getOpenFileNames(self, "Open files",
                                                     "./images/image_test",
-                                                    "Image Files (*.jpg *.png *.jpeg *.gif)")
+                                                    "Image Files (*.jpg *.png *.gif *.bmp *.jpeg, *.tif, *.Webp)")
             row_count = self.tableWidget.rowCount()  # 统计原本数量
             for i, file in enumerate(files):
                 # 遍历此次所选图片，加入表格项
@@ -377,11 +435,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.clearTableButton.setEnabled(False)
 
         # 批量预测-进度条
-        self.progressBar2 = QProgressBar(self.groupBox_2)
-        self.progressBar2.setGeometry(130, 30, 281, 23)
         self.progressBar2.setMaximum(len(self.files))
         self.progressBar2.setValue(0)
-        self.progressBar2.setVisible(True)
 
     def __clearTableContent(self):
         res = QMessageBox.information(self, "确认", "是否清除已导入图片",
@@ -471,11 +526,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def _saveImage(self):
         if self.flower_pixmap is None:
             return
+        self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)
         image_name = self.flower_name
         if self.saveNameEdit.text() is not None:
             image_name = self.saveNameEdit.text()
         try:
-            save_path = self.directory
+            save_path = self.savePathTextEdit.toPlainText()
         except AttributeError:
             QMessageBox.information(self, "错误", "请先选择保存路径")
             return
@@ -483,15 +539,65 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.information(self, "错误", "请选择正确的文件夹地址")
             return
         save_path = save_path + "/" + image_name  # 拼接保存路径：文件夹+文件原始名称
+        # 进行扩展名操作
+        extend_name = self.comboBox.currentText()
+        if extend_name != "默认扩展名" and extend_name != "":
+            # 非默认或未选状态（选择了某个扩展名）：进行扩展名修改
+            extend_name = extend_name.split(".")[-1]
+            save_path = save_path.split(".")[0] + "." + extend_name
+        # 进行色彩模式操作
+        color_mode = self.comboBox_2.currentText()
+        if color_mode != "默认色彩模式" and color_mode != "":
+            # 非默认或未选状态（选择了某个色彩模式）：进行色彩模式修改
+            self.flower_image = self.flower_image.convert(color_mode)
+            print("color mode:", self.flower_image.mode)
         try:
-            self.flower_image.save(save_path)
-        except ValueError:
-            QMessageBox.information(self, "错误", "请输入正确的文件扩展名(*.png *.jpg *.gif *.bmp ...)")
+            self.flower_image.save(save_path, format=extend_name)
+        except Exception as e:
+            print(e)
+            os.remove(save_path)  # 删除创建失败的临时文件
+            QMessageBox.information(self, "错误", "请输入或选择正确的文件扩展名(*.jpg *.png *.gif *.bmp *.jpeg, *.tif, *.Webp ...)")
             return
         answer = QMessageBox.information(self, "保存成功",
                                          "文件路径为：{}".format(save_path), QMessageBox.Open | QMessageBox.Ok)
         if answer == QMessageBox.Open:
             os.startfile(save_path)
+
+    def __changeComboBox(self, text):
+        if text == "RGBA":
+            self.disable_item_comboBox(self.comboBox, [1], 0)
+            self.disable_item_comboBox(self.comboBox, [2, 3, 4, 5, 6], 1 | 32)
+        elif text == "HSV":
+            self.disable_item_comboBox(self.comboBox, [1, 2, 3, 4, 5], 0)
+            self.disable_item_comboBox(self.comboBox, [6], 1 | 32)
+        elif text == "CMYK":
+            self.disable_item_comboBox(self.comboBox, [2, 3, 4], 0)
+            self.disable_item_comboBox(self.comboBox, [1, 5, 6], 1 | 32)
+        elif text == "1" or text == "L" or text == "RGB" or text == "默认色彩模式":
+            self.disable_item_comboBox(self.comboBox, [1, 2, 3, 4, 5, 6], 1 | 32)
+        if text == "jpeg":
+            self.disable_item_comboBox(self.comboBox_2, [4, 5], 0)
+            self.disable_item_comboBox(self.comboBox_2, [1, 2, 3, 6], 1 | 32)
+        elif text == "png" or text == "bmp" or text == "gif":
+            self.disable_item_comboBox(self.comboBox_2, [5, 6], 0)
+            self.disable_item_comboBox(self.comboBox_2, [1, 2, 3, 4], 1 | 32)
+        elif text == "tiff":
+            self.disable_item_comboBox(self.comboBox_2, [5], 0)
+            self.disable_item_comboBox(self.comboBox_2, [1, 2, 3, 4, 6], 1 | 32)
+        elif text == "Webp" or text == "默认扩展名":
+            self.disable_item_comboBox(self.comboBox_2, [1, 2, 3, 4, 5, 6], 1 | 32)
+
+    def disable_item_comboBox(self, cBox, List, v=0):
+        """
+        将下拉按钮中的某些项目批量禁用
+        :param cBox: comboBox对象
+        :param List: 需要禁用的项目,列表数据,如[1,2,5,6]
+        :param v: 0为禁用,1|32为解除
+        """
+        for i in range(len(List)):
+            index = cBox.model().index(List[i], 0)  # 选择需要设定的项目
+            # print(List[i])
+            cBox.model().setData(index, v, Qt.UserRole - 1)  # 禁用comboBox的指定项目
 
     def __dropImage(self, tag: bool, url: str, pixmap: QPixmap):
         """
@@ -541,22 +647,49 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.helpWindow.show()
         if action == self.actionMyStyle:
             self.setStyleSheet(readQssFile(u"./stylesheet/style.qss"))
+            self.actionMyStyle.setChecked(True)
+        else:
+            self.actionMyStyle.setChecked(False)
         if action == self.actionUbuntuStyle:
             self.setStyleSheet(readQssFile(u"./stylesheet/Ubuntu.qss"))
+            self.actionUbuntuStyle.setChecked(True)
+        else:
+            self.actionUbuntuStyle.setChecked(False)
         if action == self.actionAMOLED:
             self.setStyleSheet(readQssFile(u"./stylesheet/AMOLED.qss"))
+            self.actionAMOLED.setChecked(True)
+        else:
+            self.actionAMOLED.setChecked(False)
         if action == self.actionAqua:
             self.setStyleSheet(readQssFile(u"./stylesheet/Aqua.qss"))
+            self.actionAqua.setChecked(True)
+        else:
+            self.actionAqua.setChecked(False)
         if action == self.actionConsoleStyle:
             self.setStyleSheet(readQssFile(u"./stylesheet/ConsoleStyle.qss"))
+            self.actionConsoleStyle.setChecked(True)
+        else:
+            self.actionConsoleStyle.setChecked(False)
         if action == self.actionElegantDark:
             self.setStyleSheet(readQssFile(u"./stylesheet/ElegantDark.qss"))
+            self.actionElegantDark.setChecked(True)
+        else:
+            self.actionElegantDark.setChecked(False)
         if action == self.actionMacOS:
             self.setStyleSheet(readQssFile(u"./stylesheet/MacOS.qss"))
+            self.actionMacOS.setChecked(True)
+        else:
+            self.actionMacOS.setChecked(False)
         if action == self.actionManjaroMix:
             self.setStyleSheet(readQssFile(u"./stylesheet/ManjaroMix.qss"))
+            self.actionManjaroMix.setChecked(True)
+        else:
+            self.actionManjaroMix.setChecked(False)
         if action == self.actionMaterialDark:
             self.setStyleSheet(readQssFile(u"./stylesheet/MaterialDark.qss"))
+            self.actionMaterialDark.setChecked(True)
+        else:
+            self.actionMaterialDark.setChecked(False)
 
     def __toolBarOperation(self, action):
         if action == self.actionClassify:
@@ -634,7 +767,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             # 获取文件地址
             file, _ = QFileDialog.getOpenFileName(self, "Open file",
                                                   "./images/image_test",
-                                                  "Image Files (*.jpg *.png)")
+                                                  "Image Files (*.jpg *.png *.gif *.bmp *.jpeg, *.tif, *.Webp)")
             if file:
                 self.flower_path = file  # 获取文件地址
                 self.directory_path, self.flower_name = os.path.split(file)  # 获取花朵文件名
@@ -650,9 +783,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         重新导入工作区的图片
         (不包括剪贴板临时图片)
         """
-        # answer = QMessageBox.information(self, "注意", "是否重置原图",
-        #                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        # if answer == QMessageBox.Yes:
         try:
             if os.path.exists(self.flower_path):  # 如果是本地url，则直接重新读取重置
                 self.flower_pixmap = QPixmap(self.flower_path)
@@ -695,23 +825,23 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 top_color.append(rgb2html(self.colors[max_idx]))
                 array[max_idx] = 0
             return top_res, top_per, top_color
-
         idx = self.flower_words.index(res)
         name = self.flowers[idx]
+        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
         prompt1 = '{}的预测结果：<b><font size = "5" color={}>{}</font></b>'.format(self.flower_name,
                                                                               rgb2html(self.colors[idx]), name)
         self.resultLabel.setText(prompt1)
         self.resultLabel_2.setPixmap(QPixmap("images/flowers/{}.png".format(res)))
         num = 3  # 显示概率最大的个数
         res, per, color = getMaxPortion(portion.copy(), num)
-        prompt2 = "预测结果：<b>"
+        prompt2 = f"<p>{model_name}预测结果：<b>"
         for i in range(0, num):
-            prompt2 += "<font color={}>{}:{:.4%}&nbsp;&nbsp;</font>".format(color[i], res[i], per[i])
-        prompt2 += "</b>"
-        self.resultLabel_3.setText(prompt2)
-        self.resultLabel_3.setToolTip("{}: {:.4%}".format(res[0], per[0]))
+            prompt2 += "<font color={}>{}：{:.2%}&nbsp;</font>".format(color[i], res[i], per[i])
+        prompt2 += "</b></p>"
+        text = self.imageTextEdit.toHtml() + prompt2
+        self.imageTextEdit.setText(text)
         # tag: 标记是否为最大加权网络
-        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
+
         self.pieChartWidget.setPortion(portion)
         self.pieChartWidget.initChart(model_name=model_name)
         if tag:
@@ -734,6 +864,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.imageLabel.setPixmap(self.flower_pixmap)  # 更新显示花朵图片
         self.resultLabel.setText("{}的预测结果：".format(self.flower_name))  # 更新预加载处理结果
         mode = "<p>色彩模式：<b>"
+        print("real color mode:", self.flower_image.mode)
         for c in self.flower_image.mode:
             if c == 'R':
                 mode += "<font color=red>R</font>"
@@ -741,7 +872,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 mode += "<font color=green>G</font>"
             elif c == 'B':
                 mode += "<font color=blue>B</font>"
-            elif c == 'A' or c == "K":
+            elif c == 'A' or c == "K" or c == "1":
                 mode += f"<font color=black>{c}</font>"
             elif c == 'C':
                 mode += "<font color=aqua>C</font>"
@@ -749,6 +880,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 mode += "<font color=#8B008B>M</font>"
             elif c == 'Y':
                 mode += "<font color=yellow>Y</font>"
+            elif c == 'L':
+                mode += "<font color=gray>L</font>"
         mode += "</b></p>"
         self.imageTextEdit.setText(  # 更新显示图片信息
             "<p>图片名：<b><font color=black>{}</font></b></p>"
@@ -760,8 +893,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.flower_image.format,
                 mode))
         self.resultLabel_2.setPixmap(QPixmap())  # 更新
-        self.resultLabel_3.setText("")
-        self.resultLabel_3.setToolTip("")
         self.initPieChart()
 
 
@@ -782,7 +913,6 @@ class AIModelOperationThread(QThread):
 
     def __init__(self, parent=None):
         super(AIModelOperationThread, self).__init__(parent)
-        print("AIThread Initial")
         self.operation = "load"
         self.ai_model = EfficientNetB0()
         self.files = None
