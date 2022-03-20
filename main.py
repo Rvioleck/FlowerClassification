@@ -6,11 +6,13 @@ from PIL import ImageGrab
 from PySide6.QtCore import QEvent, QPoint, QRect, QThread, Signal
 from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QTableWidgetItem, QMenu, \
-    QProgressBar, QApplication, QGraphicsDropShadowEffect, QSystemTrayIcon, QComboBox
+    QProgressBar, QApplication, QGraphicsDropShadowEffect, QSystemTrayIcon, QComboBox, QTextEdit, QLineEdit, QCheckBox, \
+    QPushButton, QSpinBox, QToolButton
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
 from barStack_chart import BarWidget
+from cursor_gif import QCursorGif
 from help_window import HelpWindow
 from image_cutter import ImageCutter
 from image_viewer import ImageViewer
@@ -167,6 +169,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self._release_button()
 
     def initUI(self):
+        # 设置忙碌光标图片数组
+        self.my_cursor = QCursorGif(['./images/Cursors/%d.png' % i for i in range(8)])
+        self.my_cursor.setCursorTimeout(100)
         # 系统托盘图标
         tray_menu = QMenu(self)
         tray_menu.addMenu(self.menu_M)
@@ -220,65 +225,60 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def initGraphicsShadow(self):
         print("initGraphicsShadow")
         # GroupBox组件阴影
-        self.effect_shadow_group_box = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_group_box.setOffset(1, 1)  # 偏移
-        self.effect_shadow_group_box.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_group_box.setColor(Qt.gray)
-        self.groupBox.setGraphicsEffect(self.effect_shadow_group_box)
+        effect_shadow_group_box = QGraphicsDropShadowEffect(self)
+        effect_shadow_group_box.setOffset(1, 1)  # 偏移
+        effect_shadow_group_box.setBlurRadius(20)  # 阴影半径
+        effect_shadow_group_box.setColor(Qt.gray)
+        self.groupBox.setGraphicsEffect(effect_shadow_group_box)
         # TextEdit组件阴影
-        self.effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_text_edit.setOffset(3, 3)  # 偏移
-        self.effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_text_edit.setColor(Qt.gray)
-        self.imageTextEdit.setGraphicsEffect(self.effect_shadow_text_edit)
-        self.effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_text_edit.setOffset(3, 3)  # 偏移
-        self.effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_text_edit.setColor(Qt.gray)
-        self.statisticsTextEdit.setGraphicsEffect(self.effect_shadow_text_edit)
-        self.effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_text_edit.setOffset(3, 3)  # 偏移
-        self.effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_text_edit.setColor(Qt.gray)
-        self.savePathTextEdit.setGraphicsEffect(self.effect_shadow_text_edit)
+        for child in self.findChildren(QTextEdit):
+            effect_shadow_text_edit = QGraphicsDropShadowEffect(self)
+            effect_shadow_text_edit.setOffset(3, 3)  # 偏移
+            effect_shadow_text_edit.setBlurRadius(20)  # 阴影半径
+            effect_shadow_text_edit.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_text_edit)
         # LineEdit组件阴影
-        self.effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_line_edit.setOffset(2, 2)  # 偏移
-        self.effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_line_edit.setColor(Qt.gray)
-        self.savePathLineEdit.setGraphicsEffect(self.effect_shadow_line_edit)
-        self.effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_line_edit.setOffset(2, 2)  # 偏移
-        self.effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_line_edit.setColor(Qt.gray)
-        self.nameEdit.setGraphicsEffect(self.effect_shadow_line_edit)
-        self.effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_line_edit.setOffset(2, 2)  # 偏移
-        self.effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_line_edit.setColor(Qt.gray)
-        self.saveNameEdit.setGraphicsEffect(self.effect_shadow_line_edit)
+        for child in self.findChildren(QLineEdit):
+            effect_shadow_line_edit = QGraphicsDropShadowEffect(self)
+            effect_shadow_line_edit.setOffset(2, 2)  # 偏移
+            effect_shadow_line_edit.setBlurRadius(20)  # 阴影半径
+            effect_shadow_line_edit.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_line_edit)
         # CheckBox组件阴影
-        self.effect_shadow_check_box = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_check_box.setOffset(1, 1)  # 偏移
-        self.effect_shadow_check_box.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_check_box.setColor(Qt.gray)
-        self.convertModeCheckBox.setGraphicsEffect(self.effect_shadow_check_box)
-        self.effect_shadow_check_box = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_check_box.setOffset(1, 1)  # 偏移
-        self.effect_shadow_check_box.setBlurRadius(20)  # 阴影半径
-        self.effect_shadow_check_box.setColor(Qt.gray)
-        self.batchRenameCheckBox.setGraphicsEffect(self.effect_shadow_check_box)
+        for child in self.findChildren(QCheckBox):
+            effect_shadow_check_box = QGraphicsDropShadowEffect(self)
+            effect_shadow_check_box.setOffset(1, 1)  # 偏移
+            effect_shadow_check_box.setBlurRadius(20)  # 阴影半径
+            effect_shadow_check_box.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_check_box)
         # PushButton组件阴影
-        self.effect_shadow_push_button = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_push_button.setOffset(1, 1)  # 偏移
-        self.effect_shadow_push_button.setBlurRadius(10)  # 阴影半径
-        self.effect_shadow_push_button.setColor(Qt.gray)
-        self.predictButton.setGraphicsEffect(self.effect_shadow_push_button)
-        self.effect_shadow_push_button = QGraphicsDropShadowEffect(self)
-        self.effect_shadow_push_button.setOffset(1, 1)  # 偏移
-        self.effect_shadow_push_button.setBlurRadius(10)  # 阴影半径
-        self.effect_shadow_push_button.setColor(Qt.gray)
-        self.batchPredictButton.setGraphicsEffect(self.effect_shadow_push_button)
+        for child in self.findChildren(QPushButton):
+            effect_shadow_push_button = QGraphicsDropShadowEffect(self)
+            effect_shadow_push_button.setOffset(1, 1)  # 偏移
+            effect_shadow_push_button.setBlurRadius(10)  # 阴影半径
+            effect_shadow_push_button.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_push_button)
+        # ComboBox组件阴影
+        for child in self.findChildren(QComboBox):
+            effect_shadow_combo_box = QGraphicsDropShadowEffect(self)
+            effect_shadow_combo_box.setOffset(2, 2)
+            effect_shadow_combo_box.setBlurRadius(10)
+            effect_shadow_combo_box.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_combo_box)
+        # SpinBox组件阴影
+        for child in self.findChildren(QSpinBox):
+            effect_shadow_spin_box = QGraphicsDropShadowEffect(self)
+            effect_shadow_spin_box.setOffset(2, 2)
+            effect_shadow_spin_box.setBlurRadius(20)
+            effect_shadow_spin_box.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_spin_box)
+        # ToolButton组件阴影
+        for child in self.findChildren(QToolButton):
+            effect_shadow_tool_button = QGraphicsDropShadowEffect(self)
+            effect_shadow_tool_button.setOffset(1, 1)
+            effect_shadow_tool_button.setBlurRadius(10)
+            effect_shadow_tool_button.setColor(Qt.gray)
+            child.setGraphicsEffect(effect_shadow_tool_button)
 
     def initConnectSlot(self):
         # 绑定按钮点击信号
@@ -496,6 +496,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self._lock_button()
 
     def _lock_button(self):
+        self.my_cursor.startBusy()
         self.menu_M.setEnabled(False)
         self.actionClassify.setEnabled(False)
         self.predictButton.setEnabled(False)
@@ -505,6 +506,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.clearTableButton.setEnabled(False)
 
     def _release_button(self):
+        self.my_cursor.stopBusy()
         self.menu_M.setEnabled(True)
         self.actionClassify.setEnabled(True)
         self.predictButton.setEnabled(True)
@@ -628,7 +630,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.update()
 
     def __viewImage(self, row):
-        self.image_viewer = ImageViewer(image=self.files[row], background=QColor(235, 255, 244))
+        file_path = self.tableWidget.item(row, 0).text() + "/" + self.tableWidget.item(row, 1).text()
+        self.image_viewer = ImageViewer(image=file_path, background=QColor(235, 255, 244))
         self.image_viewer.setStyleSheet(self.styleSheet())
         self.image_viewer.show()
 

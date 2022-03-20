@@ -641,9 +641,9 @@
      <widget class="Line" name="line_3">
       <property name="geometry">
        <rect>
-        <x>22</x>
+        <x>20</x>
         <y>348</y>
-        <width>331</width>
+        <width>344</width>
         <height>20</height>
        </rect>
       </property>
@@ -698,6 +698,9 @@
         </property>
         <property name="readOnly">
          <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -920,7 +923,7 @@
        <widget class="QComboBox" name="comboBox_2">
         <property name="geometry">
          <rect>
-          <x>196</x>
+          <x>197</x>
           <y>50</y>
           <width>131</width>
           <height>22</height>
@@ -1637,6 +1640,13 @@
         <width>441</width>
         <height>381</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>10</pointsize>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="toolTip">
        <string>预测信息展示</string>
