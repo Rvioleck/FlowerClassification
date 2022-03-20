@@ -6,7 +6,7 @@ from PIL import ImageGrab
 from PySide6.QtCore import QEvent, QPoint, QRect, QThread, Signal
 from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QTableWidgetItem, QMenu, \
-    QProgressBar, QApplication, QGraphicsDropShadowEffect, QSystemTrayIcon
+    QProgressBar, QApplication, QGraphicsDropShadowEffect, QSystemTrayIcon, QComboBox
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
@@ -60,51 +60,111 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.setMask(self.pix)
 
     def initAIThread(self):
-        self.AIThread = AIModelOperationThread()
+        self.AIThread = AIModelOperationThread(window=self)
         self.AIThread.load_signal[Model].connect(self.__loadModel)  # 加载模型
         self.AIThread.load_failed_signal[None].connect(self.__loadFailed)
         self.AIThread.preload_signal[Model].connect(self.__preLoadModel)
         self.AIThread.classify_res_signal[list, str, bool].connect(self.__setClassifyRes)
-        self.AIThread.batch_classify_res_signal[int, str].connect(self.__setBatchClassifyRes)
+        self.AIThread.batch_classify_res_signal[int, str, bool].connect(self.__setBatchClassifyRes)
         self.AIThread.batch_classify_finish_signal[None].connect(self.__batchClassifyFinished)
         self.AIThread.deep_classify_finish[None].connect(self.__deepClassifyFinished)
         self.AIThread.start()
 
-    # def contextMenuEvent(self, event):
-    #     main_menu = QMenu(self)
-    #     main_menu.addMenu(self.menu_M)
-    #     action = main_menu.exec(self.mapToGlobal(event.pos()))
+    def __loadModel(self, model: Model):
+        # AI模型初始化(Model)
+        self.ai_model = model
+        action_name = model.__class__.__name__
+        action_name = action_name[0].lower() + action_name[1:] + "Action"
+        eval(f"self.{action_name}.setChecked(True)")  # 菜单栏勾选选中模型
+        # 恢复部分按钮
+        self._release_button()
+        model_name = self.ai_model.__class__.__name__
+        QMessageBox.information(self, "成功",
+                                "成功导入模型" + model_name,
+                                QMessageBox.Ok)
+        self.statusBar().showMessage("模型：" + model_name)
+        self.predictButton.setToolTip(f"使用{model_name}模型进行预测")
 
-    def mousePressEvent(self, event):
-        self.pressX = event.position().x()  # 记录鼠标按下的时候的坐标
-        self.pressY = event.position().y()
-        self.setCursor(QCursor(Qt.OpenHandCursor))
+    def __loadFailed(self):
+        QMessageBox.warning(self, "错误", "未导入该模型！", QMessageBox.Ok)
+        self._release_button()
 
-    def mouseMoveEvent(self, event):
-        x = event.position().x()
-        y = event.position().y()  # 获取移动后的坐标
-        move_x = x - self.pressX
-        move_y = y - self.pressY  # 计算移动了多少
-        position_x = self.frameGeometry().x() + move_x
-        position_y = self.frameGeometry().y() + move_y  # 计算移动后主窗口在桌面的位置
-        self.move(position_x, position_y)  # 移动主窗口
+    def __preLoadModel(self, model):
+        # AI模型预加载
+        self.ai_model = model
 
-    def mouseReleaseEvent(self, event):
-        self.setCursor(QCursor(Qt.ArrowCursor))
+    def __setClassifyRes(self, portion, res, tag=False):
+        def getMaxPortion(array, iteration):
+            # 获取前iteration个的(结果，占比，颜色)
+            top_res = []
+            top_per = []
+            top_color = []
+            for _ in range(0, iteration):
+                max_idx = array.index(max(array))
+                top_res.append(self.flowers[max_idx])
+                top_per.append(max(array))
+                top_color.append(rgb2html(self.colors[max_idx]))
+                array[max_idx] = 0
+            return top_res, top_per, top_color
 
-    def eventFilter(self, watched, event) -> bool:
-        """过滤器实现label点击事件"""
-        if watched == self.imageLabel:
-            if event.type() == QEvent.MouseButtonDblClick:
-                self._getImage()
-        if watched == self.pathLabel:
-            if event.type() == QEvent.MouseButtonDblClick:
-                url = self.pathLabel.text()
-                if url == "":
-                    return QMainWindow.eventFilter(self, watched, event)
-                os.startfile(url)
-        # 对于其余情况返回默认处理方法
-        return QMainWindow.eventFilter(self, watched, event)
+        idx = self.flower_words.index(res)
+        name = self.flowers[idx]
+        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
+        prompt1 = '{}的预测结果：<b><font size = "5" color={}>{}</font></b>'.format(self.flower_name,
+                                                                              rgb2html(self.colors[idx]), name)
+        self.resultLabel.setText(prompt1)
+        self.resultLabel_2.setPixmap(QPixmap("images/flowers/{}.png".format(res)))
+        num = 3  # 显示概率最大的个数
+        res, per, color = getMaxPortion(portion.copy(), num)
+        prompt2 = f"<p>{model_name}预测结果：<b>"
+        for i in range(0, num):
+            prompt2 += "<font color={}>{}：{:.2%}&nbsp;</font>".format(color[i], res[i], per[i])
+        prompt2 += "</b></p>"
+        text = self.imageTextEdit.toHtml() + prompt2
+        self.imageTextEdit.setText(text)
+        # tag: 标记是否为最大加权网络
+
+        self.pieChartWidget.setPortion(portion)
+        self.pieChartWidget.initChart(model_name=model_name)
+        if tag:
+            self.progressBar1.setValue(self.progressBar1.value() + 21)
+        # 禁用部分按钮
+        if not tag:  # 非深度预测时一次预测时结束进行按钮释放
+            self._release_button()
+
+    def __setBatchClassifyRes(self, i, res, tag: bool):
+        # 收到AI线程批量预测中的每次信号,tag=0表示预测操作,tag=True表示到处操作
+        if not tag:
+            icon_path = "images/flowers/{}.png".format(res)
+            # 完善tablewidget第三列结果和图标
+            self.tableWidget.setItem(i, 2,
+                                     QTableWidgetItem(QIcon(icon_path), self.flowers[self.flower_words.index(res)]))
+            # 添加柱状堆叠图的数据——文件夹: 预测结果
+            self.barChartWidget.addData(self.tableWidget.item(i, 0).text(), res)
+            self.barChartWidget.initChart()
+            text = ""
+            for directory, content in self.barChartWidget.data.items():  # 将预测结果按格式输出
+                text += "<br /><b><font color=red>{}</font></b>统计如下:<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(directory)
+                for flower_word, count in content.items():
+                    text += "{}共计<b>{}</b>张<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(
+                        self.flowers[self.flower_words.index(flower_word)],
+                        count)
+            self.statisticsTextEdit.setText(text)
+        self.progressBar2.setValue(i + 1)
+
+    def __batchClassifyFinished(self):
+        # 恢复部分按钮
+        self._release_button()
+        # 清空进度条
+        self.progressBar2.setValue(0)
+
+    def __deepClassifyFinished(self):
+        self.progressBar1.setValue(147)
+        self.horizontalLayout_3.removeWidget(self.progressBar1)
+        self.progressBar1.deleteLater()
+        QMessageBox.information(self, "成功", "完成图像的深度预测！", QMessageBox.Ok)
+        # 恢复按钮
+        self._release_button()
 
     def initUI(self):
         # 系统托盘图标
@@ -116,7 +176,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.tray_icon.setIcon(QIcon(u"./images/AI识别.ico"))
         self.tray_icon.show()
         self.tray_icon.setToolTip("花朵图像识别")
-        self.tray_icon.activated.connect(self.showNormal)
+        self.tray_icon.activated.connect(self.__tray_activated)
         self.tray_icon.setContextMenu(tray_menu)
         # 菜单栏QAction充当占位符
         self.holderAction = QAction(self)
@@ -150,6 +210,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget = BarWidget()
         self.barChartWidget.setStyleSheet(self.styleSheet())
         self.initPieChart()
+
+    def __tray_activated(self, activation: QSystemTrayIcon.ActivationReason):
+        # 系统托盘激活事件
+        if activation == QSystemTrayIcon.Trigger:
+            # 系统托盘被左键单击：显示软件
+            self.showNormal()
 
     def initGraphicsShadow(self):
         print("initGraphicsShadow")
@@ -231,15 +297,20 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.statisticsButton.clicked.connect(self.__showBarChartView)
         self.comboBox.currentTextChanged[str].connect(self.__changeComboBox)
         self.comboBox_2.currentTextChanged[str].connect(self.__changeComboBox)
+        self.spinBox_width.valueChanged.connect(self.__change_width_spin_box)
+        self.spinBox_height.valueChanged.connect(self.__change_height_spin_box)
+        self.spinBox_width_2.valueChanged.connect(self.__change_width_spin_box)
+        self.spinBox_height_2.valueChanged.connect(self.__change_height_spin_box)
         # 事件过滤器
         self.imageLabel.installEventFilter(self)
         self.imageLabel.pixmap_signal[bool, str, QPixmap].connect(self.__dropImage)
         self.pathLabel.installEventFilter(self)
         # 绑定工具栏触发信号
-        self.menu_M.triggered[QAction].connect(self.chooseModel)
+        self.menu_M.triggered[QAction].connect(self.__chooseModel)
         # 绑定菜单栏触发信号
         self.menu.triggered[QAction].connect(self.__menuOperation)
         self.menu_2.triggered[QAction].connect(self.__menuOperation2)
+        self.menu_style.triggered[QAction].connect(self.__menu_style_operation)
         self.toolBar.actionTriggered[QAction].connect(self.__toolBarOperation)
         # 绑定表格组件点击信号
         self.tableWidget.cellDoubleClicked.connect(self.__viewImage)
@@ -248,76 +319,28 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 应用程序全局热键
         QShortcut(QKeySequence(self.tr("Ctrl+V")), self, self._pasteImage)
 
-    def initStyleSheet(self):
-        style = readQssFile(u"./stylesheet/Ubuntu.qss")
-        self.actionUbuntuStyle.setChecked(True)
-        self.setStyleSheet(style)
+    def __change_width_spin_box(self, value):
+        self.spinBox_width.setValue(value)
+        self.spinBox_width.setToolTip(f"宽:{value}")
+        self.label_res.setToolTip(f"图像分辨率：{self.spinBox_width.value()}×{self.spinBox_height.value()}")
+        self.spinBox_width_2.setValue(value)
+        self.spinBox_width_2.setToolTip(f"宽:{value}")
+        self.label_res.setToolTip(f"图像分辨率：{self.spinBox_width_2.value()}×{self.spinBox_height_2.value()}")
+
+    def __change_height_spin_box(self, value):
+        self.spinBox_height.setValue(value)
+        self.spinBox_height.setToolTip(f"长:{value}")
+        self.label_res.setToolTip(f"图像分辨率：{self.spinBox_width.value()}×{self.spinBox_height.value()}")
+        self.spinBox_height_2.setValue(value)
+        self.spinBox_height_2.setToolTip(f"长:{value}")
+        self.label_res.setToolTip(f"图像分辨率：{self.spinBox_width_2.value()}×{self.spinBox_height_2.value()}")
 
     def initPieChart(self):
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
         self.pieChartWidget.setGeometry(QRect(22, 75, 471, 461))
         self.pieChartWidget.setVisible(True)
 
-    def __preLoadModel(self, model):
-        # AI模型预加载
-        self.ai_model = model
-
-    def __loadModel(self, model: Model):
-        # AI模型初始化(Model)
-        self.ai_model = model
-        action_name = model.__class__.__name__
-        action_name = action_name[0].lower() + action_name[1:] + "Action"
-        eval(f"self.{action_name}.setChecked(True)")  # 菜单栏勾选选中模型
-        # 恢复部分按钮
-        self.menu_M.setEnabled(True)
-        self.actionClassify.setEnabled(True)
-        self.predictButton.setEnabled(True)
-        self.batchPredictButton.setEnabled(True)
-        model_name = self.ai_model.__class__.__name__
-        QMessageBox.information(self, "成功",
-                                "成功导入模型" + model_name,
-                                QMessageBox.Ok)
-        self.statusBar().showMessage("模型：" + model_name)
-        self.predictButton.setToolTip(f"使用{model_name}模型进行预测")
-
-    def __loadFailed(self):
-        QMessageBox.warning(self, "错误", "未导入该模型！", QMessageBox.Ok)
-        self.menu_M.setEnabled(True)
-        self.actionClassify.setEnabled(True)
-        self.predictButton.setEnabled(True)
-        self.batchPredictButton.setEnabled(True)
-
-    def __setBatchClassifyRes(self, i, res):
-        # 收到AI线程批量预测中的每次信号
-        icon_path = "images/flowers/{}.png".format(res)
-        # 完善tablewidget第三列结果和图标
-        self.tableWidget.setItem(i, 2, QTableWidgetItem(QIcon(icon_path), self.flowers[self.flower_words.index(res)]))
-        # 添加柱状堆叠图的数据——文件夹: 预测结果
-        self.barChartWidget.addData(self.tableWidget.item(i, 0).text(), res)
-        self.barChartWidget.initChart()
-        text = ""
-        for directory, content in self.barChartWidget.data.items():  # 将预测结果按格式输出
-            text += "<br /><b><font color=red>{}</font></b>统计如下:<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(directory)
-            for flower_word, count in content.items():
-                text += "{}共计<b>{}</b>张<br />&nbsp;&nbsp;&nbsp;&nbsp;".format(
-                    self.flowers[self.flower_words.index(flower_word)],
-                    count)
-        self.statisticsTextEdit.setText(text)
-        self.progressBar2.setValue(i + 1)
-
-    def __batchClassifyFinished(self):
-        # 恢复部分按钮
-        self.menu_M.setEnabled(True)
-        self.actionClassify.setEnabled(True)
-        self.predictButton.setEnabled(True)
-        self.batchPredictButton.setEnabled(True)
-        self.batchExportButton.setEnabled(True)
-        self.batchChooseButton.setEnabled(True)
-        self.clearTableButton.setEnabled(True)
-        # 清空进度条
-        self.progressBar2.setValue(0)
-
-    def chooseModel(self, model_action):
+    def __chooseModel(self, model_action):
         if model_action == self.actionCNN:
             model_name = self.ai_model.__class__.__name__
             history_show(model_name)
@@ -360,10 +383,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.start()
         self.statusBar().showMessage("模型正在加载中.. ..")
         # 禁用部分按钮
-        self.menu_M.setEnabled(False)
-        self.actionClassify.setEnabled(False)
-        self.predictButton.setEnabled(False)
-        self.batchPredictButton.setEnabled(False)
+        self._lock_button()
 
     def getBatchDirectory(self):
         # 选取文件夹
@@ -426,14 +446,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.start()
         self.statisticsTextEdit.setText("")
         # 禁用部分按钮
-        self.menu_M.setEnabled(False)
-        self.actionClassify.setEnabled(False)
-        self.predictButton.setEnabled(False)
-        self.batchPredictButton.setEnabled(False)
-        self.batchExportButton.setEnabled(False)
-        self.batchChooseButton.setEnabled(False)
-        self.clearTableButton.setEnabled(False)
-
+        self._lock_button()
         # 批量预测-进度条
         self.progressBar2.setMaximum(len(self.files))
         self.progressBar2.setValue(0)
@@ -470,63 +483,41 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def _exportBatchImages(self):
         path = self.savePathLineEdit.text()
-        try:
-            if not os.path.exists(path):
-                os.makedirs(path)
-        except FileNotFoundError:
-            QMessageBox.information(self, "注意", "请先选择导出路径", QMessageBox.Ok)
+        if not os.path.exists(path):
+            QMessageBox.information(self, "注意", "请先选择正确的导出路径", QMessageBox.Ok)
             return
         count = self.tableWidget.rowCount()
         if count == 0:
             QMessageBox.information(self, "注意", "请先导入图片进行图片预测", QMessageBox.Ok)
             return
-        exported_flag = False  # 布尔变量用于记录此次是否进行过导出
-        for i in range(count):
-            src_path = self.files[i]
-            file_name = self.tableWidget.item(i, 1).text()
-            if self.tableWidget.item(i, 2) is None:  # 空项跳过
-                continue
-            kind_prediction = self.tableWidget.item(i, 2).text()
-            if kind_prediction == "":  # 无预测结果的项跳过
-                continue
-            if self.batchRenameCheckBox.isChecked():
-                # 开启批量重命名
-                file_type = file_name.split(".")[-1]
-                file_name = kind_prediction + "." + file_type
-            dir_path = path + "/" + kind_prediction
-            save_path = dir_path + "/" + file_name  # 保存文件路径名：flower.jpg
-            if not os.path.exists(dir_path):
-                os.makedirs(dir_path)
-            exported_flag = True
-            i = 1
-            des_path = save_path  # 复制文件路径名：flower (3).jpg
-            while os.path.isfile(des_path):
-                # 判断是否有重名文件，避免覆盖
-                prefix, postfix = save_path.split(".")
-                des_path = "{} ({}).{}".format(prefix, i, postfix)
-                i += 1
-            shutil.copy(src_path, des_path)  # 从源地址复制到目的地址
-            if self.convertModeCheckBox.isChecked():
-                img = Image.open(des_path)
-                img = img.convert("RGB")
-                os.remove(des_path)
-                des_path = des_path.split(".")[0] + ".jpg"
-                while os.path.isfile(des_path):
-                    # 判断是否有重名文件，避免覆盖
-                    prefix, postfix = save_path.split(".")
-                    des_path = "{} ({}).{}".format(prefix, i, postfix)
-                    i += 1
-                img.save(des_path)
-        if not exported_flag:
-            # 此次未经过导出
-            QMessageBox.information(self, "注意", "请先进行图片预测", QMessageBox.Ok)
-        else:
-            os.startfile(path)
+        print("AI Thread is running: batch export")
+        self.AIThread.setOperation("batchExport")
+        self.AIThread.start()
+        self._lock_button()
+
+    def _lock_button(self):
+        self.menu_M.setEnabled(False)
+        self.actionClassify.setEnabled(False)
+        self.predictButton.setEnabled(False)
+        self.batchPredictButton.setEnabled(False)
+        self.batchExportButton.setEnabled(False)
+        self.batchChooseButton.setEnabled(False)
+        self.clearTableButton.setEnabled(False)
+
+    def _release_button(self):
+        self.menu_M.setEnabled(True)
+        self.actionClassify.setEnabled(True)
+        self.predictButton.setEnabled(True)
+        self.batchPredictButton.setEnabled(True)
+        self.batchExportButton.setEnabled(True)
+        self.batchChooseButton.setEnabled(True)
+        self.clearTableButton.setEnabled(True)
 
     def _saveImage(self):
         if self.flower_pixmap is None:
             return
         self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)
+        img = self.flower_image  # 副本操作
         image_name = self.flower_name
         if self.saveNameEdit.text() is not None:
             image_name = self.saveNameEdit.text()
@@ -549,10 +540,15 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         color_mode = self.comboBox_2.currentText()
         if color_mode != "默认色彩模式" and color_mode != "":
             # 非默认或未选状态（选择了某个色彩模式）：进行色彩模式修改
-            self.flower_image = self.flower_image.convert(color_mode)
-            print("color mode:", self.flower_image.mode)
+            img = img.convert(color_mode)
+            print("color mode:", img.mode)
+        # 进行分辨率操作
+        height = self.spinBox_height.value()
+        width = self.spinBox_width.value()
+        if height != 0 and width != 0:
+            img = img.resize((height, width), Image.ANTIALIAS)
         try:
-            self.flower_image.save(save_path, format=extend_name)
+            img.save(save_path, format=extend_name)
         except Exception as e:
             print(e)
             os.remove(save_path)  # 删除创建失败的临时文件
@@ -587,17 +583,17 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         elif text == "Webp" or text == "默认扩展名":
             self.disable_item_comboBox(self.comboBox_2, [1, 2, 3, 4, 5, 6], 1 | 32)
 
-    def disable_item_comboBox(self, cBox, List, v=0):
+    @staticmethod
+    def disable_item_comboBox(combo_box: QComboBox, operation_list: list, v=0):
         """
         将下拉按钮中的某些项目批量禁用
-        :param cBox: comboBox对象
-        :param List: 需要禁用的项目,列表数据,如[1,2,5,6]
+        :param combo_box: comboBox对象
+        :param operation_list: 需要禁用的项目,列表数据,如[1,2,5,6]
         :param v: 0为禁用,1|32为解除
         """
-        for i in range(len(List)):
-            index = cBox.model().index(List[i], 0)  # 选择需要设定的项目
-            # print(List[i])
-            cBox.model().setData(index, v, Qt.UserRole - 1)  # 禁用comboBox的指定项目
+        for i in range(len(operation_list)):
+            index = combo_box.model().index(operation_list[i], 0)  # 选择需要设定的项目
+            combo_box.model().setData(index, v, Qt.UserRole - 1)  # 禁用comboBox的指定项目
 
     def __dropImage(self, tag: bool, url: str, pixmap: QPixmap):
         """
@@ -645,6 +641,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.helpWindow = HelpWindow()
             self.helpWindow.setStyleSheet(self.styleSheet())
             self.helpWindow.show()
+
+    def __menu_style_operation(self, action):
         if action == self.actionMyStyle:
             self.setStyleSheet(readQssFile(u"./stylesheet/style.qss"))
             self.actionMyStyle.setChecked(True)
@@ -723,21 +721,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.setOperation("deepClassify")
         self.AIThread.start()
         # 禁用部分按钮
-        self.menu_M.setEnabled(False)
-        self.actionClassify.setEnabled(False)
-        self.predictButton.setEnabled(False)
-        self.batchPredictButton.setEnabled(False)
-
-    def __deepClassifyFinished(self):
-        self.progressBar1.setValue(147)
-        self.horizontalLayout_3.removeWidget(self.progressBar1)
-        self.progressBar1.deleteLater()
-        QMessageBox.information(self, "成功", "完成图像的深度预测！", QMessageBox.Ok)
-        # 恢复按钮
-        self.menu_M.setEnabled(True)
-        self.actionClassify.setEnabled(True)
-        self.predictButton.setEnabled(True)
-        self.batchPredictButton.setEnabled(True)
+        self._lock_button()
 
     def _pasteImage(self):
         """
@@ -807,54 +791,15 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.AIThread.setOperation("classify")
         self.AIThread.start()
         # 禁用部分按钮
-        self.menu_M.setEnabled(False)
-        self.actionClassify.setEnabled(False)
-        self.predictButton.setEnabled(False)
-        self.batchPredictButton.setEnabled(False)
-
-    def __setClassifyRes(self, portion, res, tag=False):
-        def getMaxPortion(array, iteration):
-            # 获取前iteration个的(结果，占比，颜色)
-            top_res = []
-            top_per = []
-            top_color = []
-            for _ in range(0, iteration):
-                max_idx = array.index(max(array))
-                top_res.append(self.flowers[max_idx])
-                top_per.append(max(array))
-                top_color.append(rgb2html(self.colors[max_idx]))
-                array[max_idx] = 0
-            return top_res, top_per, top_color
-        idx = self.flower_words.index(res)
-        name = self.flowers[idx]
-        model_name = "综合加权网络" if tag is True else self.ai_model.__class__.__name__
-        prompt1 = '{}的预测结果：<b><font size = "5" color={}>{}</font></b>'.format(self.flower_name,
-                                                                              rgb2html(self.colors[idx]), name)
-        self.resultLabel.setText(prompt1)
-        self.resultLabel_2.setPixmap(QPixmap("images/flowers/{}.png".format(res)))
-        num = 3  # 显示概率最大的个数
-        res, per, color = getMaxPortion(portion.copy(), num)
-        prompt2 = f"<p>{model_name}预测结果：<b>"
-        for i in range(0, num):
-            prompt2 += "<font color={}>{}：{:.2%}&nbsp;</font>".format(color[i], res[i], per[i])
-        prompt2 += "</b></p>"
-        text = self.imageTextEdit.toHtml() + prompt2
-        self.imageTextEdit.setText(text)
-        # tag: 标记是否为最大加权网络
-
-        self.pieChartWidget.setPortion(portion)
-        self.pieChartWidget.initChart(model_name=model_name)
-        if tag:
-            self.progressBar1.setValue(self.progressBar1.value() + 21)
-        # 禁用部分按钮
-        if not tag:  # 非深度预测时一次预测时结束进行按钮释放
-            self.menu_M.setEnabled(True)
-            self.actionClassify.setEnabled(True)
-            self.predictButton.setEnabled(True)
-            self.batchPredictButton.setEnabled(True)
+        self._lock_button()
 
     def __showBarChartView(self):
         self.barChartWidget.show()
+
+    def initStyleSheet(self):
+        style = readQssFile(u"./stylesheet/Ubuntu.qss")
+        self.actionUbuntuStyle.setChecked(True)
+        self.setStyleSheet(style)
 
     def update(self) -> None:
         print("update")
@@ -895,15 +840,56 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.resultLabel_2.setPixmap(QPixmap())  # 更新
         self.initPieChart()
 
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.pressX = event.position().x()  # 记录鼠标按下的时候的坐标
+            self.pressY = event.position().y()
+            self.setCursor(QCursor(Qt.OpenHandCursor))
+            self.drag = True
+        if event.button() == Qt.RightButton:
+            # 主页面上下文菜单
+            self.context_menu = QMenu(self)
+            self.context_menu.addActions(self.menu_style.actions())
+            self.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.context_menu.exec(event.globalPos())
+
+    def mouseMoveEvent(self, event):
+        if self.drag:
+            x = event.position().x()
+            y = event.position().y()  # 获取移动后的坐标
+            move_x = x - self.pressX
+            move_y = y - self.pressY  # 计算移动了多少
+            position_x = self.frameGeometry().x() + move_x
+            position_y = self.frameGeometry().y() + move_y  # 计算移动后主窗口在桌面的位置
+            self.move(position_x, position_y)  # 移动主窗口
+
+    def mouseReleaseEvent(self, event):
+        self.setCursor(QCursor(Qt.ArrowCursor))
+        self.drag = False
+
+    def eventFilter(self, watched, event) -> bool:
+        """过滤器实现label点击事件"""
+        if watched == self.imageLabel:
+            if event.type() == QEvent.MouseButtonDblClick:
+                self._getImage()
+        if watched == self.pathLabel:
+            if event.type() == QEvent.MouseButtonDblClick:
+                url = self.pathLabel.text()
+                if url == "":
+                    return QMainWindow.eventFilter(self, watched, event)
+                os.startfile(url)
+        # 对于其余情况返回默认处理方法
+        return QMainWindow.eventFilter(self, watched, event)
+
 
 class AIModelOperationThread(QThread):
     """
-    AI操作线程
-    """
+        AI操作线程
+        """
     load_signal = Signal(Model)
     load_failed_signal = Signal()
     preload_signal = Signal(Model)
-    batch_classify_res_signal = Signal(int, str)
+    batch_classify_res_signal = Signal(int, str, bool)
     batch_classify_finish_signal = Signal()
     # 传递结果列表portion, 结果值res, 是否为深度测评tag
     classify_res_signal = Signal(list, str, bool)
@@ -911,10 +897,11 @@ class AIModelOperationThread(QThread):
 
     flower_words = MyMainWindow.flower_words
 
-    def __init__(self, parent=None):
+    def __init__(self, window=None, parent=None):
         super(AIModelOperationThread, self).__init__(parent)
         self.operation = "load"
         self.ai_model = EfficientNetB0()
+        self.window = window
         self.files = None
 
     def run(self) -> None:
@@ -929,6 +916,8 @@ class AIModelOperationThread(QThread):
             self.__batchClassify()
         elif self.operation == "deepClassify":
             self.__deepClassify()
+        elif self.operation == "batchExport":
+            self.__batchExport()
 
     def __classify(self):
         # self.files仅含一个元素
@@ -943,7 +932,7 @@ class AIModelOperationThread(QThread):
             x = get_input_x(QPixmap(file))
             portion, index = model_predict(self.ai_model, x)
             res = self.flower_words[index]
-            self.batch_classify_res_signal[int, str].emit(i, res)
+            self.batch_classify_res_signal[int, str, bool].emit(i, res, False)
         self.batch_classify_finish_signal[None].emit()
         print("AI Thread has finished batchClassifying")
 
@@ -968,6 +957,63 @@ class AIModelOperationThread(QThread):
             self.__calPortion(portion, whole_portion, model_weight, model_name)
         self.deep_classify_finish[None].emit()
         print("AI Thread has finished deepClassifying")
+
+    def __batchExport(self):
+        path = self.window.savePathLineEdit.text()
+        count = self.window.tableWidget.rowCount()
+        exported_flag = False  # 布尔变量用于记录此次是否进行过导出
+        for i in range(count):
+            self.batch_classify_res_signal[int, str, bool].emit(i, None, True)
+            src_path = self.window.files[i]
+            file_name = self.window.tableWidget.item(i, 1).text()
+            if self.window.tableWidget.item(i, 2) is None:  # 空项跳过
+                continue
+            kind_prediction = self.window.tableWidget.item(i, 2).text()
+            if kind_prediction == "":  # 无预测结果的项跳过
+                continue
+            exported_flag = True
+            if self.window.batchRenameCheckBox.isChecked():
+                # 开启批量重命名
+                file_type = file_name.split(".")[-1]
+                file_name = kind_prediction + "." + file_type
+            dir_path = path + "/" + kind_prediction
+            save_path = dir_path + "/" + file_name  # 保存文件路径名：flower.jpg
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
+            i = 1
+            des_path = save_path  # 复制文件路径名：flower (3).jpg
+            while os.path.isfile(des_path):
+                # 判断是否有重名文件，避免覆盖
+                prefix, postfix = save_path.split(".")
+                des_path = "{} ({}).{}".format(prefix, i, postfix)
+                i += 1
+            shutil.copy(src_path, des_path)  # 从源地址复制到目的地址
+            height, width = self.window.spinBox_height_2.value(), self.window.spinBox_width_2.value()
+            if self.window.convertModeCheckBox.isChecked():  # 选择批量更改色彩模式
+                img = Image.open(des_path)
+                img = img.convert("RGB")
+                if height != 0 and width != 0:  # 选择批量更改分辨率
+                    img = img.resize((height, width), Image.ANTIALIAS)
+                os.remove(des_path)
+                des_path = des_path.split(".")[0] + ".jpg"
+                while os.path.isfile(des_path):
+                    # 判断是否有重名文件，避免覆盖
+                    prefix, postfix = save_path.split(".")
+                    des_path = "{} ({}).{}".format(prefix, i, postfix)
+                    i += 1
+                img.save(des_path)
+            else:  # 未选择批量更改色彩模式
+                if height != 0 and width != 0:  # 选择批量更改分辨率
+                    img = Image.open(des_path)
+                    img = img.resize((height, width), Image.ANTIALIAS)
+                    img.save(des_path)
+        if not exported_flag:
+            # 此次未经过导出
+            print("not predict")
+            # QMessageBox.information("注意", "请先进行图片预测", QMessageBox.Ok)
+        else:
+            os.startfile(path)
+        self.window._release_button()
 
     def __calPortion(self, portion, whole_portion, model_weight, model_name):
         for i, per in enumerate(portion):

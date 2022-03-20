@@ -89,7 +89,7 @@ class PieWidget(QChartView):
         whole = sum(self.portion)
         i = self.series.slices().index(slice)
         toolTip = "<p style='white-space:pre'>"  # 富文本标签
-        img_path = u"images/flowers/{}.png".format(self.flower_words[i])
+        img_path = u"images/flowers/small/{}.png".format(self.flower_words[i])
         toolTip += '<img src={} height="24" width="24"><b><font color={}>{}:{:.4%}</font></b>\n'.format(
             img_path, self.__rgb2html(self.colors[i]), self.flowers[i], self.portion[i] / whole)
         toolTip += "</p>"  # 富文本结束标签
@@ -101,8 +101,8 @@ class PieWidget(QChartView):
         if whole == 0:
             return "未开始预测"
         toolTip = "<p style='white-space:pre'>"  # 富文本标签
-        for i in self.maxPosition:
-            img_path = u"images/flowers/{}.png".format(self.flower_words[i])
+        for i in self.maxPosition[:6]:
+            img_path = u"images/flowers/small/{}.png".format(self.flower_words[i])
             if i == index:
                 toolTip += '<img src={} height="24" width="24"><b><font color={}>{}:{:.4%}</font></b>\n'.format(
                     img_path, self.__rgb2html(self.colors[i]), self.flowers[i], self.portion[i] / whole)
