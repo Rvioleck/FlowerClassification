@@ -673,7 +673,7 @@ class Ui_MainWindow(object):
         self.toolBar.setObjectName(u"toolBar")
         self.toolBar.setEnabled(True)
         self.toolBar.setCursor(QCursor(Qt.PointingHandCursor))
-        self.toolBar.setAllowedAreas(Qt.AllToolBarAreas)
+        self.toolBar.setMovable(False)
         self.toolBar.setToolButtonStyle(Qt.ToolButtonIconOnly)
         MainWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
         QWidget.setTabOrder(self.chooseButton, self.clearButton)

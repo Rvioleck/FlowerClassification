@@ -6,7 +6,6 @@ import numpy as np
 from tensorflow import argmax
 from tensorflow.python.keras import losses
 from PIL import Image, ImageQt
-from PySide6.QtGui import QPixmap
 
 plt.rcParams['font.sans-serif'] = ["SimHei"]
 plt.rcParams['axes.unicode_minus'] = False
@@ -135,7 +134,7 @@ def load_model(model):
         return False
 
 
-def get_input_x(pixmap: QPixmap):
+def get_input_x(pixmap):
     # 由QPixmap转为numpy数组进行前向传播
     img = ImageQt.fromqpixmap(pixmap)  # QPixmap -> Image
     # img = Image.open(image_path)

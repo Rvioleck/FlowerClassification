@@ -1379,10 +1379,10 @@
       <widget class="QPushButton" name="batchExportButton">
        <property name="geometry">
         <rect>
-         <x>345</x>
-         <y>115</y>
-         <width>80</width>
-         <height>25</height>
+         <x>343</x>
+         <y>112</y>
+         <width>85</width>
+         <height>30</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -1393,14 +1393,14 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
-         <height>25</height>
+         <width>85</width>
+         <height>30</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>80</width>
-         <height>25</height>
+         <width>85</width>
+         <height>30</height>
         </size>
        </property>
        <property name="font">
@@ -1423,7 +1423,17 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>预测结果导出</string>
+        <string>结果导出</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/批量导出.png</normaloff>images/批量导出.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -1824,8 +1834,8 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
-   <property name="allowedAreas">
-    <set>Qt::AllToolBarAreas</set>
+   <property name="movable">
+    <bool>false</bool>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonIconOnly</enum>

@@ -1,4 +1,7 @@
 import os.path
+from io import BytesIO
+from PIL import Image
+from requests import get
 
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap, Qt
@@ -41,6 +44,11 @@ class ImageLabel(QLabel):
                 url = text.split("file:/")[-1].replace("%20", " ")
             self.my_pixmap = QPixmap(url)
             tag = False
+            if self.my_pixmap.isNull():
+                # 从网页URL提取图片
+                self.my_pixmap = Image.open(BytesIO(get(url).content)).toqpixmap()
+                tag = True
+        print(self.my_pixmap)
         print(url)
         self.pixmap_signal[bool, str, QPixmap].emit(tag, url, self.my_pixmap)
         event.acceptProposedAction()
