@@ -61,7 +61,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def initMainWindowMask(self):
         # 设置主窗口蒙版，形成圆角窗口
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
-        self.pix = QBitmap("images/mask.png")
+        self.pix = QBitmap(u"./images/mask.png")
         self.setMask(self.pix)
 
     def initAIThread(self):
@@ -90,6 +90,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def __loadFailed(self):
         NotificationWindow.error(self, "错误", "未导入该模型!", time=3000)
+        self.statusBar().showMessage("请重新选择已导入模型...")
         self._release_button()
 
     def __preLoadModel(self, model):
@@ -116,7 +117,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         prompt1 = '{}的预测结果：<b><font size = "5" color={}>{}</font></b>'.format(self.flower_name,
                                                                               rgb2html(self.colors[idx]), name)
         self.resultLabel.setText(prompt1)
-        self.resultLabel_2.setPixmap(QPixmap("images/flowers/{}.png".format(res)))
+        self.resultLabel_2.setPixmap(QPixmap(u"images/flowers/{}.png".format(res)))
         num = 3  # 显示概率最大的个数
         res, per, color = getMaxPortion(portion.copy(), num)
         prompt2 = f"<p>{model_name}预测结果：<b>"
@@ -130,7 +131,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.pieChartWidget.setPortion(portion)
         self.pieChartWidget.initChart(model_name=model_name)
         if tag:
-            self.progressBar1.setValue(self.progressBar1.value() + 21)
+            self.progressBar1.setValue(self.progressBar1.value() + 1)
         # 禁用部分按钮
         if not tag:  # 非深度预测时一次预测时结束进行按钮释放
             self._release_button()
@@ -138,7 +139,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __setBatchClassifyRes(self, i, res, tag: bool):
         # 收到AI线程批量预测中的每次信号,tag=0表示预测操作,tag=True表示到处操作
         if not tag:
-            icon_path = "images/flowers/{}.png".format(res)
+            icon_path = u"images/flowers/{}.png".format(res)
             # 完善tablewidget第三列结果和图标
             self.tableWidget.setItem(i, 2,
                                      QTableWidgetItem(QIcon(icon_path), self.flowers[self.flower_words.index(res)]))
@@ -162,7 +163,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.progressBar2.setValue(0)
 
     def __deepClassifyFinished(self):
-        self.progressBar1.setValue(147)
+        self.progressBar1.setValue(len(get_installed_model()[0]))
         self.horizontalLayout_3.removeWidget(self.progressBar1)
         self.progressBar1.deleteLater()
         NotificationWindow.success(self, "成功", "完成图像的深度预测！")
@@ -171,7 +172,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def initUI(self):
         # 设置忙碌光标图片数组
-        self.my_cursor = QCursorGif(['./images/Cursors/%d.png' % i for i in range(8)])
+        self.my_cursor = QCursorGif([u'./images/Cursors/%d.png' % i for i in range(8)])
         self.my_cursor.setCursorTimeout(100)
         # 系统托盘图标
         tray_menu = QMenu(self)
@@ -218,7 +219,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.menubar.addAction(self.closeAction)
         # 定义tableWidget的右键菜单栏
         self.twPopMenu = QMenu()  # tableWidget右键菜单
-        self.delAction = QAction(QIcon("./images/删除.png"), "删除")  # tableWidget删除行为
+        self.delAction = QAction(QIcon(u"./images/删除.png"), "删除")  # tableWidget删除行为
         self.twPopMenu.addAction(self.delAction)  # 行为添加至菜单
         self.delAction.triggered.connect(self.__deleteRow)  # 绑定"删除行为"的槽
         # label预加载
@@ -229,6 +230,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget = BarWidget()
         self.barChartWidget.setStyleSheet(self.styleSheet())
         self.initPieChart()
+        # 未导入模型按钮取消
+        _, uninstalled = get_installed_model()
+        for model_name in uninstalled:
+            action_name = model_name[0].lower() + model_name[1:] + "Action"
+            eval(f"self.menu_M.removeAction(self.{action_name})")
 
     def __tray_activated(self, activation: QSystemTrayIcon.ActivationReason):
         # 系统托盘激活事件
@@ -411,13 +417,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def getBatchDirectory(self):
         # 选取文件夹
         self.batchDirectory = QFileDialog.getExistingDirectory(self, "选取文件夹",
-                                                               "./images/image_test")
+                                                               u"./images/image_test")
         self.savePathLineEdit.setText(self.batchDirectory)
 
     def getDirectory(self):
         # 选取文件夹
         self.directory = QFileDialog.getExistingDirectory(self, "选取文件夹",
-                                                          "./images/image_test")
+                                                          u"./images/image_test")
         self.savePathTextEdit.setText(self.directory)
 
     def __clearImportContent(self):
@@ -448,7 +454,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         try:
             # 获取选择图片
             files, _ = QFileDialog.getOpenFileNames(self, "Open files",
-                                                    "./images/image_test",
+                                                    u"./images/image_test",
                                                     "Image Files (*.jpg *.png *.gif *.bmp *.jpeg, *.tif, *.Webp)")
             row_count = self.tableWidget.rowCount()  # 统计原本数量
             for i, file in enumerate(files):
@@ -764,9 +770,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __deepClassify(self):
         # 深度预测--进度条
         self.progressBar1 = QProgressBar(self.layoutWidget)
-        self.progressBar1.setMaximum(147)
+        self.progressBar1.setMaximum(len(get_installed_model()[0]))
         self.horizontalLayout_3.addWidget(self.progressBar1)
-        self.progressBar1.setValue(2)
+        self.progressBar1.setValue(0)
         # 进行深度预测
         print("AI Thread is running: deepClassify")
         self.AIThread.setFiles(self.flower_pixmap)
@@ -838,6 +844,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         调用饼图绘制并加载详细信息
         """
         if self.flower_pixmap is None:
+            NotificationWindow.info(self, "注意", "请先进行<b><u>批量导入图片</u></b>", callback=self._getBatchImage)
             return
         print("AI Thread is running: classify")
         self.AIThread.setFiles(self.flower_pixmap)
@@ -934,6 +941,17 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 os.startfile(url)
         # 对于其余情况返回默认处理方法
         return QMainWindow.eventFilter(self, watched, event)
+
+
+def get_installed_model() -> [list, set]:
+    installed = []
+    models_name = ["VGG19", "InceptionV3", "DenseNet121", "MobileNetV2", "EfficientNetB0",
+                   "EfficientNetB2", "EfficientNetB4", "EfficientNetB7"]
+    for model_name in models_name:
+        checkpoint_save_path = "./checkpoint/flower_" + model_name + ".ckpt"
+        if os.path.exists(checkpoint_save_path + '.index'):
+            installed.append(model_name)
+    return installed, set(models_name) - set(installed)
 
 
 def readQssFile(qss_file_name):

@@ -119,10 +119,9 @@ def history_show(model_name):
 
 def load_model(model):
     # 配置优化器，加载模型信息
-    model.compile(optimizer='adam',
-                  loss=losses.SparseCategoricalCrossentropy(from_logits=False),
-                  metrics=['sparse_categorical_accuracy'])
-
+    # model.compile(optimizer='adam',
+    #               loss=losses.SparseCategoricalCrossentropy(from_logits=False),
+    #               metrics=['sparse_categorical_accuracy'])
     model_name = model.__class__.__name__
     checkpoint_save_path = "./checkpoint/flower_" + model_name + ".ckpt"
     if os.path.exists(checkpoint_save_path + '.index'):

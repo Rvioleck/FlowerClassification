@@ -7,6 +7,7 @@ from AIModel.cnn_models import *
 from AIModel.data_process import *
 from notification import NotificationWindow
 
+
 class AIModelOperationThread(QThread):
     """
     AI操作线程

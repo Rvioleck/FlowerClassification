@@ -63,6 +63,7 @@ class GraphicsView(QGraphicsView):
 
     def updte_img_attribute(self, brightness, contrast, hue, saturation):
         image = ImageQt.fromqpixmap(self.pixmap)
+        image = image.convert("RGB")
         if brightness != 0:
             image = Image.fromarray(img.adjust_brightness(image, brightness).numpy())  # 调整亮度
         if contrast != 0:

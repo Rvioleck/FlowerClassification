@@ -170,7 +170,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(222, 60, 60)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(222, 60, 60)</string>
@@ -186,8 +186,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_77">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -204,7 +204,7 @@ background-color:rgb(235, 255, 244)
             </font>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap>images/flowers/azalea.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -290,8 +290,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_80">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -378,7 +378,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(245, 156, 185)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(245, 156, 185)</string>
@@ -394,8 +394,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_83">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -482,7 +482,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(218, 187, 171)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(218, 187, 171)</string>
@@ -498,8 +498,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_86">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -586,7 +586,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(236, 181, 1)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(236, 181, 1)</string>
@@ -602,8 +602,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_92">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -690,7 +690,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(241, 203, 6)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(241, 203, 6)</string>
@@ -706,8 +706,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_89">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -798,7 +798,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(96, 67, 1)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(96, 67, 1)</string>
@@ -814,8 +814,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_95">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -902,7 +902,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(229, 223, 105)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(229, 223, 105)</string>
@@ -918,8 +918,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_98">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1006,7 +1006,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(187, 187, 187)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(187, 187, 187)</string>
@@ -1022,8 +1022,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_101">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1110,7 +1110,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(227, 58, 91))</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(227, 58, 91)</string>
@@ -1126,8 +1126,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_104">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1214,7 +1214,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(169, 177, 232)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(169, 177, 232)</string>
@@ -1230,8 +1230,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_107">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1318,7 +1318,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(153, 69, 253)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(153, 69, 253)</string>
@@ -1334,8 +1334,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_110">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1426,7 +1426,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(216, 158, 221)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(216, 158, 221)</string>
@@ -1442,8 +1442,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_113">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1530,7 +1530,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(176, 197, 122)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(176, 197, 122)</string>
@@ -1546,8 +1546,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_116">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1634,7 +1634,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(106, 135, 89)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(106, 135, 89)</string>
@@ -1650,8 +1650,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_119">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1738,7 +1738,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(28, 77, 183)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(28, 77, 183)</string>
@@ -1754,8 +1754,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_122">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1842,7 +1842,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(249, 245, 138)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(249, 245, 138)</string>
@@ -1858,8 +1858,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_125">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1946,7 +1946,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(224, 189, 213)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(224, 189, 213)</string>
@@ -1962,8 +1962,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_128">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2054,7 +2054,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(210, 111, 173)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(210, 111, 173)</string>
@@ -2070,8 +2070,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_131">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2158,7 +2158,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(185, 73, 79)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(185, 73, 79)</string>
@@ -2174,8 +2174,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_134">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2262,7 +2262,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(120, 0, 20))</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(120, 0, 20)</string>
@@ -2278,8 +2278,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_137">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2366,7 +2366,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(181, 97, 127)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(181, 97, 127)</string>
@@ -2382,8 +2382,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_140">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2470,7 +2470,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(205, 134, 18)</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(205, 134, 18)</string>
@@ -2486,8 +2486,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="label_143">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2574,7 +2574,7 @@ background-color:rgb(235, 255, 244)
               </font>
              </property>
              <property name="toolTip">
-              <string>RGB(255, 148, 217)</string>
+              <string>RGB(240, 96, 140))</string>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(240, 96, 140)</string>
@@ -2590,8 +2590,8 @@ background-color:rgb(235, 255, 244)
           <widget class="QLabel" name="image_label">
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>60</width>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
