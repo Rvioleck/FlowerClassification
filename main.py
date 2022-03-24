@@ -12,14 +12,14 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem, QMenu,
 from AIModel.cnn_models import *
 from AIModel.data_process import *
 from ai_model_thread import AIModelOperationThread
-from custom_widget.barStack_chart import BarWidget
-from custom_widget.cursor_gif import QCursorGif
-from custom_widget.help_window import HelpWindow
-from custom_widget.image_cutter import ImageCutter
-from custom_widget.image_viewer import ImageViewer
-from custom_widget.notification import NotificationWindow
-from custom_widget.pieSeries_chart import PieWidget
-from custom_widget.ui_MainWindowFlower import Ui_MainWindow
+from barStack_chart import BarWidget
+from cursor_gif import QCursorGif
+from help_window import HelpWindow
+from image_cutter import ImageCutter
+from image_viewer import ImageViewer
+from notification import NotificationWindow
+from pieSeries_chart import PieWidget
+from ui_MainWindowFlower import Ui_MainWindow
 
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):

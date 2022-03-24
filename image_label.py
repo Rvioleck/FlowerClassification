@@ -46,7 +46,10 @@ class ImageLabel(QLabel):
             tag = False
             if self.my_pixmap.isNull():
                 # 从网页URL提取图片
-                self.my_pixmap = Image.open(BytesIO(get(url).content)).toqpixmap()
+                try:
+                    self.my_pixmap = Image.open(BytesIO(get(url).content)).toqpixmap()
+                except Exception as e:
+                    print(e)
                 tag = True
         print(self.my_pixmap)
         print(url)

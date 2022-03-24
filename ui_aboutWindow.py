@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QMainWindow,
     QSizePolicy, QToolButton, QVBoxLayout, QWidget)
-import custom_widget.flowers_rc
+import flowers_rc
 
 class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):

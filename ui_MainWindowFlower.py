@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QCheckBox, QComb
     QTableWidget, QTableWidgetItem, QTextEdit, QToolBar,
     QToolButton, QWidget)
 
-from custom_widget.image_label import ImageLabel
+from image_label import ImageLabel
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -215,7 +215,7 @@ class Ui_MainWindow(object):
         font7.setBold(False)
         self.pathLabel.setFont(font7)
         self.pathLabel.setCursor(QCursor(Qt.WhatsThisCursor))
-        self.pathLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+        self.pathLabel.setAlignment(Qt.AlignCenter)
         self.pathLabel.setWordWrap(True)
         self.pathLabel.setOpenExternalLinks(True)
         self.label_2 = QLabel(self.groupBox)
@@ -335,7 +335,7 @@ class Ui_MainWindow(object):
         self.clearButton.setGeometry(QRect(20, 336, 31, 31))
         self.clearButton.setCursor(QCursor(Qt.PointingHandCursor))
         icon10 = QIcon()
-        icon10.addFile(u"images/\u6e05\u9664\u7f13\u5b58.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon10.addFile(u"images/\u6e05\u9664.png", QSize(), QIcon.Normal, QIcon.Off)
         self.clearButton.setIcon(icon10)
         self.clearButton.setIconSize(QSize(40, 40))
         self.clearButton.setAutoRaise(True)
