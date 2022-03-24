@@ -83,6 +83,9 @@ background-color:rgb(235, 255, 244)
       <height>31</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>软件使用说明</string>
+    </property>
     <property name="text">
      <string>...</string>
     </property>
@@ -183,7 +186,7 @@ background-color:rgb(235, 255, 244)
           </layout>
          </item>
          <item>
-          <widget class="QLabel" name="label_77">
+          <widget class="QLabel" name="azalea">
            <property name="minimumSize">
             <size>
              <width>60</width>
@@ -202,6 +205,9 @@ background-color:rgb(235, 255, 244)
              <pointsize>12</pointsize>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/azalea.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
             <pixmap>images/flowers/azalea.png</pixmap>
@@ -307,6 +313,9 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/bougainvillea.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
             <pixmap>images/flowers/bougainvillea.png</pixmap>
            </property>
@@ -410,6 +419,9 @@ background-color:rgb(235, 255, 244)
              <pointsize>12</pointsize>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/camellia.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
             <pixmap>images/flowers/camellia.png</pixmap>
@@ -619,6 +631,9 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/chrysanthemum.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
             <pixmap>images/flowers/chrysanthemum.png</pixmap>
            </property>
@@ -722,6 +737,9 @@ background-color:rgb(235, 255, 244)
              <pointsize>12</pointsize>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/daisy.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
             <pixmap>images/flowers/daisy.png</pixmap>
@@ -1039,6 +1057,9 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/gardenia.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
             <pixmap>images/flowers/gardenia.png</pixmap>
            </property>
@@ -1142,6 +1163,9 @@ background-color:rgb(235, 255, 244)
              <pointsize>12</pointsize>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/hibiscus.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
             <pixmap>images/flowers/hibiscus.png</pixmap>
@@ -1563,8 +1587,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/lily.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap>images/flowers/lily.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1666,6 +1693,9 @@ background-color:rgb(235, 255, 244)
              <pointsize>12</pointsize>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/lotus.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
             <pixmap>images/flowers/lotus.png</pixmap>
@@ -1771,8 +1801,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/morningglory.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap>images/flowers/morningglory.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2086,6 +2119,9 @@ background-color:rgb(235, 255, 244)
              <pointsize>12</pointsize>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/peony.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
             <pixmap>images/flowers/peony.png</pixmap>
@@ -2503,6 +2539,9 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/sunflower.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
             <pixmap>images/flowers/sunflower.png</pixmap>
            </property>
@@ -2626,6 +2665,8 @@ background-color:rgb(235, 255, 244)
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images/flowers/flowers.qrc"/>
+ </resources>
  <connections/>
 </ui>

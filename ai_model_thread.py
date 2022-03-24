@@ -5,7 +5,7 @@ from PySide6.QtGui import QPixmap
 
 from AIModel.cnn_models import *
 from AIModel.data_process import *
-from notification import NotificationWindow
+from custom_widget.notification import NotificationWindow
 
 
 class AIModelOperationThread(QThread):

@@ -4,8 +4,8 @@ from PySide6.QtCore import Qt, Signal, Property, QTimer
 from PySide6.QtGui import QBitmap, QCursor
 from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 
-from ui_aboutWindow import Ui_AboutWindow
-from ui_tutorialWindow import Ui_TutorialWindow
+from custom_widget.ui_aboutWindow import Ui_AboutWindow
+from custom_widget.ui_tutorialWindow import Ui_TutorialWindow
 
 from PySide6.QtCore import Signal as pyqtSignal, Property as pyqtProperty, Qt, QPropertyAnimation, \
     QEasingCurve, QPointF
@@ -121,7 +121,7 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
     def __init__(self, parent=None):
         super(AboutWindow, self).__init__(parent)
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
-        self.pix = QBitmap("images/mask.png")
+        self.pix = QBitmap("../images/mask.png")
         self.setMask(self.pix)
         self.setupUi(self)
         self.toolButton.clicked.connect(self.emitSignal)
@@ -136,7 +136,7 @@ class TutorialWindow(QMainWindow, Ui_TutorialWindow):
     def __init__(self, parent=None):
         super(TutorialWindow, self).__init__(parent)
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
-        self.pix = QBitmap("images/mask.png")
+        self.pix = QBitmap("../images/mask.png")
         self.setMask(self.pix)
         self.setupUi(self)
         self.toolButton.clicked.connect(self.emitSignal)

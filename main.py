@@ -12,14 +12,14 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem, QMenu,
 from AIModel.cnn_models import *
 from AIModel.data_process import *
 from ai_model_thread import AIModelOperationThread
-from barStack_chart import BarWidget
-from cursor_gif import QCursorGif
-from help_window import HelpWindow
-from image_cutter import ImageCutter
-from image_viewer import ImageViewer
-from notification import NotificationWindow
-from pieSeries_chart import PieWidget
-from ui_MainWindowFlower import Ui_MainWindow
+from custom_widget.barStack_chart import BarWidget
+from custom_widget.cursor_gif import QCursorGif
+from custom_widget.help_window import HelpWindow
+from custom_widget.image_cutter import ImageCutter
+from custom_widget.image_viewer import ImageViewer
+from custom_widget.notification import NotificationWindow
+from custom_widget.pieSeries_chart import PieWidget
+from custom_widget.ui_MainWindowFlower import Ui_MainWindow
 
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
@@ -118,6 +118,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                                                               rgb2html(self.colors[idx]), name)
         self.resultLabel.setText(prompt1)
         self.resultLabel_2.setPixmap(QPixmap(u"images/flowers/{}.png".format(res)))
+        self.resultLabel_2.setToolTip(f'<html><head/><body><p><img src=":/big/{res}.png"/></p></body></html>')
         num = 3  # 显示概率最大的个数
         res, per, color = getMaxPortion(portion.copy(), num)
         prompt2 = f"<p>{model_name}预测结果：<b>"
@@ -432,13 +433,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                 callback=self.__clear)
 
     def __clear(self):
-        self.resultLabel_2.setPixmap(QPixmap())  # 清空预测结果图标
         self.flower_path = ""  # 清空图片路径
         self.flower_name = ""  # 清空图片名
         self.flower_image = None
         self.flower_pixmap = None
         self.resultLabel.setText("未导入图片")
-        self.resultLabel_2.setPixmap(QPixmap())
+        self.resultLabel_2.setPixmap(QPixmap())  # 清空预测结果图标
+        self.resultLabel_2.setToolTip("")
         self.pathLabel.setText("")  # 显示文件夹地址
         self.pathLabel.setToolTip("")
         self.nameEdit.setText("")  # 显示文件名
@@ -844,7 +845,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         调用饼图绘制并加载详细信息
         """
         if self.flower_pixmap is None:
-            NotificationWindow.info(self, "注意", "请先进行<b><u>批量导入图片</u></b>", callback=self._getBatchImage)
+            NotificationWindow.info(self, "注意", "请先<font color=blue><b><u>导入图片</u></b></font>", callback=self._getImage)
             return
         print("AI Thread is running: classify")
         self.AIThread.setFiles(self.flower_pixmap)
@@ -898,6 +899,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.flower_image.format,
                 mode))
         self.resultLabel_2.setPixmap(QPixmap())  # 更新
+        self.resultLabel_2.setToolTip("")
         self.initPieChart()
         self.statusBar().showMessage("模型：" + self.ai_model.__class__.__name__)
 

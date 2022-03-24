@@ -36,7 +36,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>images/AI识别.png</normaloff>images/AI识别.png</iconset>
+    <normaloff>../images/AI识别.png</normaloff>../images/AI识别.png</iconset>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -146,7 +146,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>images/打开图片.png</pixmap>
+        <pixmap>../images/打开图片.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -228,7 +228,7 @@
         <cursorShape>WhatsThisCursor</cursorShape>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        <set>Qt::AlignCenter</set>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -277,7 +277,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/导入图片.png</normaloff>images/导入图片.png</iconset>
+         <normaloff>../images/导入图片.png</normaloff>../images/导入图片.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -313,7 +313,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/复位.png</normaloff>images/复位.png</iconset>
+         <normaloff>../images/复位.png</normaloff>../images/复位.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -411,7 +411,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>images/AI识别.png</normaloff>images/AI识别.png</iconset>
+            <normaloff>../images/AI识别.png</normaloff>../images/AI识别.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -518,7 +518,7 @@
         </rect>
        </property>
        <property name="pixmap">
-        <pixmap>images/rongzi.png</pixmap>
+        <pixmap>../images/rongzi.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>false</bool>
@@ -581,7 +581,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>images/清除缓存.png</normaloff>images/清除缓存.png</iconset>
+        <normaloff>../images/清除缓存.png</normaloff>../images/清除缓存.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -620,7 +620,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>images/裁剪旋转.png</normaloff>images/裁剪旋转.png</iconset>
+        <normaloff>../images/裁剪旋转.png</normaloff>../images/裁剪旋转.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -729,7 +729,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>images/保存图片.png</normaloff>images/保存图片.png</iconset>
+          <normaloff>../images/保存图片.png</normaloff>../images/保存图片.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -842,7 +842,7 @@
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>images/文件夹.png</normaloff>images/文件夹.png</iconset>
+          <normaloff>../images/文件夹.png</normaloff>../images/文件夹.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1113,7 +1113,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/文件夹.png</normaloff>images/文件夹.png</iconset>
+         <normaloff>../images/文件夹.png</normaloff>../images/文件夹.png</iconset>
        </property>
       </column>
       <column>
@@ -1129,7 +1129,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/图片.png</normaloff>images/图片.png</iconset>
+         <normaloff>../images/图片.png</normaloff>../images/图片.png</iconset>
        </property>
       </column>
       <column>
@@ -1145,7 +1145,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/花朵.png</normaloff>images/花朵.png</iconset>
+         <normaloff>../images/花朵.png</normaloff>../images/花朵.png</iconset>
        </property>
       </column>
      </widget>
@@ -1187,7 +1187,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>images/删除.png</normaloff>images/删除.png</iconset>
+        <normaloff>../images/删除.png</normaloff>../images/删除.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -1266,7 +1266,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/Image 图像识别.png</normaloff>images/Image 图像识别.png</iconset>
+         <normaloff>../images/Image 图像识别.png</normaloff>../images/Image 图像识别.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1358,7 +1358,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/文件夹.png</normaloff>images/文件夹.png</iconset>
+         <normaloff>../images/文件夹.png</normaloff>../images/文件夹.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1421,7 +1421,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/批量导出.png</normaloff>images/批量导出.png</iconset>
+         <normaloff>../images/批量导出.png</normaloff>../images/批量导出.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -1624,7 +1624,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>images/导入.png</normaloff>images/导入.png</iconset>
+        <normaloff>../images/导入.png</normaloff>../images/导入.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -1694,7 +1694,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>images/堆叠柱状图.png</normaloff>images/堆叠柱状图.png</iconset>
+        <normaloff>../images/堆叠柱状图.png</normaloff>../images/堆叠柱状图.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -1781,7 +1781,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>images/主题.png</normaloff>images/主题.png</iconset>
+       <normaloff>../images/主题.png</normaloff>../images/主题.png</iconset>
      </property>
      <addaction name="actionUbuntuStyle"/>
      <addaction name="actionAMOLED"/>
@@ -1914,7 +1914,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>images/新建.png</normaloff>images/新建.png</iconset>
+     <normaloff>../images/新建.png</normaloff>../images/新建.png</iconset>
    </property>
    <property name="text">
     <string>新建(&amp;N)</string>
@@ -1935,7 +1935,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>images/打开文件夹.png</normaloff>images/打开文件夹.png</iconset>
+     <normaloff>../images/打开文件夹.png</normaloff>../images/打开文件夹.png</iconset>
    </property>
    <property name="text">
     <string>打开(&amp;O)</string>
@@ -1956,7 +1956,7 @@
   <action name="actionClose">
    <property name="icon">
     <iconset>
-     <normaloff>images/关闭.png</normaloff>images/关闭.png</iconset>
+     <normaloff>../images/关闭.png</normaloff>../images/关闭.png</iconset>
    </property>
    <property name="text">
     <string>关闭(&amp;C)</string>
@@ -1970,7 +1970,7 @@
   <action name="actionCNN">
    <property name="icon">
     <iconset>
-     <normaloff>images/折线图.png</normaloff>images/折线图.png</iconset>
+     <normaloff>../images/折线图.png</normaloff>../images/折线图.png</iconset>
    </property>
    <property name="text">
     <string>模型统计</string>
@@ -2024,7 +2024,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset>
-     <normaloff>images/保存.png</normaloff>images/保存.png</iconset>
+     <normaloff>../images/保存.png</normaloff>../images/保存.png</iconset>
    </property>
    <property name="text">
     <string>保存(&amp;S)</string>
@@ -2039,7 +2039,7 @@
   <action name="actionClassify">
    <property name="icon">
     <iconset>
-     <normaloff>images/人工智能.png</normaloff>images/人工智能.png</iconset>
+     <normaloff>../images/人工智能.png</normaloff>../images/人工智能.png</iconset>
    </property>
    <property name="text">
     <string>深度识别</string>
@@ -2059,7 +2059,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset>
-     <normaloff>images/关于.png</normaloff>images/关于.png</iconset>
+     <normaloff>../images/关于.png</normaloff>../images/关于.png</iconset>
    </property>
    <property name="text">
     <string>关于</string>

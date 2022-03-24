@@ -2,8 +2,8 @@ from PySide6.QtCore import Qt, QRect, Signal, QPointF, QEvent
 from PySide6.QtGui import QColor, QPixmap, QIcon
 from PySide6.QtWidgets import QApplication, QDialog
 
-from my_graphics_view import GraphicsView
-from ui_my_cutter import Ui_Dialog
+from custom_widget.my_graphics_view import GraphicsView
+from custom_widget.ui_my_cutter import Ui_Dialog
 
 
 class ImageCutter(QDialog, Ui_Dialog):

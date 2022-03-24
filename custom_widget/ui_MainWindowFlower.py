@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QCheckBox, QComb
     QTableWidget, QTableWidgetItem, QTextEdit, QToolBar,
     QToolButton, QWidget)
 
-from image_label import ImageLabel
+from custom_widget.image_label import ImageLabel
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
