@@ -665,7 +665,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1156,7 +1156,7 @@
       <property name="geometry">
        <rect>
         <x>404</x>
-        <y>524</y>
+        <y>523</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1593,7 +1593,7 @@
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>524</y>
+        <y>523</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -2215,7 +2215,7 @@
   <action name="actionCamera">
    <property name="icon">
     <iconset>
-     <normaloff>images/照相机.png</normaloff>images/照相机.png</iconset>
+     <normaloff>images/摄像头.png</normaloff>images/摄像头.png</iconset>
    </property>
    <property name="text">
     <string>摄像头(&amp;T)</string>

@@ -187,9 +187,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.my_cursor.setCursorTimeout(100)
         # 系统托盘图标
         tray_menu = QMenu(self)
+        tray_menu.setAttribute(Qt.WA_TranslucentBackground)
+        # 无边框、去掉自带阴影
+        tray_menu.setWindowFlags(
+            tray_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
         tray_menu.addMenu(self.menu_M)
         tray_menu.addAction(self.actionOpen)
         tray_menu.addAction(self.actionClose)
+        tray_menu.setStyleSheet(context_menu_style)
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon(u"./images/AI识别.ico"))
         self.tray_icon.show()
@@ -204,41 +209,34 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 设置菜单栏
         self.menubar.addMenu(self.holderAction)
         # 菜单栏，固定窗口最前QAction
-        self.pinAction = QAction(self)
-        self.pinAction.setText("-")
-        self.pinAction.setIcon(QIcon(u"./images/图钉关.png"))
-        self.pinAction.triggered.connect(self.__switch_windows_flags)
+        self.pinAction = QAction(QIcon(u"./images/图钉关.png"), "-",
+                                 triggered=self.__switch_windows_flags)
         self.pinAction.setToolTip("置于窗口最前")
         self.pinAction.setStatusTip("置于窗口最前")
         self.pinAction.setCheckable(True)
         self.window_state = False  # 标记是否置于窗口最前
-        # self.toolBar.addAction(self.pinAction)
         self.menubar.addAction(self.pinAction)
         # 菜单栏，最小化QAction
-        self.lowerAction = QAction(self)
-        self.lowerAction.setText("-")
-        self.lowerAction.setIcon(QIcon(u"./images/最小化.png"))
-        self.lowerAction.triggered.connect(self.showMinimized)
+        self.lowerAction = QAction(QIcon(u"./images/最小化.png"), "-",
+                                   triggered=self.showMinimized)
         self.lowerAction.setStatusTip("窗口最小化")
         self.menubar.addAction(self.lowerAction)
         # 菜单栏，退出QAction
-        self.closeAction = QAction(self)
-        self.closeAction.setText("×")
-        self.closeAction.setIcon(QIcon(u"./images/关闭.png"))
-        self.closeAction.triggered.connect(self.close)
+        self.closeAction = QAction(QIcon(u"./images/关闭.png"), "×",
+                                   triggered=self.close)
         self.closeAction.setStatusTip("退出程序")
         self.menubar.addAction(self.closeAction)
         # 定义tableWidget的右键菜单栏
         self.twPopMenu = QMenu()  # tableWidget右键菜单
-        self.delAction = QAction(QIcon(u"./images/删除.png"), "删除")  # tableWidget删除行为
-        self.cutAction = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转")  # tableWidget裁剪旋转行为
-        self.twPopMenu.addAction(self.delAction)  # 行为添加至菜单
-        self.twPopMenu.addAction(self.cutAction)  # 行为添加至菜单
-        self.delAction.triggered.connect(self.__deleteRow)  # 绑定"删除行为"的槽
-        self.cutAction.triggered.connect(self.__cutRow)
-        # 无边框、去掉自带阴影
-        self.twPopMenu.setWindowFlags(
+        self.twPopMenu.setAttribute(Qt.WA_TranslucentBackground)
+        self.twPopMenu.setWindowFlags(  # 无边框、去掉自带阴影
             self.twPopMenu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+        self.twPopMenu.setStyleSheet(context_menu_style)
+        delete_action = QAction(QIcon(u"./images/删除.png"), "删除",
+                                triggered=self.__deleteRow)  # tableWidget删除行为
+        cut_action = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转",
+                             triggered=self.__cutRow)  # tableWidget裁剪旋转行为
+        self.twPopMenu.addActions([delete_action, cut_action])  # 行为添加至菜单
         # label预加载
         self.batchImportLabel.setText("已加载图片张数：0张")
         self.statusBar().showMessage("正在加载模型中...")
@@ -756,8 +754,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.flower_image = ImageQt.fromqpixmap(pixmap)
         self.flower_path = path
         self.directory_path, self.flower_name = os.path.split(path)
-        self.update()
         self.camera_win.close()  # 关闭摄像头窗口
+        self.update()
 
     @Slot(int)
     def __viewImage(self, row):
@@ -829,7 +827,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     @Slot(QAction)
     def __menu_web_operation(self, action):
         if action == self.action_baidu:
-            os.startfile("https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=index&fr=&hs=0&xthttps=111110&sf=1&fmq=&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word=%E8%8A%B1%E6%9C%B5&oq=%E8%8A%B1%E6%9C%B5&rsp=-1")
+            os.startfile(
+                "https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=index&fr=&hs=0&xthttps=111110&sf=1&fmq=&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word=%E8%8A%B1%E6%9C%B5&oq=%E8%8A%B1%E6%9C%B5&rsp=-1")
         elif action == self.action_vcg:
             os.startfile("https://www.vcg.com/creative-image/huaduo/")
         elif action == self.action_tiantang:
@@ -874,16 +873,21 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         installed, uninstalled = get_installed_model()
         self.choose_model_dialog = Dialog(parent_style=self.styleSheet(), rect=self.geometry())
         for model in uninstalled:  # 禁用未安装模型对应的checkbox并修改文字
-            print(model)
             text = eval(f"self.choose_model_dialog.{model}.text()")
             text = text.split(":")[0] + "<未安装>"
-            print(text)
+            eval(f"self.choose_model_dialog.{model}.setCursor(Qt.ForbiddenCursor)")  # 修改鼠标悬停
+            eval(f"self.choose_model_dialog.{model}.setToolTip('禁止选择')")  # 修改提示
             eval(f"self.choose_model_dialog.{model}.setText('{text}')")  # 修改未导入模型的显示文字
-            eval(f"self.choose_model_dialog.{model}.setEnabled(False)")  # 禁用未导入模型
+            # eval(f"self.choose_model_dialog.{model}.setEnabled(False)")  # 禁用未导入模型
+            eval(f"self.choose_model_dialog.{model}.setCheckable(False)")  # 禁选择未导入模型
         self.choose_model_dialog.pushButton.clicked.connect(self.__emitChosenModels)  # 传递选择的模型参数
         for model in installed:  # 连接已安装模型的checkbox和全选按钮的槽
+            text = eval(f"self.choose_model_dialog.{model}.text()")
+            text = "权重为：" + text.split(":")[1]
+            eval(f"self.choose_model_dialog.{model}.setToolTip('{text}')")  # 修改提示
             eval(
                 f"self.choose_model_dialog.radioButton.clicked[bool].connect(self.choose_model_dialog.{model}.setChecked)")
+            eval(f"self.choose_model_dialog.{model}.setCursor(Qt.PointingHandCursor)")
         self.choose_model_dialog.show()
 
     @Slot()
@@ -897,6 +901,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.choose_model_dialog.deleteLater()  # 清除组件
 
     def __deepClassify(self, models):
+        if len(models) == 0:
+            NotificationWindow.info(self, "注意", "未选择模型!", time=2000)
+            return
         # 深度预测--进度条
         self.progressBar1 = QProgressBar(self.layoutWidget)
         self.progressBar1.setMaximum(len(models))
@@ -931,10 +938,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.update()
 
     def _getImage(self):
-        """
-        槽函数
-        获取图片
-        """
         try:
             # 获取文件地址
             file, _ = QFileDialog.getOpenFileName(self, "Open file",
@@ -990,8 +993,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget.show()
 
     def initStyleSheet(self):
-        style = readQssFile(u"./stylesheet/Ubuntu.qss")
-        self.actionUbuntuStyle.setChecked(True)
+        style = readQssFile(u"./stylesheet/Aqua.qss")
+        self.actionAqua.setChecked(True)
         self.setStyleSheet(style)
 
     def update(self):
@@ -1037,6 +1040,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.statusBar().showMessage("注意：当前窗口置于最前")
         else:
             self.statusBar().showMessage("模型：" + self.ai_model.__class__.__name__)
+        self.showNormal()  # 正常显示主窗口
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -1045,11 +1049,53 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.setCursor(QCursor(Qt.OpenHandCursor))
             self.drag = True
         if event.button() == Qt.RightButton:
-            # 主页面上下文菜单
-            self.context_menu = QMenu(self)
-            self.context_menu.addActions(self.menu_style.actions())
-            self.setContextMenuPolicy(Qt.CustomContextMenu)
-            self.context_menu.exec(event.globalPosition().toPoint())
+            if self.childAt(event.position().toPoint()) == self.imageLabel:
+                # imageLabel上下文菜单
+                self.image_label_menu = QMenu(self)
+                self.image_label_menu.setAttribute(Qt.WA_TranslucentBackground)
+                # 无边框、去掉自带阴影
+                self.image_label_menu.setWindowFlags(
+                    self.image_label_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+                classify_action = QAction(QIcon(u"./images/AI识别.png"), "AI识别",
+                                          triggered=self.__classifyImage)
+                cut_action = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转",
+                                     triggered=self.__cutImage)
+                self.image_label_menu.addActions([classify_action, cut_action, self.actionClassify])
+                self.image_label_menu.addSeparator()
+                self.image_label_menu.addActions([self.actionOpen, self.actionCamera])
+                self.setContextMenuPolicy(Qt.CustomContextMenu)
+                self.image_label_menu.setStyleSheet(context_menu_style)
+                self.image_label_menu.exec(event.globalPosition().toPoint())
+            elif self.childAt(event.position().toPoint()) == self.pathLabel:
+                # pathLabel上下文菜单
+                self.path_label_menu = QMenu(self)
+                self.path_label_menu.setAttribute(Qt.WA_TranslucentBackground)
+                # 无边框、去掉自带阴影
+                self.path_label_menu.setWindowFlags(
+                    self.path_label_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+                copy_action = QAction(QIcon(u"./images/复制.png"), "复制 文件夹/链接 地址",
+                                      triggered=self.__copyDirectory)
+                open_action = QAction(QIcon(u"./images/url.png"), "打开 文件夹/链接 ",
+                                      triggered=lambda: os.startfile(self.pathLabel.text()))
+                self.path_label_menu.addActions([copy_action, open_action])
+                self.setContextMenuPolicy(Qt.CustomContextMenu)
+                self.path_label_menu.setStyleSheet(context_menu_style)
+                self.path_label_menu.exec(event.globalPosition().toPoint())
+            else:
+                # 主页面上下文菜单
+                self.context_menu = QMenu(self)
+                self.context_menu.setAttribute(Qt.WA_TranslucentBackground)
+                # 无边框、去掉自带阴影
+                self.context_menu.setWindowFlags(
+                    self.context_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+                self.context_menu.addActions(self.menu_style.actions())
+                self.setContextMenuPolicy(Qt.CustomContextMenu)
+                self.context_menu.setStyleSheet(context_menu_style)
+                self.context_menu.exec(event.globalPosition().toPoint())
+
+    def __copyDirectory(self):
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.pathLabel.text())
 
     def mouseMoveEvent(self, event):
         if self.drag:
@@ -1075,7 +1121,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 url = self.pathLabel.text()
                 if url == "":
                     return QMainWindow.eventFilter(self, watched, event)
-                os.startfile(url)
+                try:
+                    os.startfile(url)
+                except FileNotFoundError:
+                    NotificationWindow.error(self, "错误", "当前文件夹不存在", time=2000)
         # 对于其余情况返回默认处理方法
         return QMainWindow.eventFilter(self, watched, event)
 
@@ -1107,6 +1156,45 @@ def rgb2html(color):
         number += shu
     return number
 
+
+context_menu_style = """
+QMenu {
+    /* 半透明效果 */
+    background-color: rgba(255, 255, 255, 230);
+    border: none;
+    border-radius: 4px;
+}
+
+QMenu::item {
+    border-radius: 4px;
+    /* 这个距离很麻烦需要根据菜单的长度和图标等因素微调 */
+    padding: 8px 48px 8px 36px; /* 36px是文字距离左侧距离*/
+    background-color: transparent;
+}
+
+/* 鼠标悬停和按下效果 */
+QMenu::item:selected {
+    border-radius: 0px;
+    /* 半透明效果 */
+    background-color: rgba(232, 232, 232, 232);
+}
+
+/* 禁用效果 */
+QMenu::item:disabled {
+    background-color: transparent;
+}
+
+/* 图标距离左侧距离 */
+QMenu::icon {
+    left: 15px;
+}
+
+/* 分割线效果 */
+QMenu::separator {
+    height: 1px;
+    background-color: rgb(232, 236, 243);
+}
+"""
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

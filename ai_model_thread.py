@@ -30,7 +30,7 @@ class AIModelOperationThread(QThread):
     def __init__(self, window=None, parent=None):
         super(AIModelOperationThread, self).__init__(parent)
         self.operation = "load"
-        self.ai_model = EfficientNetB1()
+        self.ai_model = EfficientNetB2()
         self.window = window
         self.files = None
 

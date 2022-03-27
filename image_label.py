@@ -1,11 +1,11 @@
 import os.path
 from io import BytesIO
-from PIL import Image
-from requests import get
 
+from PIL import Image
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap, Qt
 from PySide6.QtWidgets import QLabel, QGraphicsDropShadowEffect
+from requests import get
 
 
 class ImageLabel(QLabel):

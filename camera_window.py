@@ -10,6 +10,8 @@ from PySide6.QtMultimediaWidgets import QVideoWidget
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel,
                                QMainWindow, QPushButton, QTabWidget, QToolBar, QVBoxLayout, QWidget)
 
+from notification import NotificationWindow
+
 class ImageView(QWidget):
     save_signal = Signal(QPixmap, str)
 
@@ -62,7 +64,7 @@ class ImageView(QWidget):
 
 
 class camera_window(QMainWindow):
-    def __init__(self, parent: None):
+    def __init__(self, parent):
         super().__init__()
         self.main_win = parent
         self._capture_session = None
@@ -70,8 +72,8 @@ class camera_window(QMainWindow):
         self._camera_info = None
         self._image_capture = None
         self.setStyleSheet(parent.styleSheet())
-
         available_cameras = QMediaDevices.videoInputs()
+        self.setWindowIcon(QIcon(u"./images/摄像头.png"))
         if available_cameras:
             self._camera_info = available_cameras[0]
             self._camera = QCamera(self._camera_info)
@@ -85,13 +87,10 @@ class camera_window(QMainWindow):
             self._capture_session.setImageCapture(self._image_capture)
 
         self._current_preview = QImage()
-
         tool_bar = QToolBar()
         tool_bar.setMovable(False)
         self.addToolBar(tool_bar)
-
-        shutter_icon = QIcon(u"./images/照相机.png")
-        self._take_picture_action = QAction(shutter_icon, "&Take Picture", self,
+        self._take_picture_action = QAction(QIcon(u"./images/摄像头.png"), "&Take Picture", self,
                                             shortcut="Ctrl+T",
                                             triggered=self.take_picture)
         self._take_picture_action.setToolTip("Ctrl+T")
@@ -159,11 +158,13 @@ class camera_window(QMainWindow):
     @Slot(int, QImageCapture.Error, str)
     def _capture_error(self, id, error, error_string):
         print(error_string, file=sys.stderr)
+        NotificationWindow.error(self, "错误", error_string)
         self.show_status_message(error_string)
 
     @Slot(QCamera.Error, str)
     def _camera_error(self, error, error_string):
         print(error_string, file=sys.stderr)
+        NotificationWindow.error(self, "错误", error_string)
         self.show_status_message(error_string)
 
 
