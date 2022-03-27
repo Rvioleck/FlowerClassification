@@ -86,10 +86,44 @@ class EfficientNetB0(Model):
         return y
 
 
+class EfficientNetB1(Model):
+    def __init__(self):
+        super(EfficientNetB1, self).__init__()
+        self.net = efn.EfficientNetB1(
+            input_shape=(224, 224, 3),
+            weights=None,
+            include_top=False,
+            pooling="avg"
+        )
+        self.f = Dense(24, activation="softmax")
+
+    def call(self, x, **kwargs):
+        x = self.net(x)
+        y = self.f(x)
+        return y
+
+
 class EfficientNetB2(Model):
     def __init__(self):
         super(EfficientNetB2, self).__init__()
         self.net = efn.EfficientNetB2(
+            input_shape=(224, 224, 3),
+            weights=None,
+            include_top=False,
+            pooling="avg"
+        )
+        self.f = Dense(24, activation="softmax")
+
+    def call(self, x, **kwargs):
+        x = self.net(x)
+        y = self.f(x)
+        return y
+
+
+class EfficientNetB3(Model):
+    def __init__(self):
+        super(EfficientNetB3, self).__init__()
+        self.net = efn.EfficientNetB3(
             input_shape=(224, 224, 3),
             weights=None,
             include_top=False,

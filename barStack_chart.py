@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-
 import sys
 
 from PySide6.QtCharts import QChartView, QChart, QBarCategoryAxis, QBarSet, QBarSeries

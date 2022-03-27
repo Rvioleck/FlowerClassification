@@ -133,6 +133,8 @@ class NotificationWindow(QListWidget):
         self.setSpacing(2)
         self.setMinimumWidth(340)
         self.setMaximumWidth(340)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.show()
         self.animation = None
         QApplication.instance().setQuitOnLastWindowClosed(True)
         # 隐藏任务栏,无边框,置顶等
@@ -182,7 +184,7 @@ class NotificationWindow(QListWidget):
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y + rect_height / 4)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
 
     @classmethod
     def success(cls, parent, title, message, callback=None, time=5000):
@@ -198,7 +200,7 @@ class NotificationWindow(QListWidget):
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y + rect_height / 4)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
 
     @classmethod
     def warning(cls, parent, title, message, callback=None, time=5000):
@@ -215,7 +217,7 @@ class NotificationWindow(QListWidget):
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y + rect_height / 4)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
 
     @classmethod
     def error(cls, parent, title, message, callback=None, time=5000):
@@ -230,7 +232,7 @@ class NotificationWindow(QListWidget):
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y + rect_height / 4)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
 
 
 if __name__ == '__main__':

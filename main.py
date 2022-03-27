@@ -57,6 +57,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.initGraphicsShadow()
         self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initStyleSheet()  # 初始化样式表
+        self.showNormal()
 
     def initMainWindowMask(self):
         # 设置主窗口蒙版，形成圆角窗口
@@ -188,10 +189,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.tray_icon.setContextMenu(tray_menu)
         # # 菜单栏QAction充当占位符
         self.holderAction = QMenu(self)
-        space = "  " * 84
+        space = "  " * 87
         self.holderAction.setTitle(space)
-        # self.holderAction.setEnabled(False)
         self.holderAction.setDisabled(True)
+        # 设置菜单栏
         self.menubar.addMenu(self.holderAction)
         # 菜单栏，固定窗口最前QAction
         self.pinAction = QAction(self)
@@ -221,8 +222,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 定义tableWidget的右键菜单栏
         self.twPopMenu = QMenu()  # tableWidget右键菜单
         self.delAction = QAction(QIcon(u"./images/删除.png"), "删除")  # tableWidget删除行为
+        self.cutAction = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转")  # tableWidget裁剪旋转行为
         self.twPopMenu.addAction(self.delAction)  # 行为添加至菜单
+        self.twPopMenu.addAction(self.cutAction)  # 行为添加至菜单
         self.delAction.triggered.connect(self.__deleteRow)  # 绑定"删除行为"的槽
+        self.cutAction.triggered.connect(self.__cutRow)
+        # 背景透明
+        # self.twPopMenu.setAttribute(Qt.WA_TranslucentBackground)
+        # 无边框、去掉自带阴影
+        self.twPopMenu.setWindowFlags(
+            self.twPopMenu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
         # label预加载
         self.batchImportLabel.setText("已加载图片张数：0张")
         self.statusBar().showMessage("正在加载模型中...")
@@ -383,10 +392,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.AIThread.setModel(EfficientNetB0())
         else:
             self.efficientNetB0Action.setChecked(False)
+        if model_action == self.efficientNetB1Action:
+            self.AIThread.setModel(EfficientNetB1())
+        else:
+            self.efficientNetB1Action.setChecked(False)
         if model_action == self.efficientNetB2Action:
             self.AIThread.setModel(EfficientNetB2())
         else:
             self.efficientNetB2Action.setChecked(False)
+        if model_action == self.efficientNetB3Action:
+            self.AIThread.setModel(EfficientNetB3())
+        else:
+            self.efficientNetB3Action.setChecked(False)
         if model_action == self.efficientNetB4Action:
             self.AIThread.setModel(EfficientNetB4())
         else:
@@ -503,29 +520,56 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def __popMenu(self, point: QPoint):
         try:
-            item = self.tableWidget.itemAt(point)
-            self.delete_row_num = item.row()
+            items = self.tableWidget.selectedItems()  # 获取所有的选中项
+            self.selected_row_nums = []  # 保存选中项的行号
+            for item in items:
+                if item.row() not in self.selected_row_nums:
+                    self.selected_row_nums.append(item.row())
+            self.selected_row_nums.sort(reverse=True)
+            item = self.tableWidget.itemAt(point)  # 获取鼠标点击的项
+            self.selected_row_num = item.row()
             # 绑定删除事件的信号
             self.twPopMenu.exec(QCursor().pos())
         except Exception as e:
             print(e)
-            self.delete_row_num = -1  # 置为无效值
+            self.selected_row_num = -1  # 置为无效值
+            self.selected_row_nums = []
 
     def __deleteRow(self):
         try:
-            row_num = self.delete_row_num
-            self.tableWidget.removeRow(row_num)
-            self.files.pop(row_num)
+            rows = self.selected_row_nums
+            print(f"rows:{rows}")
+            for row in rows:
+                self.tableWidget.removeRow(row)
+                self.files.pop(row)
             self.batchImportLabel.setText("已加载图片张数：{}".format(len(self.files)))
         except Exception as e:
             print(e)
+
+    def __cutRow(self):
+        try:
+            row = self.selected_row_num
+            file_path = self.tableWidget.item(row, 0).text() + "/" + self.tableWidget.item(row, 1).text()
+            self.row_cutter = ImageCutter(image=file_path, name=self.tableWidget.item(row, 1).text())
+            self.row_cutter.setStyleSheet(self.styleSheet())
+            self.row_cutter.save_signal.connect(self.__saveCutRow)
+            self.row_cutter.show()
+        except Exception as e:
+            print(e)
+
+    def __saveCutRow(self, pixmap):
+        img = ImageQt.fromqpixmap(pixmap)
+        row = self.selected_row_num
+        file_path = self.tableWidget.item(row, 0).text() + "/" + self.tableWidget.item(row, 1).text()
+        img.save(file_path)
+        self.row_cutter.deleteLater()  # 完成后先删除cutter组件
 
     def _exportBatchImages(self):
         path = self.savePathLineEdit.text()
         if not os.path.exists(path):
             NotificationWindow.warning(self, "注意",
                                        "请先<font color=blue><b><u>选择正确的导出路径</u></b></font>",
-                                       callback=self._exportBatchImages)
+                                       callback=self.getDirectory)
             return
         count = self.tableWidget.rowCount()
         if count == 0:
@@ -672,7 +716,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                     "请先<font color=blue><b><u>导入图片</u></b></font>",
                                     callback=self._getImage)
             return
-        self.image_cutter = ImageCutter(image=self.flower_pixmap)
+        self.image_cutter = ImageCutter(image=self.flower_pixmap, name=self.flower_name)
         self.image_cutter.setStyleSheet(self.styleSheet())
         self.image_cutter.save_signal.connect(self.__passImage)
         self.image_cutter.show()
@@ -794,9 +838,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.flower_pixmap = ImageGrab.grabclipboard().toqpixmap()
         except AttributeError as e:
             print(e)
-            print("当前剪切板项非图片")
+            NotificationWindow.warning(self, "注意", "当前剪切板项非图片")
             return
-        self.directory_path = ""
+        self.directory_path = ""  # 临时文件——图片所在文件夹置空
         self.flower_image = ImageQt.fromqpixmap(self.flower_pixmap)
         self.flower_name = "剪贴板临时文件"
         self.update()
@@ -901,7 +945,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.resultLabel_2.setPixmap(QPixmap())  # 更新
         self.resultLabel_2.setToolTip("")
         self.initPieChart()
-        self.statusBar().showMessage("模型：" + self.ai_model.__class__.__name__)
+        if self.window_state:
+            self.statusBar().showMessage("注意：当前窗口置于最前")
+        else:
+            self.statusBar().showMessage("模型：" + self.ai_model.__class__.__name__)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -948,7 +995,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 def get_installed_model() -> [list, set]:
     installed = []
     models_name = ["VGG19", "InceptionV3", "DenseNet121", "MobileNetV2", "EfficientNetB0",
-                   "EfficientNetB2", "EfficientNetB4", "EfficientNetB7"]
+                   "EfficientNetB1", "EfficientNetB2", "EfficientNetB3", "EfficientNetB4", "EfficientNetB7"]
     for model_name in models_name:
         checkpoint_save_path = "./checkpoint/flower_" + model_name + ".ckpt"
         if os.path.exists(checkpoint_save_path + '.index'):

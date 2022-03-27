@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QRect, Signal, QPointF, QEvent
 from PySide6.QtGui import QColor, QPixmap, QIcon
-from PySide6.QtWidgets import QApplication, QDialog
+from PySide6.QtWidgets import QApplication, QDialog, QLabel
 
 from my_graphics_view import GraphicsView
 from ui_my_cutter import Ui_Dialog
@@ -9,13 +9,13 @@ from ui_my_cutter import Ui_Dialog
 class ImageCutter(QDialog, Ui_Dialog):
     save_signal = Signal(QPixmap)
 
-    def __init__(self, image):
+    def __init__(self, image, name=None):
         super(ImageCutter, self).__init__()
         self.image = image
         self.setupUi(self)
         self.init_ui()
         # 视图背景颜色
-        self.setWindowTitle("图片裁剪")
+        self.setWindowTitle(f"图片预处理 --- {name}")
         self.initConnectSlot()
 
     def init_ui(self):

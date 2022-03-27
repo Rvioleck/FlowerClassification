@@ -68,7 +68,8 @@ class AIModelOperationThread(QThread):
 
     def __deepClassify(self):
         model_weight = {
-            "EfficientNetB0": 0.956, "EfficientNetB2": 0.952, "EfficientNetB4": 0.947, "EfficientNetB7": 0.959,
+            "EfficientNetB0": 0.956, "EfficientNetB1": 0.959, "EfficientNetB2": 0.952,
+            "EfficientNetB3": 0.946, "EfficientNetB4": 0.947, "EfficientNetB7": 0.959,
             "MobileNetV2": 0.927, "DenseNet121": 0.909, "InceptionV3": 0.898, "VGG19": 0.707
         }
         whole_portion = [0] * len(self.flower_words)
