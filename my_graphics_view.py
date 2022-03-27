@@ -4,6 +4,8 @@ from PySide6.QtGui import QColor, QPixmap, QPen, QTransform
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene, QGraphicsItem
 from tensorflow import image as img
 
+from notification import NotificationWindow
+
 
 class GraphicsView(QGraphicsView):
     save_signal = Signal(bool)
@@ -16,7 +18,7 @@ class GraphicsView(QGraphicsView):
 
         self.img_signal[int].connect(self.update_img)
         self.img_rotation_signal[int].connect(self.rotate_img)
-        self.img_attribute_signal[float, int, float, int].connect(self.updte_img_attribute)
+        self.img_attribute_signal[float, int, float, int].connect(self.update_img_attribute)
         # 设置放大缩小时跟随鼠标
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
@@ -61,9 +63,12 @@ class GraphicsView(QGraphicsView):
         print(dial_value)
         self.image_item.setScale(dial_value / 50)
 
-    def updte_img_attribute(self, brightness, contrast, hue, saturation):
+    def update_img_attribute(self, brightness, contrast, hue, saturation):
         image = ImageQt.fromqpixmap(self.pixmap)
-        image = image.convert("RGB")
+        if image.mode != "RGB":
+            NotificationWindow.info(self, "含透明通道无法操作！", "RGBA自动调整为RGB色彩模式", time=2000)
+            image = image.convert("RGB")
+            self.pixmap = ImageQt.toqpixmap(image)
         if brightness != 0:
             image = Image.fromarray(img.adjust_brightness(image, brightness).numpy())  # 调整亮度
         if contrast != 0:

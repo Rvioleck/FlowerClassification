@@ -88,6 +88,8 @@ class NotificationItem(QWidget):
         effect.setOffset(2, 2)
         self.setGraphicsEffect(effect)
         self.adjustSize()
+        # 设置透明度
+        self.setWindowOpacity(0.9)
 
         # 5秒自动关闭
         self._timer = QTimer(self, timeout=self.doClose)

@@ -1775,6 +1775,7 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionCamera"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
@@ -1800,9 +1801,23 @@
      <addaction name="actionMaterialDark"/>
      <addaction name="actionMyStyle"/>
     </widget>
+    <widget class="QMenu" name="menu_web">
+     <property name="title">
+      <string>花朵图片网</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>images/网站.png</normaloff>images/网站.png</iconset>
+     </property>
+     <addaction name="action_baidu"/>
+     <addaction name="action_vcg"/>
+     <addaction name="action_tiantang"/>
+     <addaction name="action_Veer"/>
+    </widget>
     <addaction name="actionAbout"/>
-    <addaction name="separator"/>
     <addaction name="menu_style"/>
+    <addaction name="separator"/>
+    <addaction name="menu_web"/>
    </widget>
    <widget class="QMenu" name="menu_M">
     <property name="tearOffEnabled">
@@ -1856,8 +1871,8 @@
    <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionCNN"/>
-   <addaction name="separator"/>
    <addaction name="actionClassify"/>
+   <addaction name="actionCamera"/>
   </widget>
   <action name="myModelAction">
    <property name="text">
@@ -2197,6 +2212,57 @@
     <string>花朵分类</string>
    </property>
   </action>
+  <action name="actionCamera">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/照相机.png</normaloff>images/照相机.png</iconset>
+   </property>
+   <property name="text">
+    <string>摄像头(&amp;T)</string>
+   </property>
+   <property name="toolTip">
+    <string>打开摄像头</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="action_baidu">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/百度.png</normaloff>images/百度.png</iconset>
+   </property>
+   <property name="text">
+    <string>百度图片</string>
+   </property>
+  </action>
+  <action name="action_vcg">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/视觉中国.png</normaloff>images/视觉中国.png</iconset>
+   </property>
+   <property name="text">
+    <string>视觉中国</string>
+   </property>
+  </action>
+  <action name="action_tiantang">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/天堂图片网.jpg</normaloff>images/天堂图片网.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>天堂图片网</string>
+   </property>
+  </action>
+  <action name="action_Veer">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/veer_logo.svg</normaloff>images/veer_logo.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Veer图库</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -2239,8 +2305,8 @@
      <y>185</y>
     </hint>
     <hint type="destinationlabel">
-     <x>747</x>
-     <y>236</y>
+     <x>795</x>
+     <y>244</y>
     </hint>
    </hints>
   </connection>

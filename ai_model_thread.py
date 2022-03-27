@@ -30,7 +30,7 @@ class AIModelOperationThread(QThread):
     def __init__(self, window=None, parent=None):
         super(AIModelOperationThread, self).__init__(parent)
         self.operation = "load"
-        self.ai_model = EfficientNetB0()
+        self.ai_model = EfficientNetB1()
         self.window = window
         self.files = None
 
@@ -67,26 +67,28 @@ class AIModelOperationThread(QThread):
         print("AI Thread has finished batchClassifying")
 
     def __deepClassify(self):
-        model_weight = {
+        model_weight = {  # 各个模型的权重：以最后一轮的训练集准确率为权重
             "EfficientNetB0": 0.956, "EfficientNetB1": 0.959, "EfficientNetB2": 0.952,
             "EfficientNetB3": 0.946, "EfficientNetB4": 0.947, "EfficientNetB7": 0.959,
             "MobileNetV2": 0.927, "DenseNet121": 0.909, "InceptionV3": 0.898, "VGG19": 0.707
         }
-        whole_portion = [0] * len(self.flower_words)
+        whole_portion = [0] * len(self.flower_words)  # 初始化结果比例为0
         cur_model_name = self.ai_model.__class__.__name__
-        x = get_input_x(self.files)
-        portion, index = model_predict(self.ai_model, x)
-        self.__calPortion(portion, whole_portion, model_weight, cur_model_name)
-        for model_name, weight in model_weight.items():
+        x = get_input_x(self.files)  # 计算模型张量
+        if cur_model_name in self.models:  # 当前模型若存在被选择模型中，则不用导入，直接预测
+            portion, index = model_predict(self.ai_model, x)
+            self.__calPortion(portion, whole_portion, model_weight, cur_model_name)
+        # for model_name, weight in model_weight.items():
+        for model_name in self.models:  # 由已选择的模型进行加权深度识别
             if model_name == cur_model_name:
                 continue
             model = eval(model_name + "()")
-            load_success = load_model(model)
-            if not load_success:
+            load_success = load_model(model)  # 导入被选择模型
+            if not load_success:  # 当前模型未安装则跳过
                 continue
-            portion, index = model_predict(model, x)
+            portion, index = model_predict(model, x)  # 计算得到比例和最大结果下标
             self.__calPortion(portion, whole_portion, model_weight, model_name)
-        self.deep_classify_finish[None].emit()
+        self.deep_classify_finish[None].emit()  # 发射完成信号
         print("AI Thread has finished deepClassifying")
 
     def __batchExport(self):
@@ -147,11 +149,12 @@ class AIModelOperationThread(QThread):
         self.window._release_button()
 
     def __calPortion(self, portion, whole_portion, model_weight, model_name):
-        for i, per in enumerate(portion):
+        # 更新计算当前各个结果的比例并置当前结果
+        for i, per in enumerate(portion):  # 将当前模型的每个结果的概率加权加到总量中
             whole_portion[i] += per * model_weight[model_name]
-        res = self.flower_words[whole_portion.index(max(whole_portion))]
-        standard_portion = [(i / sum(whole_portion)) for i in whole_portion]
-        self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)
+        res = self.flower_words[whole_portion.index(max(whole_portion))]  # 获取当前总量的最大结果
+        standard_portion = [(i / sum(whole_portion)) for i in whole_portion]  # 比例归一化
+        self.classify_res_signal[list, str, bool].emit(standard_portion, res, True)  # 置当前结果
 
     def __load(self):
         # AI线程进行模型初始化操作
@@ -177,3 +180,6 @@ class AIModelOperationThread(QThread):
 
     def setFiles(self, files):
         self.files = files
+
+    def setChosenModels(self, models: list):
+        self.models = models
