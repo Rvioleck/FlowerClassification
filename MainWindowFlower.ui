@@ -301,6 +301,18 @@
          <height>31</height>
         </rect>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
        <property name="font">
         <font>
          <family>微软雅黑</family>
@@ -573,6 +585,18 @@
         <height>31</height>
        </rect>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>31</width>
+        <height>31</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>31</width>
+        <height>31</height>
+       </size>
+      </property>
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
@@ -605,8 +629,20 @@
         <x>330</x>
         <y>337</y>
         <width>31</width>
-        <height>30</height>
+        <height>31</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>31</width>
+        <height>31</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>31</width>
+        <height>31</height>
+       </size>
       </property>
       <property name="font">
        <font>
@@ -665,7 +701,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -713,6 +749,18 @@
           <width>151</width>
           <height>31</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>151</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>151</width>
+          <height>31</height>
+         </size>
         </property>
         <property name="font">
          <font>
@@ -865,6 +913,24 @@
           <width>131</width>
           <height>22</height>
          </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>131</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>131</width>
+          <height>22</height>
+         </size>
         </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;选择&lt;span style=&quot; font-weight:700;&quot;&gt;文件扩展名&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1792,11 +1858,12 @@
        <normaloff>images/主题.png</normaloff>images/主题.png</iconset>
      </property>
      <addaction name="actionUbuntuStyle"/>
-     <addaction name="actionAMOLED"/>
+     <addaction name="actionAbc"/>
+     <addaction name="actionWhite"/>
      <addaction name="actionAqua"/>
-     <addaction name="actionConsoleStyle"/>
      <addaction name="actionElegantDark"/>
      <addaction name="actionMacOS"/>
+     <addaction name="actionClassic"/>
      <addaction name="actionManjaroMix"/>
      <addaction name="actionMaterialDark"/>
      <addaction name="actionMyStyle"/>
@@ -2097,7 +2164,10 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>渐变蓝</string>
+    <string>simple blue</string>
+   </property>
+   <property name="toolTip">
+    <string>simple blue</string>
    </property>
   </action>
   <action name="actionUbuntuStyle">
@@ -2108,12 +2178,15 @@
     <string>Ubuntu</string>
    </property>
   </action>
-  <action name="actionAMOLED">
+  <action name="actionAbc">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>AMOLED</string>
+    <string>abc</string>
+   </property>
+   <property name="toolTip">
+    <string>abc</string>
    </property>
   </action>
   <action name="actionAqua">
@@ -2122,14 +2195,6 @@
    </property>
    <property name="text">
     <string>Aqua</string>
-   </property>
-  </action>
-  <action name="actionConsoleStyle">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>ConsoleStyle</string>
    </property>
   </action>
   <action name="actionElegantDark">
@@ -2179,6 +2244,9 @@
    </property>
   </action>
   <action name="efficientNetB1Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>EfficientNetB1</string>
    </property>
@@ -2190,6 +2258,9 @@
    </property>
   </action>
   <action name="efficientNetB3Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>EfficientNetB3</string>
    </property>
@@ -2261,6 +2332,28 @@
    </property>
    <property name="text">
     <string>Veer图库</string>
+   </property>
+  </action>
+  <action name="actionWhite">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>white</string>
+   </property>
+   <property name="toolTip">
+    <string>white</string>
+   </property>
+  </action>
+  <action name="actionClassic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>classic</string>
+   </property>
+   <property name="toolTip">
+    <string>classic</string>
    </property>
   </action>
  </widget>

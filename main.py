@@ -56,7 +56,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.files = []  # 记录已选中的批量图片路径
         self.setupUi(self)  # GUI界面初始化(Viewer)
         self.initUI()  # 额外GUI初始化
-        self.initGraphicsShadow()
+        # self.initGraphicsShadow()
         self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initStyleSheet()  # 初始化样式表
         self.showNormal()
@@ -142,6 +142,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.progressBar1.setValue(self.progressBar1.value() + 1)
         # 禁用部分按钮
         if not tag:  # 非深度预测时一次预测时结束进行按钮释放
+            self.tabWidget_2.setCurrentIndex(0)
             self._release_button()
 
     @Slot(int, str, bool)
@@ -167,6 +168,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def __batchClassifyFinished(self):
+        NotificationWindow.success(self, "成功", "已完成批量预测！", time=2000)
         # 恢复部分按钮
         self._release_button()
         # 清空进度条
@@ -209,20 +211,23 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 设置菜单栏
         self.menubar.addMenu(self.holderAction)
         # 菜单栏，固定窗口最前QAction
-        self.pinAction = QAction(QIcon(u"./images/图钉关.png"), "-",
+        self.pinAction = QAction(QIcon(u"./images/图钉关.png"), "窗口置于最前",
                                  triggered=self.__switch_windows_flags)
         self.pinAction.setToolTip("置于窗口最前")
         self.pinAction.setStatusTip("置于窗口最前")
         self.pinAction.setCheckable(True)
         self.window_state = False  # 标记是否置于窗口最前
+        self.menu.insertAction(self.actionCamera, self.pinAction)
         self.menubar.addAction(self.pinAction)
         # 菜单栏，最小化QAction
-        self.lowerAction = QAction(QIcon(u"./images/最小化.png"), "-",
+        self.lowerAction = QAction(QIcon(u"./images/最小化.png"), "最小化",
                                    triggered=self.showMinimized)
+        self.lowerAction.setToolTip("窗口最小化")
         self.lowerAction.setStatusTip("窗口最小化")
+        self.menu.insertAction(self.pinAction, self.lowerAction)
         self.menubar.addAction(self.lowerAction)
         # 菜单栏，退出QAction
-        self.closeAction = QAction(QIcon(u"./images/关闭.png"), "×",
+        self.closeAction = QAction(QIcon(u"./images/关闭.png"), "关闭",
                                    triggered=self.close)
         self.closeAction.setStatusTip("退出程序")
         self.menubar.addAction(self.closeAction)
@@ -232,11 +237,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.twPopMenu.setWindowFlags(  # 无边框、去掉自带阴影
             self.twPopMenu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
         self.twPopMenu.setStyleSheet(context_menu_style)
-        delete_action = QAction(QIcon(u"./images/删除.png"), "删除",
-                                triggered=self.__deleteRow)  # tableWidget删除行为
-        cut_action = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转",
-                             triggered=self.__cutRow)  # tableWidget裁剪旋转行为
-        self.twPopMenu.addActions([delete_action, cut_action])  # 行为添加至菜单
+        self.delete_action = QAction(QIcon(u"./images/删除.png"), "删除",
+                                     triggered=self.__deleteRow)  # tableWidget删除行为
+        self.cut_action = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转",
+                                  triggered=self.__cutRow)  # tableWidget裁剪旋转行为
+        self.twPopMenu.addActions([self.delete_action, self.cut_action])  # 行为添加至菜单
         # label预加载
         self.batchImportLabel.setText("已加载图片张数：0张")
         self.statusBar().showMessage("正在加载模型中...")
@@ -276,7 +281,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.show()
 
     def initGraphicsShadow(self):
-        print("initGraphicsShadow")
         # GroupBox组件阴影
         effect_shadow_group_box = QGraphicsDropShadowEffect(self)
         effect_shadow_group_box.setOffset(1, 1)  # 偏移
@@ -458,6 +462,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def __clearImportContent(self):
+        if self.flower_pixmap is None:
+            return
         NotificationWindow.info(self, "是否确认",
                                 "<font color=red><b><u>清除当前的图片及相关信息</u></b></font>",
                                 callback=self.__clear)
@@ -503,7 +509,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def __classifyBatchImages(self):
         if len(self.files) == 0:
-            NotificationWindow.info(self, "注意", "请先进行<b><u>批量导入图片</u></b>", callback=self._getBatchImage)
+            NotificationWindow.info(self, "注意", "请先<b><u>批量导入图片</u></b>", callback=self._getBatchImage)
             return
         # 每次进行预测时清空之前的预测结果
         self.barChartWidget.clearData()
@@ -543,7 +549,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.selected_row_nums.sort(reverse=True)
             item = self.tableWidget.itemAt(point)  # 获取鼠标点击的项
             self.selected_row_num = item.row()
-            # 绑定删除事件的信号
+            # 显示上下文菜单
             self.twPopMenu.exec(QCursor().pos())
         except Exception as e:
             print(e)
@@ -719,6 +725,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         tag: 标识是否为浏览器文件
         url: 图片的url(本地地址和浏览器链接)
         """
+        if pixmap.isNull():
+            NotificationWindow.error(self, "错误", f"无法解析url:<font color=blue><u>{url}</u></font>请打开链接后拖入图片！",
+                                     callback=lambda: os.startfile(url))
+            return
         self.flower_path = url  # 获取图片的url
         self.flower_pixmap = pixmap  # 获取花朵图片
         self.flower_image = ImageQt.fromqpixmap(pixmap)
@@ -778,31 +788,26 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot(QAction)
     def __menu_style_operation(self, action):
-        if action == self.actionMyStyle:
-            self.setStyleSheet(readQssFile(u"./stylesheet/style.qss"))
-            self.actionMyStyle.setChecked(True)
-        else:
-            self.actionMyStyle.setChecked(False)
+        # if action == self.actionMyStyle:
+        #     self.setStyleSheet(readQssFile(u"stylesheet/简约蓝.qss"))
+        #     self.actionMyStyle.setChecked(True)
+        # else:
+        #     self.actionMyStyle.setChecked(False)
         if action == self.actionUbuntuStyle:
             self.setStyleSheet(readQssFile(u"./stylesheet/Ubuntu.qss"))
             self.actionUbuntuStyle.setChecked(True)
         else:
             self.actionUbuntuStyle.setChecked(False)
-        if action == self.actionAMOLED:
-            self.setStyleSheet(readQssFile(u"./stylesheet/AMOLED.qss"))
-            self.actionAMOLED.setChecked(True)
+        if action == self.actionAbc:
+            self.setStyleSheet(readQssFile(u"./stylesheet/abc.qss"))
+            self.actionAbc.setChecked(True)
         else:
-            self.actionAMOLED.setChecked(False)
+            self.actionAbc.setChecked(False)
         if action == self.actionAqua:
             self.setStyleSheet(readQssFile(u"./stylesheet/Aqua.qss"))
             self.actionAqua.setChecked(True)
         else:
             self.actionAqua.setChecked(False)
-        if action == self.actionConsoleStyle:
-            self.setStyleSheet(readQssFile(u"./stylesheet/ConsoleStyle.qss"))
-            self.actionConsoleStyle.setChecked(True)
-        else:
-            self.actionConsoleStyle.setChecked(False)
         if action == self.actionElegantDark:
             self.setStyleSheet(readQssFile(u"./stylesheet/ElegantDark.qss"))
             self.actionElegantDark.setChecked(True)
@@ -823,6 +828,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.actionMaterialDark.setChecked(True)
         else:
             self.actionMaterialDark.setChecked(False)
+        if action == self.actionWhite:
+            self.setStyleSheet(readQssFile(u"./stylesheet/white.qss"))
+            self.actionWhite.setChecked(True)
+        else:
+            self.actionWhite.setChecked(False)
+        if action == self.actionClassic:
+            self.setStyleSheet(readQssFile(u"./stylesheet/111/stylesheet2.qss"))
+            self.actionClassic.setChecked(True)
+        else:
+            self.actionClassic.setChecked(False)
 
     @Slot(QAction)
     def __menu_web_operation(self, action):
@@ -869,7 +884,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.camera_win.resize(available_geometry.width() / 3, available_geometry.height() / 2)
                 self.camera_win.show()
 
+
     def __chooseModelsOfDeepClassify(self):
+        if self.window_state:
+            self.__switch_windows_flags()
         installed, uninstalled = get_installed_model()
         self.choose_model_dialog = Dialog(parent_style=self.styleSheet(), rect=self.geometry())
         for model in uninstalled:  # 禁用未安装模型对应的checkbox并修改文字
@@ -993,7 +1011,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget.show()
 
     def initStyleSheet(self):
-        style = readQssFile(u"./stylesheet/Aqua.qss")
+        style = readQssFile(u"stylesheet/Aqua.qss")
         self.actionAqua.setChecked(True)
         self.setStyleSheet(style)
 

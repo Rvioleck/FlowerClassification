@@ -6,6 +6,7 @@ from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap, Qt
 from PySide6.QtWidgets import QLabel, QGraphicsDropShadowEffect
 from requests import get
+import re, urllib.request
 
 
 class ImageLabel(QLabel):
@@ -55,3 +56,4 @@ class ImageLabel(QLabel):
         print(url)
         self.pixmap_signal[bool, str, QPixmap].emit(tag, url, self.my_pixmap)
         event.acceptProposedAction()
+

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>403</width>
-    <height>276</height>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>223</y>
+     <x>167</x>
+     <y>265</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -32,8 +32,8 @@
   <widget class="QRadioButton" name="radioButton">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>224</y>
+     <x>47</x>
+     <y>266</y>
      <width>95</width>
      <height>20</height>
     </rect>
@@ -48,8 +48,8 @@
   <widget class="QCheckBox" name="EfficientNetB0">
    <property name="geometry">
     <rect>
-     <x>31</x>
-     <y>61</y>
+     <x>38</x>
+     <y>103</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -64,8 +64,8 @@
   <widget class="QCheckBox" name="VGG19">
    <property name="geometry">
     <rect>
-     <x>204</x>
-     <y>181</y>
+     <x>211</x>
+     <y>223</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -80,8 +80,8 @@
   <widget class="QCheckBox" name="EfficientNetB1">
    <property name="geometry">
     <rect>
-     <x>31</x>
-     <y>91</y>
+     <x>38</x>
+     <y>133</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -96,8 +96,8 @@
   <widget class="QCheckBox" name="MobileNetV2">
    <property name="geometry">
     <rect>
-     <x>204</x>
-     <y>91</y>
+     <x>211</x>
+     <y>133</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -112,8 +112,8 @@
   <widget class="QCheckBox" name="EfficientNetB7">
    <property name="geometry">
     <rect>
-     <x>204</x>
-     <y>61</y>
+     <x>211</x>
+     <y>103</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -128,8 +128,8 @@
   <widget class="QCheckBox" name="EfficientNetB3">
    <property name="geometry">
     <rect>
-     <x>31</x>
-     <y>151</y>
+     <x>38</x>
+     <y>193</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -144,8 +144,8 @@
   <widget class="QCheckBox" name="DenseNet121">
    <property name="geometry">
     <rect>
-     <x>204</x>
-     <y>121</y>
+     <x>211</x>
+     <y>163</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -160,8 +160,8 @@
   <widget class="QCheckBox" name="EfficientNetB2">
    <property name="geometry">
     <rect>
-     <x>31</x>
-     <y>121</y>
+     <x>38</x>
+     <y>163</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -176,8 +176,8 @@
   <widget class="QCheckBox" name="EfficientNetB4">
    <property name="geometry">
     <rect>
-     <x>31</x>
-     <y>181</y>
+     <x>38</x>
+     <y>223</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -192,8 +192,8 @@
   <widget class="QCheckBox" name="InceptionV3">
    <property name="geometry">
     <rect>
-     <x>204</x>
-     <y>151</y>
+     <x>211</x>
+     <y>193</y>
      <width>171</width>
      <height>20</height>
     </rect>
@@ -203,6 +203,47 @@
    </property>
    <property name="text">
     <string>&quot;InceptionV3&quot;: 0.898</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>32</y>
+     <width>271</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;请选择进行&lt;span style=&quot; font-weight:700; color:#ff0000;&quot;&gt;多网络模型综合预测&lt;/span&gt;所用模型&lt;/p&gt;&lt;p&gt;——&amp;quot;模型名&amp;quot;：测试集分类准确率&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="toolButton">
+   <property name="geometry">
+    <rect>
+     <x>346</x>
+     <y>266</y>
+     <width>24</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#ff0000;&quot;&gt;多网络模型综合预测&lt;/span&gt;&lt;/p&gt;&lt;p&gt;算法：&lt;/p&gt;&lt;p&gt;以&lt;span style=&quot; text-decoration: underline;&quot;&gt;测试集分类准确率&lt;/span&gt;为权重进行每个网络的单独分类，并且在每个网络模型的结束阶段显示当前的加权结果&lt;/p&gt;&lt;p&gt;原理：&lt;/p&gt;&lt;p&gt;由于每个模型均不能完全正确的识别所有的客观花朵图像，并且每个模型对花朵图像的抽象特征提取不尽相同，因此通过训练集分类加权的方式进行综合识别能够最大程度结合不同网络所训练的抽象特征，显著提升分类识别的准确率&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>images/关于.png</normaloff>images/关于.png</iconset>
+   </property>
+   <property name="autoRaise">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

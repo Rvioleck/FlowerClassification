@@ -34,15 +34,18 @@ class ImageView(QWidget):
             top_layout.addStretch()
             # 路径button
             copy_button = QPushButton("复制路径")
+            copy_button.setFixedSize(100, 35)
             copy_button.setToolTip("复制图片路径到剪贴板")
             top_layout.addWidget(copy_button)
             copy_button.clicked.connect(self.copy)
             # 打开button
             launch_button = QPushButton("打开图片")
+            launch_button.setFixedSize(100, 35)
             top_layout.addWidget(launch_button)
             launch_button.clicked.connect(self.launch)
             # 传递button
             pass_button = QPushButton("完成拍摄")
+            pass_button.setFixedSize(100, 35)
             top_layout.addWidget(pass_button)
             pass_button.clicked.connect(self.emitImage)
             main_layout.addLayout(top_layout)
@@ -56,6 +59,7 @@ class ImageView(QWidget):
 
     @Slot()
     def copy(self):
+        NotificationWindow.success(self, "成功", "已复制到剪贴板", time=2000)
         QGuiApplication.clipboard().setText(self._file_name_label.text())
 
     @Slot()
@@ -93,8 +97,16 @@ class camera_window(QMainWindow):
         self._take_picture_action = QAction(QIcon(u"./images/摄像头.png"), "&Take Picture", self,
                                             shortcut="Ctrl+T",
                                             triggered=self.take_picture)
-        self._take_picture_action.setToolTip("Ctrl+T")
-        tool_bar.addAction(self._take_picture_action)
+        self._take_picture_action.setToolTip("打开摄像头 (Ctrl+T)")
+        self._open_folder_action = QAction(QIcon(u"./images/打开文件夹.png"), "&Open Folder", self,
+                                           shortcut="Ctrl+O",
+                                           triggered=self._openFolder)
+        self._open_folder_action.setToolTip("打开文件夹 (Ctrl+O)")
+        self._clear_folder_buffer = QAction(QIcon(u"./images/删除.png"), "&Delete photos", self,
+                                            shortcut="Delete",
+                                            triggered=self._deleteFolder)
+        self._clear_folder_buffer.setToolTip("清除本地拍摄图片 (Delete)")
+        tool_bar.addActions([self._take_picture_action, self._open_folder_action, self._clear_folder_buffer])
         self._tab_widget = QTabWidget()
         self.setCentralWidget(self._tab_widget)
 
@@ -113,6 +125,20 @@ class camera_window(QMainWindow):
             self.setWindowTitle("摄像头")
             self._take_picture_action.setEnabled(False)
             self.show_status_message("摄像头不可用")
+
+    def _openFolder(self):
+        try:
+            os.startfile(f"{os.path.split(sys.argv[0])[0]}/photos")
+        except FileNotFoundError as e:
+            os.makedirs(f"{os.path.split(sys.argv[0])[0]}/photos")
+            os.startfile(f"{os.path.split(sys.argv[0])[0]}/photos")
+
+    def _deleteFolder(self):
+        try:
+            os.remove(f"{os.path.split(sys.argv[0])[0]}/photos")
+        except PermissionError as e:
+            NotificationWindow.error(self, "错误", f"<font color=red>{e}<请手动删除></font>", time=10000,
+                                     callback=os.startfile(f"{os.path.split(sys.argv[0])[0]}/photos"))
 
     def show_status_message(self, message):
         self.statusBar().showMessage(message, 5000)
