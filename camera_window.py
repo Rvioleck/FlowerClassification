@@ -177,7 +177,7 @@ class camera_window(QMainWindow):
     def image_saved(self, id, fileName):
         index = self._tab_widget.count()
         self.image_view = ImageView(self._current_preview, fileName)
-        self.image_view.save_signal[QPixmap, str].connect(self.main_win._passImageFromCamera)
+        self.image_view.save_signal[QPixmap, str].connect(self.main_win._pass_image_from_camera)
         self._tab_widget.addTab(self.image_view, f"图像 #{index}")
         self._tab_widget.setCurrentIndex(index)
 

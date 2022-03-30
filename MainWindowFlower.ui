@@ -57,7 +57,7 @@
       <x>0</x>
       <y>0</y>
       <width>931</width>
-      <height>591</height>
+      <height>581</height>
      </rect>
     </property>
     <property name="font">
@@ -82,7 +82,7 @@
        <rect>
         <x>20</x>
         <y>13</y>
-        <width>341</width>
+        <width>331</width>
         <height>341</height>
        </rect>
       </property>
@@ -106,7 +106,7 @@
        <property name="geometry">
         <rect>
          <x>54</x>
-         <y>120</y>
+         <y>112</y>
          <width>224</width>
          <height>224</height>
         </rect>
@@ -163,7 +163,7 @@
         <rect>
          <x>50</x>
          <y>82</y>
-         <width>291</width>
+         <width>211</width>
          <height>25</height>
         </rect>
        </property>
@@ -195,7 +195,7 @@
         <rect>
          <x>50</x>
          <y>23</y>
-         <width>291</width>
+         <width>281</width>
          <height>50</height>
         </rect>
        </property>
@@ -295,11 +295,17 @@
       <widget class="QPushButton" name="resetButton">
        <property name="geometry">
         <rect>
-         <x>310</x>
-         <y>293</y>
+         <x>263</x>
+         <y>78</y>
          <width>31</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
@@ -340,13 +346,114 @@
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QPushButton" name="cutButton">
+       <property name="geometry">
+        <rect>
+         <x>294</x>
+         <y>78</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>9</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>打开图片处理器</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/裁剪旋转.png</normaloff>images/裁剪旋转.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QToolButton" name="clearButton">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>134</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>清空导入</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/清除.png</normaloff>images/清除.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>Backspace</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_5">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>390</x>
         <y>10</y>
-        <width>501</width>
+        <width>511</width>
         <height>541</height>
        </rect>
       </property>
@@ -526,9 +633,9 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>22</x>
-         <y>75</y>
-         <width>471</width>
+         <x>15</x>
+         <y>73</y>
+         <width>481</width>
          <height>461</height>
         </rect>
        </property>
@@ -566,8 +673,8 @@
      <widget class="Line" name="line_2">
       <property name="geometry">
        <rect>
-        <x>357</x>
-        <y>21</y>
+        <x>358</x>
+        <y>20</y>
         <width>30</width>
         <height>531</height>
        </rect>
@@ -576,107 +683,12 @@
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QToolButton" name="clearButton">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>336</y>
-        <width>31</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>31</width>
-        <height>31</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>31</width>
-        <height>31</height>
-       </size>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string>清空导入</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>images/清除.png</normaloff>images/清除.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="shortcut">
-       <string>Backspace</string>
-      </property>
-      <property name="autoRaise">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="cutButton">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>337</y>
-        <width>31</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>31</width>
-        <height>31</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>31</width>
-        <height>31</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-        <pointsize>9</pointsize>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string>打开图片处理器</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>images/裁剪旋转.png</normaloff>images/裁剪旋转.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>24</width>
-        <height>24</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="Line" name="line_3">
       <property name="geometry">
        <rect>
         <x>20</x>
         <y>362</y>
-        <width>344</width>
+        <width>341</width>
         <height>20</height>
        </rect>
       </property>
@@ -689,7 +701,7 @@
        <rect>
         <x>20</x>
         <y>372</y>
-        <width>347</width>
+        <width>341</width>
         <height>181</height>
        </rect>
       </property>
@@ -703,40 +715,6 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>图片信息</string>
-       </attribute>
-       <widget class="QTextEdit" name="imageTextEdit">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>336</width>
-          <height>151</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>微软雅黑</family>
-          <pointsize>9</pointsize>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="cursor" stdset="0">
-         <cursorShape>IBeamCursor</cursorShape>
-        </property>
-        <property name="toolTip">
-         <string>图片信息</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="placeholderText">
-         <string>未导入图片</string>
-        </property>
-       </widget>
-      </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
         <string>保存图片</string>
@@ -744,7 +722,7 @@
        <widget class="QPushButton" name="saveButton">
         <property name="geometry">
          <rect>
-          <x>185</x>
+          <x>180</x>
           <y>113</y>
           <width>151</width>
           <height>31</height>
@@ -794,7 +772,7 @@
          <rect>
           <x>60</x>
           <y>10</y>
-          <width>111</width>
+          <width>101</width>
           <height>25</height>
          </rect>
         </property>
@@ -836,7 +814,7 @@
          <rect>
           <x>10</x>
           <y>67</y>
-          <width>161</width>
+          <width>151</width>
           <height>81</height>
          </rect>
         </property>
@@ -908,7 +886,7 @@
        <widget class="QComboBox" name="comboBox">
         <property name="geometry">
          <rect>
-          <x>197</x>
+          <x>190</x>
           <y>5</y>
           <width>131</width>
           <height>22</height>
@@ -986,7 +964,7 @@
        <widget class="QComboBox" name="comboBox_2">
         <property name="geometry">
          <rect>
-          <x>197</x>
+          <x>190</x>
           <y>40</y>
           <width>131</width>
           <height>22</height>
@@ -1046,7 +1024,7 @@
        <widget class="QSpinBox" name="spinBox_height">
         <property name="geometry">
          <rect>
-          <x>291</x>
+          <x>285</x>
           <y>75</y>
           <width>42</width>
           <height>22</height>
@@ -1062,7 +1040,7 @@
        <widget class="QSpinBox" name="spinBox_width">
         <property name="geometry">
          <rect>
-          <x>236</x>
+          <x>230</x>
           <y>75</y>
           <width>42</width>
           <height>22</height>
@@ -1078,7 +1056,7 @@
        <widget class="QLabel" name="label_6">
         <property name="geometry">
          <rect>
-          <x>280</x>
+          <x>274</x>
           <y>78</y>
           <width>16</width>
           <height>16</height>
@@ -1098,7 +1076,7 @@
        <widget class="QLabel" name="label_res">
         <property name="geometry">
          <rect>
-          <x>187</x>
+          <x>181</x>
           <y>79</y>
           <width>41</width>
           <height>16</height>
@@ -1106,6 +1084,40 @@
         </property>
         <property name="text">
          <string>分辨率：</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>图片信息</string>
+       </attribute>
+       <widget class="QTextEdit" name="imageTextEdit">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>331</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>微软雅黑</family>
+          <pointsize>9</pointsize>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="cursor" stdset="0">
+         <cursorShape>IBeamCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string>图片信息</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>未导入图片</string>
         </property>
        </widget>
       </widget>
@@ -1121,7 +1133,7 @@
         <x>0</x>
         <y>0</y>
         <width>431</width>
-        <height>521</height>
+        <height>520</height>
        </rect>
       </property>
       <property name="contextMenuPolicy">
@@ -1221,8 +1233,8 @@
      <widget class="QPushButton" name="clearTableButton">
       <property name="geometry">
        <rect>
-        <x>404</x>
-        <y>523</y>
+        <x>403</x>
+        <y>519</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1659,7 +1671,7 @@
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>523</y>
+        <y>519</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1709,9 +1721,9 @@
       <property name="geometry">
        <rect>
         <x>450</x>
-        <y>170</y>
+        <y>169</y>
         <width>441</width>
-        <height>381</height>
+        <height>374</height>
        </rect>
       </property>
       <property name="font">
@@ -1731,8 +1743,8 @@
      <widget class="QPushButton" name="statisticsButton">
       <property name="geometry">
        <rect>
-        <x>834</x>
-        <y>520</y>
+        <x>838</x>
+        <y>511</y>
         <width>30</width>
         <height>30</height>
        </rect>
@@ -1785,7 +1797,7 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="MenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1845,7 +1857,7 @@
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="menu_help">
     <property name="title">
      <string>帮助(&amp;H)</string>
     </property>
@@ -1866,7 +1878,8 @@
      <addaction name="actionClassic"/>
      <addaction name="actionManjaroMix"/>
      <addaction name="actionMaterialDark"/>
-     <addaction name="actionMyStyle"/>
+     <addaction name="actionWaterBlueStyle"/>
+     <addaction name="actionStyleTest"/>
     </widget>
     <widget class="QMenu" name="menu_web">
      <property name="title">
@@ -1909,7 +1922,7 @@
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_M"/>
-   <addaction name="menu_2"/>
+   <addaction name="menu_help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -1936,10 +1949,11 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
+   <addaction name="actionClear"/>
+   <addaction name="actionCamera"/>
    <addaction name="separator"/>
    <addaction name="actionCNN"/>
    <addaction name="actionClassify"/>
-   <addaction name="actionCamera"/>
   </widget>
   <action name="myModelAction">
    <property name="text">
@@ -2159,15 +2173,15 @@
     <string>关于</string>
    </property>
   </action>
-  <action name="actionMyStyle">
+  <action name="actionWaterBlueStyle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>simple blue</string>
+    <string>WaterBlue</string>
    </property>
    <property name="toolTip">
-    <string>simple blue</string>
+    <string>WaterBlue</string>
    </property>
   </action>
   <action name="actionUbuntuStyle">
@@ -2356,12 +2370,37 @@
     <string>classic</string>
    </property>
   </action>
+  <action name="actionClear">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/清除.png</normaloff>images/清除.png</iconset>
+   </property>
+   <property name="text">
+    <string>清空</string>
+   </property>
+   <property name="toolTip">
+    <string>清空导入</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionStyleTest">
+   <property name="text">
+    <string>StyleTest</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>ImageLabel</class>
    <extends>QLabel</extends>
    <header location="global">image_label.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MenuBar</class>
+   <extends>QMenuBar</extends>
+   <header location="global">movable_menubar.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
