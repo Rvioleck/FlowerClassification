@@ -676,7 +676,7 @@
         <x>358</x>
         <y>20</y>
         <width>30</width>
-        <height>531</height>
+        <height>521</height>
        </rect>
       </property>
       <property name="orientation">
@@ -687,7 +687,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>362</y>
+        <y>350</y>
         <width>341</width>
         <height>20</height>
        </rect>
@@ -700,9 +700,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>372</y>
+        <y>360</y>
         <width>341</width>
-        <height>181</height>
+        <height>185</height>
        </rect>
       </property>
       <property name="font">
@@ -1733,6 +1733,9 @@
         <bold>false</bold>
        </font>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="toolTip">
        <string>预测信息展示</string>
       </property>
@@ -2373,7 +2376,7 @@
   <action name="actionClear">
    <property name="icon">
     <iconset>
-     <normaloff>images/清除.png</normaloff>images/清除.png</iconset>
+     <normaloff>images/删除.png</normaloff>images/删除.png</iconset>
    </property>
    <property name="text">
     <string>清空</string>

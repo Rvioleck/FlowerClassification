@@ -148,7 +148,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot(int, str, bool)
     def __set_batch_classify_res(self, i, res, tag: bool):
-        # 收到AI线程批量预测中的每次信号,tag=0表示预测操作,tag=True表示到处操作
+        # 收到AI线程批量预测中的每次信号,tag=0表示预测操作,tag=True表示导出操作
         if not tag:
             icon_path = u"images/flowers/{}.png".format(res)
             # 完善tablewidget第三列结果和图标
@@ -243,7 +243,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                      triggered=self.__delete_row)  # tableWidget删除行为
         self.cut_action = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转",
                                   triggered=self.__cut_row)  # tableWidget裁剪旋转行为
-        self.twPopMenu.addActions([self.delete_action, self.cut_action])  # 行为添加至菜单
+        self.copy_directory_action = QAction(QIcon(u"./images/复制.png"), "复制文件夹地址",
+                                             triggered=self.__copy_directory_of_row)
+        self.copy_filepath_action = QAction(QIcon(u"./images/复制2.png"), "复制文件地址",
+                                            triggered=self.__copy_filepath_of_row)
+        self.twPopMenu.addActions([self.delete_action, self.cut_action,
+                                   self.copy_directory_action, self.copy_filepath_action])  # 行为添加至菜单
         # label预加载
         self.batchImportLabel.setText("已加载图片张数：0张")
         self.statusBar().showMessage("正在加载模型中...")
@@ -393,6 +398,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.label_res.setToolTip(f"图像分辨率：{self.spinBox_width_2.value()}×{self.spinBox_height_2.value()}")
 
     def initPieChart(self):
+        try:
+            self.pieChartWidget.deleteLater()
+        except:
+            pass
         self.pieChartWidget = PieWidget(self.groupBox_5, portion=[0] * len(self.flowers))
         self.pieChartWidget.setGeometry(self.label_4.geometry())
         self.pieChartWidget.setVisible(True)
@@ -554,9 +563,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             item = self.tableWidget.itemAt(point)  # 获取鼠标点击的项
             self.selected_row_num = item.row()
             # 显示上下文菜单
-            self.twPopMenu.exec(QCursor().pos())
+            if len(self.selected_row_nums) > 1:
+                # 多选时，右键菜单仅显示部分行为
+                self.twPopMenu_multiple_choices = QMenu()
+                self.twPopMenu_multiple_choices.setWindowFlags(self.twPopMenu.windowFlags())
+                self.twPopMenu_multiple_choices.setAttribute(Qt.WA_TranslucentBackground)
+                self.twPopMenu_multiple_choices.setStyleSheet(self.twPopMenu.styleSheet())
+                self.twPopMenu_multiple_choices.addAction(self.delete_action)
+                self.twPopMenu_multiple_choices.exec(QCursor().pos())
+            else:
+                self.twPopMenu.exec(QCursor().pos())
         except Exception as e:
             print(e)
+            # NotificationWindow.error(self, "未知错误", str(e))
             self.selected_row_num = -1  # 置为无效值
             self.selected_row_nums = []
 
@@ -570,7 +589,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.files.pop(row)
             self.batchImportLabel.setText("已加载图片张数：{}".format(len(self.files)))
         except Exception as e:
-            print(e)
+            NotificationWindow.error(self, "未知错误", str(e))
 
     @Slot()
     def __cut_row(self):
@@ -582,7 +601,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.row_cutter.save_signal.connect(self.__save_cut_row)
             self.row_cutter.show()
         except Exception as e:
-            print(e)
+            NotificationWindow.error(self, "未知错误", str(e), callback=lambda: self.__copy_text_to_clipboard(str(e)))
 
     @Slot(QPixmap)
     def __save_cut_row(self, pixmap):
@@ -591,6 +610,24 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         file_path = self.tableWidget.item(row, 0).text() + "/" + self.tableWidget.item(row, 1).text()
         img.save(file_path)
         self.row_cutter.deleteLater()  # 完成后先删除cutter组件
+
+    @Slot()
+    def __copy_directory_of_row(self):
+        try:
+            row = self.selected_row_num
+            directory = self.tableWidget.item(row, 0).text()
+            self.__copy_text_to_clipboard(directory)
+        except Exception as e:
+            NotificationWindow.error(self, "未知错误", str(e), callback=lambda: self.__copy_text_to_clipboard(str(e)))
+
+    @Slot()
+    def __copy_filepath_of_row(self):
+        try:
+            row = self.selected_row_num
+            file_path = self.tableWidget.item(row, 0).text() + "/" + self.tableWidget.item(row, 1).text()
+            self.__copy_text_to_clipboard(file_path)
+        except Exception as e:
+            NotificationWindow.error(self, "未知错误", str(e), callback=lambda: self.__copy_text_to_clipboard(str(e)))
 
     def _export_batch_images(self):
         path = self.savePathLineEdit.text()
@@ -1003,7 +1040,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             NotificationWindow.success(self, "成功", "已重置原图", time=3000)
         except TypeError as e:
             print(e)
-            NotificationWindow.info(self, "注意", "请先<font color=blue><b><u>导入图片</u></b></font>", callback=self._get_image)
+            NotificationWindow.info(self, "注意", "请先<font color=blue><b><u>导入图片</u></b></font>",
+                                    callback=self._get_image)
 
     @Slot()
     def __classify_image(self):
@@ -1013,7 +1051,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         调用饼图绘制并加载详细信息
         """
         if self.flower_pixmap is None:
-            NotificationWindow.info(self, "注意", "请先<font color=blue><b><u>导入图片</u></b></font>", callback=self._get_image)
+            NotificationWindow.info(self, "注意", "请先<font color=blue><b><u>导入图片</u></b></font>",
+                                    callback=self._get_image)
             return
         print("AI Thread is running: classify")
         self.AIThread.setFiles(self.flower_pixmap)
@@ -1092,7 +1131,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.image_label_menu.addActions([classify_action, cut_action, self.actionClassify])
                 self.image_label_menu.addSeparator()
                 self.image_label_menu.addActions([self.actionOpen, self.actionCamera, self.actionClear])
-                self.setContextMenuPolicy(Qt.CustomContextMenu)
                 self.image_label_menu.setStyleSheet(context_menu_style)
                 self.image_label_menu.exec(event.globalPosition().toPoint())
             elif self.childAt(event.position().toPoint()) == self.pathLabel:
@@ -1103,11 +1141,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.path_label_menu.setWindowFlags(
                     self.path_label_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
                 copy_action = QAction(QIcon(u"./images/复制.png"), "复制 文件夹/链接 地址",
-                                      triggered=self.__copy_directory_from_path_label)
-                open_action = QAction(QIcon(u"./images/url.png"), "打开 文件夹/链接 ",
+                                      triggered=lambda: self.__copy_text_to_clipboard(self.pathLabel.text()))
+                open_action = QAction(QIcon(u"./images/进入.png"), "打开 文件夹/链接 ",
                                       triggered=lambda: os.startfile(self.pathLabel.text()))
                 self.path_label_menu.addActions([copy_action, open_action])
-                self.setContextMenuPolicy(Qt.CustomContextMenu)
                 self.path_label_menu.setStyleSheet(context_menu_style)
                 self.path_label_menu.exec(event.globalPosition().toPoint())
             else:
@@ -1118,13 +1155,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.context_menu.setWindowFlags(
                     self.context_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
                 self.context_menu.addActions(self.menu_style.actions())
-                self.setContextMenuPolicy(Qt.CustomContextMenu)
                 self.context_menu.setStyleSheet(context_menu_style)
                 self.context_menu.exec(event.globalPosition().toPoint())
 
-    def __copy_directory_from_path_label(self):
+    def __copy_text_to_clipboard(self, text):
         clipboard = QApplication.clipboard()
-        clipboard.setText(self.pathLabel.text())
+        clipboard.setText(text)
+        NotificationWindow.success(self, "复制成功", text, time=2000)
 
     def eventFilter(self, watched, event) -> bool:
         """过滤器实现label点击事件"""

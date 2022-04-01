@@ -24,7 +24,7 @@ class PieWidget(QChartView):
 
     def __init__(self, parent=None, *args, **kwargs):
         super(PieWidget, self).__init__(parent, *args, **kwargs)
-        # 抗锯齿
+        # 设置抗锯齿
         self.setBackgroundBrush(QBrush(QColor(151, 184, 227)))
         self.setRenderHint(QPainter.Antialiasing)
         self.portion = kwargs.pop('portion', None)
@@ -39,17 +39,17 @@ class PieWidget(QChartView):
 
     def setPortion(self, portion):
         self.portion = portion
-        self.maxPosition = self.__getMaxPositionIndex(self.portion.copy())
+        self.maxPosition = self.__get_max_position_index(self.portion.copy())
 
     def addPortion(self, portion):
         for i in range(0, len(self.flowers)):
             self.portion[i] += portion[i]
-        self.maxPosition = self.__getMaxPositionIndex(self.portion.copy())
+        self.maxPosition = self.__get_max_position_index(self.portion.copy())
 
     def initChart(self, model_name=""):
         chart = QChart()
         chart.setBackgroundBrush(QBrush(QColor(247, 246, 246)))
-        chart.addSeries(self.getSeries())
+        chart.addSeries(self.get_series())
         chart.createDefaultAxes()
         # 设置动画效果
         chart.setAnimationOptions(QChart.SeriesAnimations)
@@ -59,12 +59,12 @@ class PieWidget(QChartView):
         chart.legend().setVisible(False)
         # 对齐方式
         chart.legend().setAlignment(Qt.AlignRight)
-        self.setToolTip(self.getToolTip())
+        self.setToolTip(self.get_tool_tip())
         self.setChart(chart)
 
     def hoveredEvent(self, slice, state):
         if not state:
-            self.setToolTip(self.getToolTip())
+            self.setToolTip(self.get_tool_tip())
             for per in self.series.slices():
                 if per.isExploded() and per is not self.maxSlice:
                     per.setExploded(False)  # 突出显示，设置颜色
@@ -95,7 +95,7 @@ class PieWidget(QChartView):
         toolTip += "</p>"  # 富文本结束标签
         self.setToolTip(toolTip)
 
-    def getToolTip(self):
+    def get_tool_tip(self):
         index = self.portion.index(max(self.portion))
         whole = sum(self.portion)
         if whole == 0:
@@ -113,7 +113,7 @@ class PieWidget(QChartView):
         return toolTip
 
     @staticmethod
-    def __getMaxPositionIndex(array: list):
+    def __get_max_position_index(array: list):
         size = len(array)
         res = [0] * size
         for i in range(0, size):
@@ -134,7 +134,7 @@ class PieWidget(QChartView):
             number += shu
         return number
 
-    def getSeries(self):
+    def get_series(self):
         index = self.portion.index(max(self.portion))
         self.series = QPieSeries()
         for i in range(0, len(self.portion)):
@@ -164,6 +164,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     pieWidget = PieWidget(portion=[2, 3, 5, 5, 8])
     pieWidget.initChart()
-    pieWidget.setRenderHint(QPainter.Antialiasing)
+    # pieWidget.setRenderHint(QPainter.Antialiasing)
     pieWidget.show()
     sys.exit(app.exec())
