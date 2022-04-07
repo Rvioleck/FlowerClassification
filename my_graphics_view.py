@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PIL import ImageQt, Image
 from PySide6.QtCore import QRectF, Qt, Signal, QPointF
 from PySide6.QtGui import QColor, QPixmap, QPen, QTransform

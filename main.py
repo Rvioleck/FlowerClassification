@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os.path
 import pathlib
 import sys
@@ -56,7 +58,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.files = []  # 记录已选中的批量图片路径
         self.setupUi(self)  # GUI界面初始化(Viewer)
         self.initUI()  # 额外GUI初始化
-        # self.initGraphicsShadow()
+        self.initGraphicsShadow()
         self.initConnectSlot()  # 业务操作初始化(Controller)连接槽函数
         self.initStyleSheet()  # 初始化样式表
         self.showNormal()
@@ -766,8 +768,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         tag: 标识是否为浏览器文件
         url: 图片的url(本地地址和浏览器链接)
         """
+        print(pixmap)
         if pixmap.isNull():
-            NotificationWindow.error(self, "错误", f"无法解析url:<font color=blue><u>{url}</u></font>请打开链接后拖入图片！",
+            NotificationWindow.error(self, "无效URL",
+                                     f"<html>"
+                                     f"<head/>"
+                                     f"<body>"
+                                     f"<p>无法解析URL:</p>"
+                                     f"<p>请<font color=red><u>打开链接</u></font>后拖入图片！</p>"
+                                     f"</body>"
+                                     f"</html>",
                                      callback=lambda: os.startfile(url))
             return
         self.flower_path = url  # 获取图片的url
@@ -779,6 +789,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         else:
             url_path, self.flower_name = os.path.split(url)
         self.directory_path = url_path
+        NotificationWindow.success(self, "解析成功", f"已导入图片{self.flower_name}", time=2000)
         self.update()
 
     @Slot()

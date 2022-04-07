@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import efficientnet.keras as efn
 from tensorflow import keras
 from tensorflow.python.keras import Model

@@ -1,11 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import os
 import pickle
 
 import matplotlib.pyplot as plt
 import numpy as np
-from tensorflow import argmax
-from tensorflow.python.keras import losses
 from PIL import Image, ImageQt
+from tensorflow import argmax
 
 plt.rcParams['font.sans-serif'] = ["SimHei"]
 plt.rcParams['axes.unicode_minus'] = False

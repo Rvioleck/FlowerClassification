@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import base64
 import sys
 
 from PySide6.QtCore import Qt, QRectF, QSize, Signal, QTimer
 from PySide6.QtGui import QPixmap, QImage, QPainter, QPainterPath, \
-    QColor
+    QColor, QCursor
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout, \
     QGridLayout, QSpacerItem, QSizePolicy, QGraphicsDropShadowEffect, \
     QListWidget, QListWidgetItem, QApplication, QPushButton
@@ -85,11 +87,9 @@ class NotificationItem(QWidget):
         effect = QGraphicsDropShadowEffect(self)
         effect.setBlurRadius(12)
         effect.setColor(QColor(0, 0, 0, 25))
-        effect.setOffset(2, 2)
+        effect.setOffset(4, 4)
         self.setGraphicsEffect(effect)
         self.adjustSize()
-        # 设置透明度
-        self.setWindowOpacity(0.9)
 
         # 5秒自动关闭
         self._timer = QTimer(self, timeout=self.doClose)
@@ -133,6 +133,8 @@ class NotificationWindow(QListWidget):
     def __init__(self, *args, **kwargs):
         super(NotificationWindow, self).__init__(*args, **kwargs)
         self.setSpacing(2)
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
+        self.setSizePolicy(sizePolicy)
         self.setMinimumWidth(340)
         self.setMaximumWidth(340)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -179,14 +181,13 @@ class NotificationWindow(QListWidget):
         w = NotificationItem(title, message, item, cls._instance, time=time,
                              ntype=NotificationIcon.Info, callback=callback)
         w.closed[QListWidgetItem].connect(cls._instance.removeItem)
-        item.setSizeHint(QSize(cls._instance.width() -
-                               cls._instance.spacing(), w.height()))
+        item.setSizeHint(QSize(cls._instance.width() - cls._instance.spacing(), w.height()))
         cls._instance.setItemWidget(item, w)
         # 设定出现位置
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 6)
 
     @classmethod
     def success(cls, parent, title, message, callback=None, time=5000):
@@ -195,14 +196,13 @@ class NotificationWindow(QListWidget):
         w = NotificationItem(title, message, item, cls._instance, time=time,
                              ntype=NotificationIcon.Success, callback=callback)
         w.closed[QListWidgetItem].connect(cls._instance.removeItem)
-        item.setSizeHint(QSize(cls._instance.width() -
-                               cls._instance.spacing(), w.height()))
+        item.setSizeHint(QSize(cls._instance.width() - cls._instance.spacing(), w.height()))
         cls._instance.setItemWidget(item, w)
         # 设定出现位置
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 6)
 
     @classmethod
     def warning(cls, parent, title, message, callback=None, time=5000):
@@ -211,15 +211,13 @@ class NotificationWindow(QListWidget):
         w = NotificationItem(title, message, item, cls._instance, time=time,
                              ntype=NotificationIcon.Warning, callback=callback)
         w.closed[QListWidgetItem].connect(cls._instance.removeItem)
-        item.setSizeHint(QSize(
-            cls._instance.width() - cls._instance.spacing(),
-            w.height()))
+        item.setSizeHint(QSize(cls._instance.width() - cls._instance.spacing(), w.height()))
         cls._instance.setItemWidget(item, w)
         # 设定出现位置
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 6)
 
     @classmethod
     def error(cls, parent, title, message, callback=None, time=5000):
@@ -234,7 +232,26 @@ class NotificationWindow(QListWidget):
         rect = parent.frameGeometry()
         x, y = rect.x(), rect.y()
         rect_height, rect_width = rect.height(), rect.width()
-        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 8)
+        cls._instance.move(x + (rect_width - cls._instance.width()) / 2, y - rect_height / 6)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.m_drag = True
+            self.m_DragPosition = event.globalPosition() - self.pos()
+            event.accept()
+            self.setCursor(QCursor(Qt.OpenHandCursor))
+        elif event.button() == Qt.RightButton:
+            self.close()
+
+    def mouseMoveEvent(self, event):
+        if Qt.LeftButton and self.m_drag:
+            # 当左键移动窗体修改偏移值
+            self.move(event.globalPosition().toPoint() - self.m_DragPosition.toPoint())
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        self.m_drag = False
+        self.setCursor(QCursor(Qt.ArrowCursor))
 
 
 if __name__ == '__main__':
@@ -246,6 +263,8 @@ if __name__ == '__main__':
     def callback():
         print('回调点击')
 
+
+    html = "http://www.baidu.com/link?url=y_6HV07INz3pB87dC2loyHuC-GNEOJYbQuakwEO8TUDwXVu483hIodtk_3Zg0Aycnk8rzzDB5SxTWeXJk40dKa&wd=&eqid=98e086520006bdcb00000006624e7092"
 
     layout.addWidget(QPushButton(
         'Info', w, clicked=lambda: NotificationWindow.info(w, '提示', '这是一条会自动关闭的消息', callback=callback, time=1000)))
@@ -261,7 +280,7 @@ if __name__ == '__main__':
         'Error', w, clicked=lambda: NotificationWindow.error(
             w,
             '提示',
-            '<html><head/><body><p><span style=" font-style:italic; color:teal;">这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案</span></p></body></html>',
+            f'<html><head/><body><p><span style=" font-style:italic; color:teal;">{html}</span></p></body></html>',
             callback=callback)))
     w.show()
 

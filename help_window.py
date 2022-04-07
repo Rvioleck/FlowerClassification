@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
+
 import sys
 
 from PySide6.QtCore import Signal, Property, QTimer
+from PySide6.QtCore import Signal as pyqtSignal, Qt, QPropertyAnimation, \
+    QEasingCurve, QPointF
 from PySide6.QtGui import QBitmap, QCursor
+from PySide6.QtGui import QPainter, QTransform
 from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
+from PySide6.QtWidgets import QWidget
 
 from ui_aboutWindow import Ui_AboutWindow
 from ui_tutorialWindow import Ui_TutorialWindow
-
-from PySide6.QtCore import Signal as pyqtSignal, Qt, QPropertyAnimation, \
-    QEasingCurve, QPointF
-from PySide6.QtGui import QPainter, QTransform
-from PySide6.QtWidgets import QWidget
 
 
 class FlipWidget(QWidget):
@@ -114,7 +115,6 @@ class FlipWidget(QWidget):
                 painter.restore()
 
 
-
 class AboutWindow(QMainWindow, Ui_AboutWindow):
     windowChanged = Signal()
 
@@ -212,6 +212,7 @@ class HelpWindow(QStackedWidget):
         self.flipWidget.setGeometry(self.geometry())
         # .adjusted(-padding, -padding, padding, padding))
         self.flipWidget.updateImages(FlipWidget.Left, image1, image2)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

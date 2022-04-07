@@ -376,7 +376,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>images/清除缓存.png</pixmap>
+      <pixmap>images/删除.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>

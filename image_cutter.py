@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from PySide6.QtCore import Qt, QRect, Signal, QPointF, QEvent
 from PySide6.QtGui import QColor, QPixmap, QIcon
-from PySide6.QtWidgets import QApplication, QDialog, QLabel
+from PySide6.QtWidgets import QApplication, QDialog
 
 from my_graphics_view import GraphicsView
 from ui_my_cutter import Ui_Dialog

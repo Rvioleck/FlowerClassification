@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PySide6.QtCore import Qt, QSize, QTimer
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QWidget, \
@@ -51,8 +53,8 @@ class Dialog(QDialog, Ui_frameless_dialog):
         self.setWindowOpacity(0.9)
         # 设置位置
         if rect is not None:
-            self.move(rect.x() + (rect.width()-self.size().width())/2,
-                      rect.y() + (rect.height()-self.size().height())/2)
+            self.move(rect.x() + (rect.width() - self.size().width()) / 2,
+                      rect.y() + (rect.height() - self.size().height()) / 2)
 
     def initUi(self):
         layout = QVBoxLayout(self)

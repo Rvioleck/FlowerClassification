@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 
 from PySide6.QtCharts import QChartView, QChart, QPieSeries, QPieSlice
