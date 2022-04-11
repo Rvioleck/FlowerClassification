@@ -210,7 +210,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/azalea.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/azalea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/azalea.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -317,7 +317,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/bougainvillea.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/bougainvillea.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -424,7 +424,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/camellia.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/camellia.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/camellia.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -527,8 +527,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/carnation.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/carnation.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -635,7 +638,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/chrysanthemum.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/chrysanthemum.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/chrysanthemum.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -742,7 +745,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/daisy.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/daisy.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/daisy.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -849,8 +852,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/dandelion.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/dandelion.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -953,8 +959,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/fragrans.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/fragrans.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1061,7 +1070,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/gardenia.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/gardenia.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/gardenia.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1168,7 +1177,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/hibiscus.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/hibiscus.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/hibiscus.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1271,8 +1280,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/hydrangea.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/chrysanthemum.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/hydrangea.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1375,8 +1387,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/iris.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/daisy.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/iris.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1483,8 +1498,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/lilac.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/lilac.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1591,7 +1609,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/lily.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/lily.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/lily.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1698,7 +1716,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/lotus.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/lotus.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/lotus.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1805,7 +1823,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/morningglory.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/morningglory.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/morningglory.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1908,8 +1926,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/narcissus.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/chrysanthemum.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/narcissus.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2012,8 +2033,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/peachflower.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/daisy.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/peachflower.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2124,7 +2148,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/peony.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/peony.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/peony.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2227,8 +2251,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/peony.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/phalaenopsis.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2331,8 +2358,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/rose.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/camellia.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/rose.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2435,8 +2465,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/sakura.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/bougainvillea.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/sakura.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2543,7 +2576,7 @@ background-color:rgb(235, 255, 244)
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/sunflower.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="pixmap">
-            <pixmap>images/flowers/sunflower.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/sunflower.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -2646,8 +2679,11 @@ background-color:rgb(235, 255, 244)
              <bold>false</bold>
             </font>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/big/tulip.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="pixmap">
-            <pixmap>images/flowers/daisy.png</pixmap>
+            <pixmap resource="images/flowers/flowers.qrc">:/big/tulip.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>

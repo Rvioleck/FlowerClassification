@@ -826,7 +826,7 @@
          </font>
         </property>
         <property name="cursor" stdset="0">
-         <cursorShape>ArrowCursor</cursorShape>
+         <cursorShape>IBeamCursor</cursorShape>
         </property>
         <property name="toolTip">
          <string>默认为导入路径</string>

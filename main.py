@@ -127,7 +127,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         prompt1 = '{}的预测结果：<b><font size = "5" color={}>{}</font></b>'.format(self.flower_name,
                                                                               rgb2html(self.colors[idx]), name)
         self.resultLabel.setText(prompt1)
-        self.resultLabel_2.setPixmap(QPixmap(u"images/flowers/{}.png".format(res)))
+        self.resultLabel_2.setPixmap(QPixmap(u":/big/{}.png".format(res)))
         self.resultLabel_2.setToolTip(f'<html><head/><body><p><img src=":/big/{res}.png"/></p></body></html>')
         num = 3  # 显示概率最大的个数
         res, per, color = get_max_portion(portion.copy(), num)
@@ -152,7 +152,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __set_batch_classify_res(self, i, res, tag: bool):
         # 收到AI线程批量预测中的每次信号,tag=0表示预测操作,tag=True表示导出操作
         if not tag:
-            icon_path = u"images/flowers/{}.png".format(res)
+            icon_path = u":/big/{}.png".format(res)
             # 完善tablewidget第三列结果和图标
             self.tableWidget.setItem(i, 2,
                                      QTableWidgetItem(QIcon(icon_path), self.flowers[self.flower_words.index(res)]))
@@ -590,6 +590,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.tableWidget.removeRow(row)
                 self.files.pop(row)
             self.batchImportLabel.setText("已加载图片张数：{}".format(len(self.files)))
+            NotificationWindow.success(self, "删除成功", f"移除{len(rows)}张图片", time=2000)
         except Exception as e:
             NotificationWindow.error(self, "未知错误", str(e))
 
@@ -1077,7 +1078,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.barChartWidget.show()
 
     def initStyleSheet(self):
-        style = readQssFile(u"./stylesheet/white.qss")
+        style = readQssFile(u"./stylesheet/Ubuntu.qss")
         self.actionAqua.setChecked(True)
         self.setStyleSheet(style)
 
