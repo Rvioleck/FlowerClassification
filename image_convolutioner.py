@@ -1,29 +1,66 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from PySide6.QtCore import Signal, Slot
-from PySide6.QtGui import QPixmap, QColor
-from PySide6.QtWidgets import QDialog, QTextEdit
+from PySide6.QtCore import Signal, Slot, QSize
+from PySide6.QtGui import QPixmap, QColor, Qt, QCursor
+from PySide6.QtWidgets import QDialog, QTextEdit, QGraphicsDropShadowEffect, QVBoxLayout, QWidget, QGridLayout, \
+    QSpacerItem, QSizePolicy, QPushButton
 
 from ui_my_convolutioner import Ui_Dialog
 
+Stylesheet = """
+#Custom_Widget {
+    background: white;
+    border-radius: 10px;
+}
+
+#closeButton {
+    min-width: 36px;
+    min-height: 36px;
+    font-family: "Webdings";
+    qproperty-text: "r";
+    border-radius: 10px;
+}
+#closeButton:hover {
+    color: white;
+    background: red;
+}
+
+"""
 
 class ImageConvolutioner(QDialog, Ui_Dialog):
     save_signal = Signal(QPixmap)
 
-    def __init__(self, parent, image: QPixmap, name=None):
+    def __init__(self, parent, image: QPixmap):
         super(ImageConvolutioner, self).__init__()
         self.image = image
         self.new_image = QPixmap(image)
         self.rgb = self.get_RGB_matrix(image)
-        self.setupUi(self)
         self.init_ui()
+        self.setupUi(self)
+        self.orginImage.setPixmap(self.image)
         self.main_window = parent
-        # 视图背景颜色
-        self.setWindowTitle(f"图片卷积操作 --- {name}")
         self.initConnectSlot()
+        self.initGraphicsShadow()
+        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.setWindowOpacity(0.95)
+        self.setStyleSheet(Stylesheet+parent.styleSheet())
 
     def init_ui(self):
-        self.orginImage.setPixmap(self.image)
+        layout = QVBoxLayout(self)
+        # 重点： 这个widget作为背景和圆角
+        self.widget = QWidget(self)
+        self.widget.setObjectName('Custom_Widget')
+        layout.addWidget(self.widget)
+
+        # 在widget中添加ui
+        layout = QGridLayout(self.widget)
+        layout.addItem(QSpacerItem(
+            40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum), 0, 0)
+        layout.addWidget(QPushButton(
+            'r', self, clicked=self.accept, objectName='closeButton'), 0, 1)
+        layout.addItem(QSpacerItem(20, 40, QSizePolicy.Minimum,
+                                   QSizePolicy.Expanding), 1, 0)
 
     def initConnectSlot(self):
         self.pushButton.clicked.connect(self.conv_start)
@@ -37,6 +74,18 @@ class ImageConvolutioner(QDialog, Ui_Dialog):
 
         # 绑定卷积完成信号
         self.main_window.AIThread.conv_finish.connect(self.convolution_finished)
+
+    def initGraphicsShadow(self):
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(5, 5)  # 偏移
+        effect_shadow.setBlurRadius(10)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.orginImage.setGraphicsEffect(effect_shadow)
+        effect_shadow = QGraphicsDropShadowEffect(self)
+        effect_shadow.setOffset(5, 5)  # 偏移
+        effect_shadow.setBlurRadius(10)  # 阴影半径
+        effect_shadow.setColor(Qt.gray)
+        self.convolutionImage.setGraphicsEffect(effect_shadow)
 
     def get_RGB_matrix(self, image: QPixmap):
         w, h = image.width(), image.height()
@@ -143,18 +192,26 @@ class ImageConvolutioner(QDialog, Ui_Dialog):
         self.textEdit_8.setText("-1")
         self.textEdit_9.setText("-1")
 
-    def eventFilter(self, watched, event) -> bool:
-        pass
-        # if watched == self.brightness_label:
-        #     if event.type() == QEvent.MouseButtonDblClick:
-        #         self.horizontalSliderBrightness.setValue(0)
-        # if watched == self.contrast_label:
-        #     if event.type() == QEvent.MouseButtonDblClick:
-        #         self.horizontalSliderContrast.setValue(0)
-        # if watched == self.hue_label:
-        #     if event.type() == QEvent.MouseButtonDblClick:
-        #         self.horizontalSliderHues.setValue(0)
-        # if watched == self.saturation_label:
-        #     if event.type() == QEvent.MouseButtonDblClick:
-        #         self.horizontalSliderSaturation.setValue(0)
-        # return QDialog.eventFilter(self, watched, event)
+    def sizeHint(self):
+        return QSize(self.size())
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.pressX = event.position().x()  # 记录鼠标按下的时候的坐标
+            self.pressY = event.position().y()
+            self.setCursor(QCursor(Qt.OpenHandCursor))
+            self.drag = True
+
+    def mouseMoveEvent(self, event):
+        if self.drag:
+            x = event.position().x()
+            y = event.position().y()  # 获取移动后的坐标
+            move_x = x - self.pressX
+            move_y = y - self.pressY  # 计算移动了多少
+            position_x = self.frameGeometry().x() + move_x
+            position_y = self.frameGeometry().y() + move_y  # 计算移动后主窗口在桌面的位置
+            self.move(position_x, position_y)  # 移动主窗口
+
+    def mouseReleaseEvent(self, event):
+        self.setCursor(QCursor(Qt.ArrowCursor))
+        self.drag = False
