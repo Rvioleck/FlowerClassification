@@ -163,7 +163,7 @@
         <rect>
          <x>50</x>
          <y>82</y>
-         <width>211</width>
+         <width>171</width>
          <height>25</height>
         </rect>
        </property>
@@ -190,12 +190,12 @@
         <string>图片名称</string>
        </property>
       </widget>
-      <widget class="QLabel" name="pathLabel">
+      <widget class="PathLabel" name="pathLabel">
        <property name="geometry">
         <rect>
          <x>50</x>
          <y>23</y>
-         <width>281</width>
+         <width>271</width>
          <height>50</height>
         </rect>
        </property>
@@ -226,6 +226,9 @@
        </property>
        <property name="cursor">
         <cursorShape>WhatsThisCursor</cursorShape>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -295,8 +298,8 @@
       <widget class="QPushButton" name="resetButton">
        <property name="geometry">
         <rect>
-         <x>263</x>
-         <y>78</y>
+         <x>230</x>
+         <y>80</y>
          <width>31</width>
          <height>31</height>
         </rect>
@@ -349,8 +352,8 @@
       <widget class="QPushButton" name="cutButton">
        <property name="geometry">
         <rect>
-         <x>294</x>
-         <y>78</y>
+         <x>263</x>
+         <y>80</y>
          <width>31</width>
          <height>31</height>
         </rect>
@@ -444,6 +447,60 @@
         <string>Backspace</string>
        </property>
        <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="convolutionButton">
+       <property name="geometry">
+        <rect>
+         <x>295</x>
+         <y>80</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>9</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>打开卷积处理器</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/卷积.png</normaloff>images/卷积.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
@@ -713,7 +770,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
@@ -2404,6 +2461,11 @@
    <class>MenuBar</class>
    <extends>QMenuBar</extends>
    <header location="global">movable_menubar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PathLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">path_label.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

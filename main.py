@@ -5,7 +5,7 @@ import pathlib
 import sys
 
 from PIL import ImageGrab
-from PySide6.QtCore import QEvent, QPoint, Slot
+from PySide6.QtCore import QEvent, QPoint, Slot, QTranslator
 from PySide6.QtGui import QAction, Qt, QIcon, QColor, QCursor, QKeySequence, QShortcut, QBitmap, QPixmap
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem, QMenu, \
     QProgressBar, QApplication, QGraphicsDropShadowEffect, QSystemTrayIcon, QComboBox, QTextEdit, QLineEdit, \
@@ -20,6 +20,7 @@ from cursor_gif import QCursorGif
 from frameless_dialog import Dialog
 from help_window import HelpWindow
 from image_cutter import ImageCutter
+from image_convolutioner import ImageConvolutioner
 from image_viewer import ImageViewer
 from notification import NotificationWindow
 from pieSeries_chart import PieWidget
@@ -64,9 +65,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.showNormal()
 
     def initMainWindowMask(self):
-        # 设置主窗口蒙版，形成圆角窗口
+        # 设置主窗口蒙版，形成圆角窗口，取消默认外框
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
-        self.pix = QBitmap(u"./images/mask.png")
+        self.pix = QBitmap(u"./images/mask.png")  # 加载蒙版
         self.setMask(self.pix)
 
     def initAIThread(self):
@@ -187,6 +188,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self._release_button()
 
     def initUI(self):
+        # 设置所有的上下文菜单
+        self.context_menu_style = readQssFile("./stylesheet/context_menu_style.qss")
         # 设置忙碌光标图片数组
         self.my_cursor = QCursorGif([u'./images/Cursors/%d.png' % i for i in range(8)])
         self.my_cursor.setCursorTimeout(100)
@@ -200,7 +203,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         tray_menu.addMenu(self.menu_M)
         tray_menu.addAction(self.actionOpen)
         tray_menu.addAction(self.actionClose)
-        tray_menu.setStyleSheet(context_menu_style)
+        tray_menu.setStyleSheet(self.context_menu_style)
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon(u"./images/AI识别.ico"))
         self.tray_icon.show()
@@ -240,7 +243,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.twPopMenu.setAttribute(Qt.WA_TranslucentBackground)
         self.twPopMenu.setWindowFlags(  # 无边框、去掉自带阴影
             self.twPopMenu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
-        self.twPopMenu.setStyleSheet(context_menu_style)
+        self.twPopMenu.setStyleSheet(self.context_menu_style)
         self.delete_action = QAction(QIcon(u"./images/删除.png"), "删除",
                                      triggered=self.__delete_row)  # tableWidget删除行为
         self.cut_action = QAction(QIcon(u"./images/裁剪旋转.png"), "裁剪旋转",
@@ -353,6 +356,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.getDirectoryButton_2.clicked.connect(self.__get_directory)
         self.batchExportButton.clicked.connect(self._export_batch_images)
         self.cutButton.clicked.connect(self.__cut_image)
+        self.convolutionButton.clicked.connect(self.__convolution_image)
         self.resetButton.clicked.connect(self.__reset_image)
         self.saveButton.clicked.connect(self._save_image)
         self.statisticsButton.clicked.connect(self.__show_bar_chart_view)
@@ -772,13 +776,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         print(pixmap)
         if pixmap.isNull():
             NotificationWindow.error(self, "无效URL",
-                                     f"<html>"
-                                     f"<head/>"
-                                     f"<body>"
                                      f"<p>无法解析URL:</p>"
-                                     f"<p>请<font color=red><u>打开链接</u></font>后拖入图片！</p>"
-                                     f"</body>"
-                                     f"</html>",
+                                     f"<p>请<font color=red><u>打开链接</u></font>后拖入图片！</p>",
                                      callback=lambda: os.startfile(url))
             return
         self.flower_path = url  # 获取图片的url
@@ -794,6 +793,18 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.update()
 
     @Slot()
+    def __convolution_image(self):
+        if self.flower_pixmap is None:
+            NotificationWindow.info(self, "注意",
+                                    "请先<font color=blue><b><u>导入图片</u></b></font>",
+                                    callback=self._get_image)
+            return
+        self.image_convolutioner = ImageConvolutioner(self, image=self.flower_pixmap, name=self.flower_name)
+        self.image_convolutioner.setStyleSheet(self.styleSheet())
+        self.image_convolutioner.save_signal[QPixmap].connect(self.__pass_image_from_cutter)
+        self.image_convolutioner.show()
+
+    @Slot()
     def __cut_image(self):
         if self.flower_pixmap is None:
             NotificationWindow.info(self, "注意",
@@ -802,7 +813,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             return
         self.image_cutter = ImageCutter(image=self.flower_pixmap, name=self.flower_name)
         self.image_cutter.setStyleSheet(self.styleSheet())
-        self.image_cutter.save_signal.connect(self.__pass_image_from_cutter)
+        self.image_cutter.save_signal[QPixmap].connect(self.__pass_image_from_cutter)
         self.image_cutter.show()
 
     @Slot(QPixmap)
@@ -1079,13 +1090,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def initStyleSheet(self):
         style = readQssFile(u"./stylesheet/Ubuntu.qss")
-        self.actionAqua.setChecked(True)
+        self.actionUbuntuStyle.setChecked(True)
         self.setStyleSheet(style)
 
     def update(self):
         print("update")
         self.pathLabel.setText(self.directory_path)  # 更新显示文件夹地址
         self.pathLabel.setToolTip("双击打开")  # 更新显示文件夹地址提示
+        self.pathLabel.update()
         self.nameEdit.setText(self.flower_name)  # 更新显示文件名
         self.imageLabel.setPixmap(self.flower_pixmap)  # 更新显示花朵图片
         self.resultLabel.setText("{}的预测结果：".format(self.flower_name))  # 更新预加载处理结果
@@ -1100,14 +1112,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 mode += "<font color=blue>B</font>"
             elif c == 'A' or c == "K" or c == "1":
                 mode += f"<font color=black>{c}</font>"
-            elif c == 'C':
-                mode += "<font color=aqua>C</font>"
-            elif c == 'M':
-                mode += "<font color=#8B008B>M</font>"
-            elif c == 'Y':
-                mode += "<font color=yellow>Y</font>"
-            elif c == 'L':
-                mode += "<font color=gray>L</font>"
         mode += "</b></p>"
         self.imageTextEdit.setText(  # 更新显示图片信息
             "<p>图片名：<b><font color=black>{}</font></b></p>"
@@ -1129,7 +1133,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def mousePressEvent(self, event):
         if event.button() == Qt.RightButton:
-            if self.childAt(event.position().toPoint()) == self.imageLabel:
+            child = self.childAt(event.position().toPoint())
+            if child == self.imageLabel:
                 # imageLabel上下文菜单
                 self.image_label_menu = QMenu(self)
                 self.image_label_menu.setAttribute(Qt.WA_TranslucentBackground)
@@ -1143,9 +1148,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.image_label_menu.addActions([classify_action, cut_action, self.actionClassify])
                 self.image_label_menu.addSeparator()
                 self.image_label_menu.addActions([self.actionOpen, self.actionCamera, self.actionClear])
-                self.image_label_menu.setStyleSheet(context_menu_style)
+                self.image_label_menu.setStyleSheet(self.context_menu_style)
                 self.image_label_menu.exec(event.globalPosition().toPoint())
-            elif self.childAt(event.position().toPoint()) == self.pathLabel:
+            elif child == self.pathLabel:
                 # pathLabel上下文菜单
                 self.path_label_menu = QMenu(self)
                 self.path_label_menu.setAttribute(Qt.WA_TranslucentBackground)
@@ -1153,22 +1158,36 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.path_label_menu.setWindowFlags(
                     self.path_label_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
                 copy_action = QAction(QIcon(u"./images/复制.png"), "复制 文件夹/链接 地址",
-                                      triggered=lambda: self.__copy_text_to_clipboard(self.pathLabel.text()))
+                                      triggered=lambda: self.__copy_text_to_clipboard(self.directory_path))
                 open_action = QAction(QIcon(u"./images/进入.png"), "打开 文件夹/链接 ",
-                                      triggered=lambda: os.startfile(self.pathLabel.text()))
-                self.path_label_menu.addActions([copy_action, open_action])
-                self.path_label_menu.setStyleSheet(context_menu_style)
+                                      triggered=lambda: os.startfile(self.directory_path))
+                self.path_label_menu.addActions([open_action, copy_action])
+                self.path_label_menu.setStyleSheet(self.context_menu_style)
                 self.path_label_menu.exec(event.globalPosition().toPoint())
-            else:
-                # 主页面上下文菜单
-                self.context_menu = QMenu(self)
-                self.context_menu.setAttribute(Qt.WA_TranslucentBackground)
+            elif child == self.imageTextEdit:
+                # imageTextEdit
+                self.path_label_menu = QMenu(self)
+                self.path_label_menu.setAttribute(Qt.WA_TranslucentBackground)
                 # 无边框、去掉自带阴影
-                self.context_menu.setWindowFlags(
-                    self.context_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
-                self.context_menu.addActions(self.menu_style.actions())
-                self.context_menu.setStyleSheet(context_menu_style)
-                self.context_menu.exec(event.globalPosition().toPoint())
+                self.path_label_menu.setWindowFlags(
+                    self.path_label_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+                copy_action = QAction(QIcon(u"./images/复制.png"), "复制 文件夹/链接 地址",
+                                      triggered=lambda: self.__copy_text_to_clipboard(self.directory_path))
+                open_action = QAction(QIcon(u"./images/进入.png"), "打开 文件夹/链接 ",
+                                      triggered=lambda: os.startfile(self.directory_path))
+                self.path_label_menu.addActions([open_action, copy_action])
+                self.path_label_menu.setStyleSheet(self.context_menu_style)
+                self.path_label_menu.exec(event.globalPosition().toPoint())
+            # else:
+            #     # 主页面上下文菜单
+            #     self.context_menu = QMenu(self)
+            #     self.context_menu.setAttribute(Qt.WA_TranslucentBackground)
+            #     # 无边框、去掉自带阴影
+            #     self.context_menu.setWindowFlags(
+            #         self.context_menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+            #     self.context_menu.addActions(self.menu_style.actions())
+            #     self.context_menu.setStyleSheet(self.context_menu_style)
+            #     self.context_menu.exec(event.globalPosition().toPoint())
 
     def __copy_text_to_clipboard(self, text):
         clipboard = QApplication.clipboard()
@@ -1182,7 +1201,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self._get_image()
         if watched == self.pathLabel:
             if event.type() == QEvent.MouseButtonDblClick:
-                url = self.pathLabel.text()
+                url = self.directory_path
                 if url == "":
                     return QMainWindow.eventFilter(self, watched, event)
                 try:
@@ -1221,47 +1240,14 @@ def rgb2html(color):
     return number
 
 
-context_menu_style = """
-QMenu {
-    /* 半透明效果 */
-    background-color: rgba(255, 255, 255, 230);
-    border: none;
-    border-radius: 4px;
-}
-
-QMenu::item {
-    border-radius: 4px;
-    /* 这个距离很麻烦需要根据菜单的长度和图标等因素微调 */
-    padding: 8px 48px 8px 36px; /* 36px是文字距离左侧距离*/
-    background-color: transparent;
-}
-
-/* 鼠标悬停和按下效果 */
-QMenu::item:selected {
-    border-radius: 0px;
-    /* 半透明效果 */
-    background-color: rgba(232, 232, 232, 232);
-}
-
-/* 禁用效果 */
-QMenu::item:disabled {
-    background-color: transparent;
-}
-
-/* 图标距离左侧距离 */
-QMenu::icon {
-    left: 15px;
-}
-
-/* 分割线效果 */
-QMenu::separator {
-    height: 1px;
-    background-color: rgb(232, 236, 243);
-}
-"""
-
 if __name__ == '__main__':
+    print(rgb2html((221, 101, 114)))
     app = QApplication(sys.argv)
+    # 加载中文翻译器（主要翻译组件的上下文菜单）
+    # https://zhuanlan.zhihu.com/p/50638861
+    translator = QTranslator()
+    translator.load("./widgets_zh_CN.qm")
+    app.installTranslator(translator)
     myMainWindow = MyMainWindow()
     myMainWindow.show()
     sys.exit(app.exec())

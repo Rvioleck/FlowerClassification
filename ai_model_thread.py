@@ -28,6 +28,7 @@ class AIModelOperationThread(QThread):
     # 传递结果列表portion, 结果值res, 是否为深度测评tag
     classify_res_signal = Signal(list, str, bool)
     deep_classify_finish = Signal()
+    conv_finish = Signal(QPixmap)
 
     def __init__(self, window=None, parent=None):
         super(AIModelOperationThread, self).__init__(parent)
@@ -50,6 +51,8 @@ class AIModelOperationThread(QThread):
             self.__deepClassify()
         elif self.operation == "batchExport":
             self.__batchExport()
+        elif self.operation == "Conv":
+            self.__conv()
 
     def __classify(self):
         # self.files仅含一个元素
@@ -174,6 +177,13 @@ class AIModelOperationThread(QThread):
         self.preload_signal[Model].emit(self.ai_model)
         print("AI Thread has finished preClassifying")
 
+    def __conv(self):
+        RGB = self.do_process(self.rgb, self.matrix)
+        img = Image.fromarray(RGB, "RGB")  # 默认以宽×高×通道数解析
+        pixmap = img.toqpixmap()
+        self.conv_finish[QPixmap].emit(pixmap)
+
+
     def setOperation(self, operation: str):
         self.operation = operation
 
@@ -185,3 +195,31 @@ class AIModelOperationThread(QThread):
 
     def setChosenModels(self, models: list):
         self.models = models
+
+    def setRGB(self, rgb, matrix):
+        self.rgb = rgb
+        self.matrix = matrix
+
+    def do_process(self, image, matrix) -> np.ndarray:
+        width, height = image[0].shape
+        w, h = matrix.shape
+        # 经滑动卷积操作后得到的新的图像的尺寸
+        new_w = width - w + 1
+        new_h = height - h + 1
+        r = np.zeros((new_w, new_h), dtype=np.float)
+        g = np.zeros((new_w, new_h), dtype=np.float)
+        b = np.zeros((new_w, new_h), dtype=np.float)
+        # 进行卷积操作,实则是对应的窗口覆盖下的矩阵对应元素值相乘,卷积操作
+        for i in range(new_w):
+            for j in range(new_h):
+                r[i, j] = np.sum(image[0][i: i + w, j: j + h] * matrix)
+                g[i, j] = np.sum(image[1][i: i + w, j: j + h] * matrix)
+                b[i, j] = np.sum(image[2][i: i + w, j: j + h] * matrix)
+        # 去掉矩阵乘法后的小于0的和大于255的原值,重置为0和255
+        r = r.clip(0, 255).transpose()  # 需要转置，fromarray的解析顺序为宽×高×通道
+        r = np.rint(r).astype('uint8')
+        g = g.clip(0, 255).transpose()
+        g = np.rint(g).astype('uint8')
+        b = b.clip(0, 255).transpose()
+        b = np.rint(b).astype('uint8')
+        return np.stack([r, g, b], axis=2)
